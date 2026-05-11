@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "about": "About",
+    "experience": "Experience",
+    "skills": "Skills",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "hero": {
+    "label": "WELCOME TO MY PORTFOLIO",
+    "title": "Android Engineer",
+    "subtitle": "Building exceptional mobile experiences",
+    "cta": "View My Work"
+  },
+  "about": {
+    "title": "About Me",
+    "content": "Experienced Android developer with 12+ years of expertise in building high-quality mobile applications. Proficient in Java, Kotlin, and Dart with Flutter cross-platform development experience. Strong background in project modularization, performance optimization, and team collaboration. Known for excellent communication skills and project planning capabilities."
+  },
+  "experience": {
+    "title": "Work Experience"
+  },
+  "skills": {
+    "title": "Skills"
+  },
+  "projects": {
+    "title": "Projects"
+  },
+  "blog": {
+    "title": "Blog",
+    "viewAll": "View All Posts"
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "email": "Email",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "copied": "Copied!"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "about": "关于我",
+    "experience": "工作经历",
+    "skills": "技能",
+    "projects": "项目",
+    "blog": "博客",
+    "contact": "联系我"
+  },
+  "hero": {
+    "label": "欢迎来到我的作品集",
+    "title": "Android 工程师",
+    "subtitle": "打造卓越的移动端体验",
+    "cta": "查看我的作品"
+  },
+  "about": {
+    "title": "关于我",
+    "content": "拥有 12 年以上经验的 Android 开发工程师，擅长构建高质量移动应用。精通 Java、Kotlin 及 Dart 语言，具有 Flutter 跨平台开发经验。在项目模块化、性能优化和团队协作方面有深厚背景。以出色的沟通能力和项目规划能力著称。"
+  },
+  "experience": {
+    "title": "工作经历"
+  },
+  "skills": {
+    "title": "技能"
+  },
+  "projects": {
+    "title": "项目"
+  },
+  "blog": {
+    "title": "博客",
+    "viewAll": "查看全部文章"
+  },
+  "contact": {
+    "title": "联系我",
+    "email": "邮箱",
+    "github": "GitHub",
+    "linkedin": "领英",
+    "copied": "已复制！"
+  }
+}
