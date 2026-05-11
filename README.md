@@ -73,7 +73,7 @@ npm run build
 
 ## About Me
 
-- **Joseph Chen (陈德里)**
+- **Joseph Chen (陈德基)**
 - Android Engineer with 12+ years of experience
 - Specializing in mobile architecture and performance optimization
 - GitHub: https://github.com/Josephchen-crypto
