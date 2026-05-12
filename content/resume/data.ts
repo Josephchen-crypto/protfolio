@@ -27,21 +27,21 @@ export const resumeData = {
     ],
     experience: [
       {
-        company: "Haojing Cloud Computing Technology",
+        company: "IWhaleCloud Computing Technology",
         position: "Android Engineer",
         period: "2023.07 - Present",
         description:
           "Leading Android development for Tokapay payment platform. Built MVVM architecture from scratch, configured Jenkins CI/CD pipeline, and integrated Firebase.",
       },
       {
-        company: "Fuzhou Grayscale Technology",
+        company: "Fuzhou HUIDU Technology",
         position: "Android Engineer",
         period: "2023.03 - 2023.07",
         description:
           "News app development with Google Ads integration. Completed Google Play store submission and resolved ad display data anomalies.",
       },
       {
-        company: "Beijing Zhixiang Information Technology",
+        company: "Beijing ZEASN Information Technology",
         position: "Senior Android Engineer",
         period: "2018.11 - 2020.09",
         description:
