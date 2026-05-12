@@ -73,8 +73,8 @@ export function Blog({
               href={`/${post.lang}/blog/${post.slug}`}
               className="blog-card group block bg-surface border border-border rounded-xl overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1"
             >
-              {/* Cover image */}
-              <div className="relative h-44 md:h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-neon-purple/10">
+              {/* Cover image / Placeholder */}
+              <div className="relative h-44 md:h-48 overflow-hidden">
                 {post.cover ? (
                   <>
                     <img
@@ -84,10 +84,44 @@ export function Blog({
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent" />
                   </>
-                ) : null}
+                ) : (
+                  <>
+                    {/* Gradient background */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-surface to-neon-purple/15" />
 
-                {/* Icon badge */}
-                {post.icon && (
+                    {/* Subtle grid pattern */}
+                    <div className="absolute inset-0 opacity-[0.03]"
+                      style={{
+                        backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
+                        backgroundSize: '24px 24px',
+                      }}
+                    />
+
+                    {/* Decorative glow orbs */}
+                    <div className="absolute -top-8 -left-8 w-24 h-24 bg-primary/20 rounded-full blur-3xl" />
+                    <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-neon-purple/15 rounded-full blur-3xl" />
+
+                    {/* Large centered icon */}
+                    {post.icon && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        {post.icon.length > 2 ? (
+                          <img
+                            src={post.icon}
+                            alt=""
+                            className="w-12 h-12 rounded-xl opacity-40 grayscale"
+                          />
+                        ) : (
+                          <span className="text-5xl opacity-30 select-none drop-shadow-2xl">
+                            {post.icon}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Icon badge (only show on top of actual cover images) */}
+                {post.cover && post.icon && (
                   <div className="absolute top-3 left-3">
                     {post.icon.length > 2 ? (
                       <img
