@@ -111,10 +111,10 @@ async function collectChildPages(pageId: string, depth = 0): Promise<BlogPost[]>
   const posts: BlogPost[] = [];
 
   for (const block of blocks.results) {
-    if (block.type !== "child_page") continue;
+    if (!("type" in block) || block.type !== "child_page") continue;
 
     const childPageId = block.id;
-    const page = await notion.pages.retrieve({ page_id: childPageId });
+    const page = (await notion.pages.retrieve({ page_id: childPageId })) as any;
     const title =
       page.properties?.title?.title?.[0]?.plain_text || "Untitled";
     const slug = generateSlug(title, childPageId);
