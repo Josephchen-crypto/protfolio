@@ -57,8 +57,11 @@ export function Projects({
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((project, index) => (
-            <Card key={index} hover className="project-card flex flex-col h-full">
-              <div className="flex items-start justify-between mb-4">
+            <Card key={index} hover className="project-card relative flex flex-col h-full overflow-hidden">
+              {/* Gradient corner */}
+              <div className="absolute -top-16 -right-16 w-32 h-32 bg-primary/5 rounded-full blur-2xl transition-opacity group-hover:opacity-60" />
+
+              <div className="flex items-start justify-between mb-4 relative z-10">
                 <h3 className="text-xl font-bold text-white">{project.name}</h3>
                 {project.link && (
                   <a
@@ -73,19 +76,19 @@ export function Projects({
                 )}
               </div>
 
-              <span className="text-primary font-mono text-xs mb-3">
+              <span className="text-primary font-mono text-xs mb-3 relative z-10">
                 {project.period}
               </span>
 
-              <p className="text-slate-400 text-sm mb-4 flex-grow leading-relaxed">
+              <p className="text-slate-400 text-sm mb-4 flex-grow leading-relaxed relative z-10">
                 {project.description}
               </p>
 
-              <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-border">
+              <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-border relative z-10">
                 {project.tech.map((t, i) => (
                   <span
                     key={i}
-                    className="px-2 py-1 text-xs bg-primary/10 text-primary rounded"
+                    className="px-2 py-1 text-xs bg-primary/10 text-primary rounded font-medium"
                   >
                     {t}
                   </span>

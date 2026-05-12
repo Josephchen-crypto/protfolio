@@ -54,8 +54,8 @@ export function Experience({
         <SectionTitle title={title} />
 
         <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border md:transform md:-translate-x-px" />
+          {/* Timeline line with gradient */}
+          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/40 via-primary/10 to-transparent md:transform md:-translate-x-px" />
 
           {items.map((item, index) => (
             <div
@@ -65,16 +65,16 @@ export function Experience({
               } mb-12 group`}
             >
               {/* Timeline dot */}
-              <div className="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background -translate-x-[6px] md:translate-x-[-8px] group-hover:bg-neon-cyan transition-colors" />
+              <div className="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-surface border-4 border-primary -translate-x-[6px] md:translate-x-[-8px] group-hover:border-neon-cyan group-hover:shadow-md group-hover:shadow-neon-cyan/20 transition-all duration-300" />
 
               <div
-                className={`bg-surface border border-border rounded-xl p-6 transition-all duration-300 group-hover:border-primary/50 ${
+                className={`relative bg-surface border border-border rounded-xl p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 ${
                   index % 2 === 0 ? "md:ml-auto" : ""
                 }`}
               >
                 <span className="text-primary font-mono text-sm">{item.period}</span>
                 <h3 className="text-xl font-bold text-white mt-2">{item.position}</h3>
-                <p className="text-neon-cyan text-sm mt-1">{item.company}</p>
+                <p className="text-neon-cyan text-sm mt-1 font-medium">{item.company}</p>
                 <p className="text-slate-400 mt-3 text-sm leading-relaxed">
                   {item.description}
                 </p>

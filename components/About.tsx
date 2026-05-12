@@ -77,12 +77,15 @@ export function About({
       <div className="max-w-4xl mx-auto">
         <SectionTitle title={title} />
 
-        <div className="about-content bg-surface border border-border rounded-2xl p-8 md:p-12 opacity-0">
-          <p className="text-slate-300 text-lg leading-relaxed whitespace-pre-line">
+        <div className="about-content relative bg-surface border border-border rounded-2xl p-8 md:p-12 opacity-0 overflow-hidden">
+          {/* Subtle gradient corner */}
+          <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl" />
+
+          <p className="text-slate-300 text-lg leading-relaxed whitespace-pre-line relative z-10">
             {content}
           </p>
 
-          <div className="about-stats grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-10 border-t border-border">
+          <div className="about-stats grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-10 border-t border-border relative z-10">
             {statItems.map((stat, index) => (
               <div key={index} className="about-stat text-center">
                 <p className="text-primary font-bold text-3xl md:text-4xl mb-2">

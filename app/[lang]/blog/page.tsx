@@ -21,6 +21,8 @@ export default async function BlogPage({
     title: post.title,
     date: new Date(post.createdAt).toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US"),
     summary: post.excerpt,
+    icon: post.icon,
+    cover: post.cover,
     lang: lang,
   }));
 

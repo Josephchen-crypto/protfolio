@@ -35,58 +35,64 @@ export function Contact({
       <div className="max-w-2xl mx-auto text-center">
         <SectionTitle title={title} className="mb-12" />
 
-        <div className="bg-surface border border-border rounded-2xl p-8 md:p-12">
-          <p className="text-slate-400 mb-8 text-lg">
-            Always open to new opportunities and collaborations.
-            <br />
-            Feel free to reach out!
-          </p>
+        <div className="relative bg-surface border border-border rounded-2xl p-8 md:p-12 overflow-hidden">
+          {/* Gradient corner accents */}
+          <div className="absolute -top-24 -left-24 w-48 h-48 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-neon-purple/5 rounded-full blur-3xl" />
 
-          <Button
-            size="lg"
-            variant="primary"
-            onClick={copyEmail}
-            className="mb-8 min-w-[200px]"
-          >
-            {copiedEmail ? (
-              <>
-                <Check size={18} />
-                {copied}
-              </>
-            ) : (
-              <>
-                <Copy size={18} />
-                {email}
-              </>
-            )}
-          </Button>
+          <div className="relative z-10">
+            <p className="text-slate-400 mb-8 text-lg">
+              Always open to new opportunities and collaborations.
+              <br />
+              Feel free to reach out!
+            </p>
 
-          <div className="flex justify-center gap-6">
-            <a
-              href={`https://github.com/${github}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-border rounded-full hover:bg-primary/20 hover:text-primary transition-colors"
-              aria-label="GitHub"
+            <Button
+              size="lg"
+              variant="primary"
+              onClick={copyEmail}
+              className="mb-8 min-w-[200px]"
             >
-              <Github size={24} />
-            </a>
-            <a
-              href={`https://linkedin.com/in/${linkedin}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-border rounded-full hover:bg-primary/20 hover:text-primary transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={24} />
-            </a>
-            <a
-              href={`mailto:${email}`}
-              className="p-3 bg-border rounded-full hover:bg-primary/20 hover:text-primary transition-colors"
-              aria-label="Email"
-            >
-              <Mail size={24} />
-            </a>
+              {copiedEmail ? (
+                <>
+                  <Check size={18} />
+                  {copied}
+                </>
+              ) : (
+                <>
+                  <Copy size={18} />
+                  {email}
+                </>
+              )}
+            </Button>
+
+            <div className="flex justify-center gap-6">
+              <a
+                href={`https://github.com/${github}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-border rounded-full hover:bg-primary/20 hover:text-primary hover:shadow-md hover:shadow-primary/10 transition-all duration-300"
+                aria-label="GitHub"
+              >
+                <Github size={24} />
+              </a>
+              <a
+                href={`https://linkedin.com/in/${linkedin}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-border rounded-full hover:bg-primary/20 hover:text-primary hover:shadow-md hover:shadow-primary/10 transition-all duration-300"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={24} />
+              </a>
+              <a
+                href={`mailto:${email}`}
+                className="p-3 bg-border rounded-full hover:bg-primary/20 hover:text-primary hover:shadow-md hover:shadow-primary/10 transition-all duration-300"
+                aria-label="Email"
+              >
+                <Mail size={24} />
+              </a>
+            </div>
           </div>
         </div>
 
