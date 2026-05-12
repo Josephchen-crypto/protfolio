@@ -7,24 +7,18 @@ import { type Language } from "@/i18n/config";
 import { clsx } from "clsx";
 import { type Dict } from "@/i18n";
 
-const navItems = [
-  { key: "about", href: "#about" },
-  { key: "experience", href: "#experience" },
-  { key: "skills", href: "#skills" },
-  { key: "projects", href: "#projects" },
-  { key: "blog", href: "#blog" },
-  { key: "contact", href: "#contact" },
-] as const;
-
-export function Navigation({
-  lang,
-  dict,
-}: {
-  lang: Language;
-  dict: Dict;
-}) {
+export function Navigation({ lang, dict }: { lang: Language; dict: Dict }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  const navItems = [
+    { key: "about", href: `/${lang}#about` },
+    { key: "experience", href: `/${lang}#experience` },
+    { key: "skills", href: `/${lang}#skills` },
+    { key: "projects", href: `/${lang}#projects` },
+    { key: "blog", href: `/${lang}/blog` },
+    { key: "contact", href: `/${lang}#contact` },
+  ] as const;
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 50);
@@ -38,7 +32,7 @@ export function Navigation({
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         isScrolled
           ? "bg-background/80 backdrop-blur-lg border-b border-border"
-          : "bg-transparent"
+          : "bg-transparent",
       )}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -46,7 +40,7 @@ export function Navigation({
           href={`/${lang}`}
           className="font-heading font-bold text-xl text-white tracking-wider"
         >
-          CD
+          JC
         </a>
 
         <div className="hidden md:flex items-center gap-8">

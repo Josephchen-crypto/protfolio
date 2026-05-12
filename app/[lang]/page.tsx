@@ -10,7 +10,7 @@ import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
 import { resumeData } from "@/content/resume/data";
 import { projects } from "@/content/resume/projects";
-import { getBlogPosts } from "@/lib/mdx";
+import { getBlogPosts } from "@/lib/notion";
 
 export async function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
@@ -25,7 +25,14 @@ export default async function Page({
   const dict = await getDict(lang as Language);
   const data = resumeData[lang as Language];
   const projectList = projects[lang as Language];
-  const posts = await getBlogPosts(lang as Language);
+  const notionPosts = await getBlogPosts();
+  const posts = notionPosts.map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    date: new Date(post.createdAt).toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US"),
+    summary: post.excerpt,
+    lang: lang,
+  }));
 
   return (
     <main className="bg-background min-h-screen">

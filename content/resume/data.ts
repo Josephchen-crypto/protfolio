@@ -55,7 +55,7 @@ export const resumeData = {
           "Developed Super Menu PAD app serving 85+ restaurants nationwide. Handled memory leaks, video loading optimization, and module decoupling.",
       },
       {
-        company: "NetDragon (NetEase Games)",
+        company: "NetDragon",
         position: "Android Engineer",
         period: "2014.06 - 2016.04",
         description:
@@ -124,7 +124,7 @@ export const resumeData = {
           "超极菜单 PAD 应用开发，服务全国 85 家门店。处理内存溢出、视频加载优化、模块解耦。",
       },
       {
-        company: "网龙（网易游戏）",
+        company: "网龙",
         position: "Android 工程师",
         period: "2014.06 - 2016.04",
         description: "地图聚合功能开发，以及项目领导分配的其他模块功能开发。",
