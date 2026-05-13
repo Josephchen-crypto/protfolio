@@ -5,6 +5,8 @@ import { getBlogPost, getBlogPosts } from "@/lib/notion";
 import { ArrowLeft, Calendar } from "lucide-react";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
   return languages.flatMap((lang) =>

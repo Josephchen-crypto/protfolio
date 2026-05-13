@@ -4,6 +4,8 @@ import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
 import { getBlogPosts } from "@/lib/notion";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
 }

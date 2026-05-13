@@ -13,6 +13,8 @@ import { resumeData } from "@/content/resume/data";
 import { projects } from "@/content/resume/projects";
 import { getBlogPosts } from "@/lib/notion";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
 }
