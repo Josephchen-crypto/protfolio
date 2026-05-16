@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Calendar } from "lucide-react";
@@ -20,16 +20,32 @@ interface Post {
   lang: string;
 }
 
+interface CategoryMeta {
+  name: string;
+  count: number;
+}
+
 export function Blog({
   title,
   posts,
+  categories,
   viewAllLabel,
+  allLabel,
 }: {
   title: string;
   posts: Post[];
+  categories?: CategoryMeta[];
   viewAllLabel: string;
+  allLabel?: string;
 }) {
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
+
+  const filteredPosts = activeCategory
+    ? posts.filter((p) => p.category === activeCategory)
+    : posts;
+
+  const hasCategories = categories && categories.length > 0;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -53,7 +69,7 @@ export function Blog({
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [activeCategory]);
 
   return (
     <section id="blog" ref={sectionRef} className="py-24 px-6">
@@ -67,8 +83,38 @@ export function Blog({
           </div>
         )}
 
+        {/* Category filter tabs */}
+        {hasCategories && (
+          <div className="flex flex-wrap gap-2 mb-10">
+            <button
+              onClick={() => setActiveCategory(null)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                !activeCategory
+                  ? "bg-primary text-white"
+                  : "bg-surface border border-border text-slate-400 hover:text-white hover:border-primary/50"
+              }`}
+            >
+              {allLabel || "All"}
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat.name}
+                onClick={() => setActiveCategory(cat.name)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeCategory === cat.name
+                    ? "bg-primary text-white"
+                    : "bg-surface border border-border text-slate-400 hover:text-white hover:border-primary/50"
+                }`}
+              >
+                {cat.name}
+                <span className="ml-1.5 text-xs opacity-60">({cat.count})</span>
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post) => (
+          {filteredPosts.map((post) => (
             <a
               key={post.slug}
               href={`/${post.lang}/blog/${post.slug}`}

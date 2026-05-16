@@ -27,7 +27,8 @@ export default async function Page({
   const data = resumeData[lang as Language];
   const projectList = projects[lang as Language];
   const allPosts = await getAllPosts();
-  const posts = allPosts.map((post) => ({
+  const langPosts = allPosts.filter((post) => post.lang === lang);
+  const posts = langPosts.map((post) => ({
     slug: post.slug,
     title: post.title,
     date: new Date(post.createdAt).toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US"),

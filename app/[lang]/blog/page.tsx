@@ -10,23 +10,17 @@ export async function generateStaticParams() {
 
 export default async function BlogPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ lang: string }>;
-  searchParams: Promise<{ category?: string }>;
 }) {
   const { lang } = await params;
-  const { category } = await searchParams;
   const dict = await getDict(lang as Language);
   const categories = await getCategories(lang);
 
   const allPosts = await getBlogPosts();
   const filteredPosts = allPosts.filter((post) => post.lang === lang);
-  const posts = category
-    ? filteredPosts.filter((post) => post.category === category)
-    : filteredPosts;
 
-  const mappedPosts = posts.map((post) => ({
+  const posts = filteredPosts.map((post) => ({
     slug: post.slug,
     title: post.title,
     date: new Date(post.createdAt).toLocaleDateString(
@@ -47,42 +41,16 @@ export default async function BlogPage({
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-white mb-4">
             {dict.blog.title}
           </h1>
-          <p className="text-slate-400 mb-8">
+          <p className="text-slate-400 mb-10">
             {dict.blog.description}
           </p>
 
-          {/* Category filter tabs */}
-          <div className="flex flex-wrap gap-2 mb-10">
-            <a
-              href={`/${lang}/blog`}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                !category
-                  ? "bg-primary text-white"
-                  : "bg-surface border border-border text-slate-400 hover:text-white hover:border-primary/50"
-              }`}
-            >
-              {dict.blog.all}
-            </a>
-            {categories.map((cat) => (
-              <a
-                key={cat.name}
-                href={`/${lang}/blog?category=${encodeURIComponent(cat.name)}`}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  category === cat.name
-                    ? "bg-primary text-white"
-                    : "bg-surface border border-border text-slate-400 hover:text-white hover:border-primary/50"
-                }`}
-              >
-                {cat.name}
-                <span className="ml-1.5 text-xs opacity-60">({cat.count})</span>
-              </a>
-            ))}
-          </div>
-
           <Blog
             title=""
-            posts={mappedPosts}
+            posts={posts}
+            categories={categories}
             viewAllLabel={dict.blog.viewAll}
+            allLabel={dict.blog.all}
           />
         </div>
       </div>
