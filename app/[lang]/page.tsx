@@ -34,7 +34,7 @@ export default async function Page({
     summary: post.summary,
     icon: post.icon,
     cover: post.cover,
-    lang: lang,
+    lang: post.lang,
   }));
 
   return (
