@@ -16,6 +16,7 @@ interface Post {
   summary: string;
   icon?: string | null;
   cover?: string | null;
+  category?: string;
   lang: string;
 }
 
@@ -149,6 +150,11 @@ export function Blog({
                   </span>
                 </div>
 
+                {post.category && (
+                  <span className="inline-block px-2 py-0.5 mb-2 text-xs font-medium text-primary bg-primary/10 rounded">
+                    {post.category}
+                  </span>
+                )}
                 <p className="text-slate-400 text-sm leading-relaxed line-clamp-2 mb-4">
                   {post.summary}
                 </p>

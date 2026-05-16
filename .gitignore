@@ -15,3 +15,5 @@ tsconfig.tsbuildinfo
 .wrangler
 .dev.vars*
 !.dev.vars.example
+.deepseek/
+AGENTS.md

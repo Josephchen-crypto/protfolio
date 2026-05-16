@@ -11,9 +11,7 @@ import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
 import { resumeData } from "@/content/resume/data";
 import { projects } from "@/content/resume/projects";
-import { getBlogPosts } from "@/lib/notion";
-
-export const dynamic = "force-dynamic";
+import { getAllPosts } from "@/lib/mdx";
 
 export async function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
@@ -28,12 +26,12 @@ export default async function Page({
   const dict = await getDict(lang as Language);
   const data = resumeData[lang as Language];
   const projectList = projects[lang as Language];
-  const notionPosts = await getBlogPosts();
-  const posts = notionPosts.map((post) => ({
+  const allPosts = await getAllPosts();
+  const posts = allPosts.map((post) => ({
     slug: post.slug,
     title: post.title,
     date: new Date(post.createdAt).toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US"),
-    summary: post.excerpt,
+    summary: post.summary,
     icon: post.icon,
     cover: post.cover,
     lang: lang,

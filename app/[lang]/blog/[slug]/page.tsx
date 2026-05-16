@@ -1,17 +1,12 @@
 import { Navigation } from "@/components/Navigation";
 import { getDict, type Language } from "@/i18n";
-import { languages } from "@/i18n/config";
-import { getBlogPost, getBlogPosts } from "@/lib/notion";
+import { getBlogPost, getBlogPosts } from "@/lib/mdx";
 import { ArrowLeft, Calendar } from "lucide-react";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
-
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
-  return languages.flatMap((lang) =>
-    posts.map((post) => ({ lang, slug: post.slug }))
-  );
+  return posts.map((post) => ({ lang: post.lang, slug: post.slug }));
 }
 
 const readingTime = (html: string): string => {

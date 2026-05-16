@@ -3,6 +3,7 @@ title: "10 Android Development Tips for Senior Engineers"
 date: "2024-03-20"
 summary: "Essential tips for senior Android engineers to improve code quality and development workflow."
 lang: "en"
+category: "Android"
 ---
 
 # 10 Android Development Tips for Senior Engineers

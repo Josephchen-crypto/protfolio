@@ -3,6 +3,7 @@ title: "Android 开发入门指南"
 date: "2024-01-15"
 summary: "初学者入门 Android 开发的完整指南，涵盖环境搭建、Kotlin 基础和项目实践。"
 lang: "zh"
+category: "入门指南"
 ---
 
 # Android 开发入门指南
