@@ -48,7 +48,7 @@ export default async function BlogPage({
             {dict.blog.title}
           </h1>
           <p className="text-slate-400 mb-8">
-            {lang === "zh" ? "我的博客文章" : "My blog posts"}
+            {dict.blog.description}
           </p>
 
           {/* Category filter tabs */}
@@ -61,7 +61,7 @@ export default async function BlogPage({
                   : "bg-surface border border-border text-slate-400 hover:text-white hover:border-primary/50"
               }`}
             >
-              {lang === "zh" ? "全部" : "All"}
+              {dict.blog.all}
             </a>
             {categories.map((cat) => (
               <a

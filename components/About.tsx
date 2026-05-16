@@ -13,10 +13,17 @@ export function About({
   title,
   content,
   stats,
+  statLabels,
 }: {
   title: string;
   content: string;
   stats: {
+    years: string;
+    projects: string;
+    companies: string;
+    languages: string;
+  };
+  statLabels: {
     years: string;
     projects: string;
     companies: string;
@@ -66,10 +73,10 @@ export function About({
   }, []);
 
   const statItems = [
-    { value: stats.years, label: "Years Experience" },
-    { value: stats.projects, label: "Projects" },
-    { value: stats.companies, label: "Companies" },
-    { value: stats.languages, label: "Languages" },
+    { value: stats.years, label: statLabels.years },
+    { value: stats.projects, label: statLabels.projects },
+    { value: stats.companies, label: statLabels.companies },
+    { value: stats.languages, label: statLabels.languages },
   ];
 
   return (

@@ -37,13 +37,13 @@ export default async function BlogPostPage({
               className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors"
             >
               <ArrowLeft size={16} />
-              {lang === "zh" ? "返回博客" : "Back to Blog"}
+              {dict.blog.backToBlog}
             </Link>
             <h1 className="text-3xl font-heading font-bold text-white mb-4">
-              {lang === "zh" ? "文章未找到" : "Post Not Found"}
+              {dict.blog.notFound}
             </h1>
             <p className="text-slate-400">
-              {lang === "zh" ? "抱歉，这篇文章不存在。" : "Sorry, this post does not exist."}
+              {dict.blog.notFoundMessage}
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default async function BlogPostPage({
               className="inline-flex items-center gap-2 text-slate-500 hover:text-white mb-12 transition-colors text-sm"
             >
               <ArrowLeft size={14} />
-              {lang === "zh" ? "返回博客" : "Back to Blog"}
+              {dict.blog.backToBlog}
             </Link>
 
             {post.icon && (

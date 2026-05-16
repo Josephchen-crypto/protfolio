@@ -11,12 +11,18 @@ export function Contact({
   github,
   linkedin,
   copied,
+  description,
+  cta,
+  copyright,
 }: {
   title: string;
   email: string;
   github: string;
   linkedin: string;
   copied: string;
+  description: string;
+  cta: string;
+  copyright: string;
 }) {
   const [copiedEmail, setCopiedEmail] = useState(false);
 
@@ -42,9 +48,9 @@ export function Contact({
 
           <div className="relative z-10">
             <p className="text-slate-400 mb-8 text-lg">
-              Always open to new opportunities and collaborations.
+              {description}
               <br />
-              Feel free to reach out!
+              {cta}
             </p>
 
             <Button
@@ -97,7 +103,7 @@ export function Contact({
         </div>
 
         <p className="text-slate-600 text-sm mt-8">
-          &copy; {new Date().getFullYear()} Chen Deji. All rights reserved.
+          &copy; {new Date().getFullYear()} Chen Deji. {copyright}
         </p>
       </div>
     </section>

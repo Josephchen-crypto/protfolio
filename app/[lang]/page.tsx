@@ -51,6 +51,7 @@ export default async function Page({
         title={dict.about.title}
         content={data.summary}
         stats={data.stats}
+        statLabels={dict.about.stats}
       />
       <Experience title={dict.experience.title} items={data.experience} />
       <Skills title={dict.skills.title} items={data.skills} />
@@ -66,6 +67,9 @@ export default async function Page({
         github="Josephchen-crypto"
         linkedin="josephchen1990"
         copied={dict.contact.copied}
+        description={dict.contact.description}
+        cta={dict.contact.cta}
+        copyright={dict.contact.copyright}
       />
     </main>
   );
