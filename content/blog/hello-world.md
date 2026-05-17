@@ -22,6 +22,16 @@ Android powers over 2.5 billion devices worldwide. As a developer, this means yo
 3. **Understand the architecture** - MVVM, Clean Architecture
 4. **Build projects** - Practice makes perfect
 
+## Mermaid Flowchart Example
+
+```mermaid
+graph LR
+    A[Learn Kotlin] --> B[Build Projects]
+    B --> C{Production Ready?}
+    C -->|Yes| D[Deploy to Store]
+    C -->|No| B
+```
+
 ## Key Takeaways
 
 - Start with simple projects

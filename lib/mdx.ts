@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
+import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 
 const blogDirectory = path.join(process.cwd(), "content/blog");
@@ -45,6 +46,7 @@ function getAllRawPosts(): Array<{
 
 async function renderMarkdown(markdown: string): Promise<string> {
   const result = await remark()
+    .use(remarkGfm)
     .use(remarkHtml, { sanitize: false })
     .process(markdown);
   return String(result);

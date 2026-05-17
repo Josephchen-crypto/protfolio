@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { MermaidContent } from "@/components/MermaidContent";
 import { getDict, type Language } from "@/i18n";
 import { getBlogPost, getBlogPosts } from "@/lib/mdx";
 import { ArrowLeft, Calendar } from "lucide-react";
@@ -122,10 +123,7 @@ export default async function BlogPostPage({
         {/* Content area */}
         <div className="relative z-10 max-w-3xl mx-auto px-6 pb-24">
           <div className="prose prose-invert prose-lg max-w-none">
-            <div
-              className="text-slate-300 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+            <MermaidContent content={post.content} />
           </div>
         </div>
       </article>
