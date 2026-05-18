@@ -29,25 +29,108 @@ Payment apps add a fourth challenge: **security and compliance** can't be option
 
 ## Architecture Overview
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     Application Shell                        │
-│              (Entry point, routing, initialization)         │
-└─────────────────────────────────────────────────────────────┘
-        │              │              │              │
-   ┌────┴────┐   ┌────┴────┐   ┌────┴────┐   ┌────┴────┐
-   │ Base    │   │ Common   │   │   UI    │   │ Business│
-   │ Framework│  │ Library  │   │Component│  │ Modules │
-   │  Library │  │          │   │  Library │  │         │
-   └─────────┘   └─────────┘   └──────────┘   └─────────┘
-                                                │
-                   ┌────────────────────────────┼────────────┐
-                   │        Business Modules                  │
-                   │  Auth │ Transfer │ Wallet │  KYC  │ AML  │
-                   └─────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph app["Application Shell"]
+        A["Entry Point<br/>Service Registration<br/>Routing Config"]
+    end
+
+    subgraph libs["Base Library Layer"]
+        B["Base Framework<br/>Framework Components"]
+        C["Core Shared Lib<br/>Business Components"]
+        D["UI Component Lib<br/>Custom Widgets"]
+        E["Font Lib<br/>Text Style Definitions"]
+        F["Database Wrapper<br/>ORM封装"]
+        G["QRCode Lib<br/>Scan-to-Pay"]
+        H["Device ID Lib<br/>Device Identification"]
+    end
+
+    subgraph mods["Business Module Layer"]
+        I["Core Business Module<br/>Transfer/Payment/Account"]
+        J["Login & Auth Module<br/>User Authentication"]
+        K["User Center Module<br/>Profile/KYC"]
+        L["AML Module<br/>Anti-Money Laundering"]
+    end
+
+    subgraph services["Public Service Layer"]
+        M["Service Interface Layer<br/>Routing Constants/Service Definition"]
+        N["H5 Bridge<br/>Web-Native Communication"]
+        O["Mini-App Container<br/>Extended Capabilities"]
+    end
+
+    A --> B
+    A --> C
+    A --> D
+    A --> I
+    A --> J
+    A --> K
+    A --> L
+
+    C --> B
+    C --> F
+    C --> H
+    C --> M
+    C --> N
+
+    I --> C
+    I --> G
+
+    J --> C
+    J --> D
+    J --> H
+
+    K --> C
+    K --> G
+
+    L --> C
 ```
 
 **Key Design Principle:** The shell module knows nothing about business logic. It only coordinates; it doesn't contain any.
+
+---
+
+## Module Dependency Hierarchy
+
+```mermaid
+graph TD
+    App["Application Shell"]
+
+    LibBase["Base Framework Lib"]
+    LibCommon["Core Shared Lib"]
+    LibUI["UI Component Lib"]
+    LibQRCode["QRCode Lib"]
+
+    ModMain["Core Business Module"]
+    ModOnboarding["Login & Auth Module"]
+    ModMine["User Center Module"]
+    ModAML["AML Module"]
+
+    Service["Service Interface Layer"]
+    JSBridge["H5 Bridge"]
+
+    App --> LibBase
+    App --> LibCommon
+    App --> LibUI
+    App --> ModMain
+    App --> ModOnboarding
+    App --> ModMine
+    App --> ModAML
+
+    LibCommon --> LibBase
+    LibCommon --> Service
+    LibCommon --> JSBridge
+
+    ModMain --> LibCommon
+    ModMain --> LibQRCode
+
+    ModOnboarding --> LibCommon
+    ModOnboarding --> LibUI
+
+    ModMine --> LibCommon
+    ModMine --> LibQRCode
+
+    ModAML --> LibCommon
+```
 
 ---
 
@@ -57,14 +140,24 @@ The most important architectural decision was adopting the **Service Proxy Patte
 
 Instead of modules calling each other directly, every business module exposes a **service proxy** registered with a central **Service Manager**.
 
-```
-Module A                    Service Manager                   Module B
-   │                             │                              │
-   │───getService("auth")───────>│                              │
-   │<───returns AuthService───────│                              │
-   │                             │                              │
-   │────calls authService.login()>│<────implements AuthService────┘
-   │<───login result──────────────│
+```mermaid
+flowchart LR
+    subgraph ModuleA["Business Module A"]
+        A1["Service Proxy Object"]
+    end
+
+    subgraph ProxyService["Service Manager"]
+        A2["Unified Service Registry & Lookup Center"]
+    end
+
+    subgraph ModuleB["Business Module B"]
+        A3["Service Interface Definition"]
+        A4["Service Implementation"]
+    end
+
+    A1 -->|"getService()"| A2
+    A2 -->|"return interface"| A1
+    A3 --- A4
 ```
 
 **Why this works:**
@@ -80,18 +173,43 @@ Each proxy object lives in the module that owns it, and the module exposes only 
 
 ---
 
+## Typical Call Sequence
+
+```mermaid
+sequenceDiagram
+    participant M as Business Module
+    participant PS as Service Manager
+    participant S as Auth Service
+    participant R as Router
+
+    M->>PS: Get service instance
+    PS->>M: Return service interface
+
+    M->>S: Call service method
+    S-->>M: Return business data
+
+    M->>R: Initiate page navigation
+    R-->>M: Navigation complete
+```
+
+---
+
 ## Unified MVVM Architecture
 
 Every business module follows the same MVVM pattern, but with a critical enhancement: **centralized base ViewModels** that handle cross-cutting concerns automatically.
 
-```
-View ───双向数据绑定───> ViewModel ───> Repository ───> Network / DB
-                    │
-                    └── 统一封装:
-                         • Loading state management
-                         • Error handling (toast / dialog / business error)
-                         • Token auto-refresh on 401
-                         • Retry logic
+```mermaid
+flowchart LR
+    V["View Layer<br/>Page"] <-->|"Data Binding"| VM["ViewModel Layer<br/>Base ViewModel"]
+    VM --> R["Repository"]
+    R --> API["Network Layer<br/>HTTP Client"]
+    R --> DB["Local Layer<br/>Database/Key-Value Store"]
+
+    subgraph BaseViewModel
+        VM -->|"Unified封装"| L["Loading State Management"]
+        VM -->|"Unified封装"| E["Error Handling"]
+        VM -->|"Unified封装"| T["Auth Refresh & Retry"]
+    end
 ```
 
 Instead of writing the same error-handling boilerplate in every ViewModel, every module's ViewModel inherits from a base that provides:
@@ -123,16 +241,56 @@ Custom `SSLSocketFactory` + certificate pinning for all production builds. Devel
 
 ### Layer 3: Transaction Security (AML / KYC)
 
-```
-Transaction triggered
-       │
-       ▼
-  Risk Assessment ──> Low ──> Biometric only
-                  ──> Medium ──> OTP verification
-                  ──> High ──> Password + OTP + Manual review
+```mermaid
+flowchart TD
+    T["Transaction Triggered"] --> R["Risk Level Assessment"]
+
+    R --> L["Low Risk"]
+    R --> M["Medium Risk"]
+    R --> H["High Risk"]
+
+    L --> B["Biometric"]
+    M --> O["OTP Verification"]
+    H --> P["Password + OTP"]
+
+    B --> BR{"Passed?"}
+    O --> OR{"Passed?"}
+    P --> PR{"Passed?"}
+
+    BR -->|Yes| BP["Transaction Approved"]
+    BR -->|No| BD["Transaction Rejected"]
+    OR -->|Yes| OP["Transaction Approved"]
+    OR -->|No| OD["Transaction Rejected"]
+    PR -->|Yes| PP["Transaction Approved"]
+    PR -->|No| PD["Transaction Rejected"]
 ```
 
 The AML module operates **fully independently** from other business modules. This isn't an accident — financial regulations require that fraud prevention cannot be bypassed by business logic in other modules.
+
+---
+
+## Token Auto-Refresh Mechanism
+
+```mermaid
+flowchart TD
+    R["Network Request"] --> I["Auth Interceptor"]
+    I --> C{"Token Valid?"}
+    C -->|Yes| P["Proceed with Request"]
+    C -->|No| S["Synchronous Token Refresh"]
+    S --> T["Wait for Refresh"]
+    T -->|"Success"| N["Retry with New Token"]
+    T -->|"Failure"| L["Auto Logout"]
+
+    subgraph RefreshMechanism
+        S
+        T
+    end
+```
+
+**Design Highlights:**
+- HTTP interceptor automatically detects token expiration
+- Synchronized refresh mechanism prevents race conditions
+- Refresh failure triggers auto-logout for security
 
 ---
 
@@ -153,6 +311,71 @@ Each environment maps to a distinct API endpoint, signing configuration, and fea
 
 ---
 
+## Service Registration Flow
+
+```mermaid
+flowchart TD
+    A["App Startup"] --> B["Register Module Services"]
+    B --> C["Service Manager Registration"]
+    C --> D["Register Main Module Proxy"]
+    C --> E["Register Auth Module Proxy"]
+    C --> F["Register Security Module Proxy"]
+    C --> G["Register User Module Proxy"]
+    C --> H["Register AML Module Proxy"]
+    D --> I{"Registration Complete"}
+    E --> I
+    F --> I
+    G --> I
+    H --> I
+```
+
+---
+
+## Service Proxy Class Diagram
+
+```mermaid
+classDiagram
+    class ServiceManager {
+        -proxyMap: Map
+        +registerService(proxy)
+        +getService(name) ServiceInterface
+        +getInstance() ServiceManager
+    }
+
+    class ServiceProxyInterface {
+        <<interface>>
+        +getServiceName() String
+        +getService() ServiceInterface
+    }
+
+    class MainModuleProxy {
+        +getServiceName() String
+        +getService() ServiceInterface
+    }
+
+    class AuthModuleProxy {
+        +getServiceName() String
+        +getService() ServiceInterface
+    }
+
+    class BusinessServiceInterface {
+        <<interface>>
+    }
+
+    class AuthServiceInterface {
+        <<interface>>
+    }
+
+    ServiceManager o-- ServiceProxyInterface
+    MainModuleProxy ..|> ServiceProxyInterface
+    AuthModuleProxy ..|> ServiceProxyInterface
+    MainModuleProxy ..> BusinessServiceInterface
+    AuthModuleProxy ..> AuthServiceInterface
+    AuthServiceInterface --|> BusinessServiceInterface
+```
+
+---
+
 ## Third-Party Integrations
 
 This app integrates with real external services:
@@ -160,21 +383,9 @@ This app integrates with real external services:
 - **HERE SDK** — Map services for merchant discovery
 - **MetaMap** — KYC identity verification (government ID + selfie)
 - **Firebase** — Crash reporting, performance monitoring, push notifications
-- **滴滴DiDi平台** — In-house performance profiling and network tracing
+- **DiDi Platform** — In-house performance profiling and network tracing
 
 These integrations are isolated behind wrapper classes in the Common Library. If a third-party SDK needs to be replaced, only the wrapper changes — the rest of the app is unaffected.
-
----
-
-## What I'd Do Differently
-
-After shipping this and reflecting on the architecture:
-
-1. **Kotlin Multiplatform (KMM) for shared business logic** — The authentication flow, token management, and AML rules could have been shared with an iOS counterpart, reducing duplication by an estimated 30%.
-
-2. **Feature flags earlier** — We rolled out new features by shipping new builds. A proper feature flag system would have enabled faster iteration without the multi-environment build matrix complexity.
-
-3. **Macrobenchmark testing from day one** — We added performance regression testing late. It should have been part of the CI pipeline from the start.
 
 ---
 

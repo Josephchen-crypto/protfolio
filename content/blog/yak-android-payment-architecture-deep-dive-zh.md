@@ -29,24 +29,108 @@ cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/ChatGPT%
 
 ## 架构总览
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        应用壳模块                            │
-│                    （入口、路由、初始化）                     │
-└─────────────────────────────────────────────────────────────┘
-        │              │              │              │
-   ┌────┴────┐   ┌────┴────┐   ┌────┴────┐   ┌────┴────┐
-   │ 基础    │   │ 核心    │   │  UI     │   │ 业务    │
-   │ 框架库  │   │ 共享库  │   │ 组件库  │   │ 模块层  │
-   └─────────┘   └─────────┘   └─────────┘   └─────────┘
-                                                │
-                   ┌────────────────────────────┼────────────┐
-                   │           业务模块                         │
-                   │   认证  │  转账  │  钱包  │  KYC  │ AML  │
-                   └─────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph app["应用壳模块"]
+        A["应用入口<br/>服务注册<br/>路由配置"]
+    end
+
+    subgraph libs["基础库层"]
+        B["基础框架库<br/>框架基础组件"]
+        C["核心共享库<br/>业务基础组件"]
+        D["UI组件库<br/>自定义控件"]
+        E["字体库<br/>文本样式定义"]
+        F["数据库封装库<br/>ORM封装"]
+        G["二维码库<br/>扫码支付"]
+        H["设备标识库<br/>设备ID获取"]
+    end
+
+    subgraph mods["业务模块层"]
+        I["核心业务模块<br/>转账/支付/账户"]
+        J["登录注册模块<br/>用户认证"]
+        K["用户中心模块<br/>个人设置/KYC"]
+        L["风控模块<br/>反洗钱核身"]
+    end
+
+    subgraph services["公共服务层"]
+        M["服务接口层<br/>路由常量/服务定义"]
+        N["H5通信桥<br/>前端原生通信"]
+        O["小程序容器<br/>扩展能力"]
+    end
+
+    A --> B
+    A --> C
+    A --> D
+    A --> I
+    A --> J
+    A --> K
+    A --> L
+
+    C --> B
+    C --> F
+    C --> H
+    C --> M
+    C --> N
+
+    I --> C
+    I --> G
+
+    J --> C
+    J --> D
+    J --> H
+
+    K --> C
+    K --> G
+
+    L --> C
 ```
 
 **核心设计原则：** 壳模块不包含任何业务逻辑，只负责协调。
+
+---
+
+## 模块依赖层级
+
+```mermaid
+graph TD
+    App["应用壳模块"]
+
+    LibBase["基础框架库"]
+    LibCommon["核心共享库"]
+    LibUI["UI组件库"]
+    LibQRCode["二维码库"]
+
+    ModMain["核心业务模块"]
+    ModOnboarding["登录注册模块"]
+    ModMine["用户中心模块"]
+    ModAML["风控模块"]
+
+    Service["服务接口层"]
+    JSBridge["H5通信桥"]
+
+    App --> LibBase
+    App --> LibCommon
+    App --> LibUI
+    App --> ModMain
+    App --> ModOnboarding
+    App --> ModMine
+    App --> ModAML
+
+    LibCommon --> LibBase
+    LibCommon --> Service
+    LibCommon --> JSBridge
+
+    ModMain --> LibCommon
+    ModMain --> LibQRCode
+
+    ModOnboarding --> LibCommon
+    ModOnboarding --> LibUI
+
+    ModMine --> LibCommon
+    ModMine --> LibQRCode
+
+    ModAML --> LibCommon
+```
 
 ---
 
@@ -56,14 +140,24 @@ cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/ChatGPT%
 
 各业务模块之间不直接互相调用，而是通过 **Service Manager（服务管理器）** 统一注册和获取服务代理对象。
 
-```
-模块 A                    服务管理器                    模块 B
-   │                          │                          │
-   │───getService("auth")────>│                          │
-   │<───返回 AuthService──────│                          │
-   │                          │                          │
-   │────调用 authService──────┼──────────────────────────>│（实现 AuthService）
-   │<───返回登录结果──────────│<──────────────────────────│
+```mermaid
+flowchart LR
+    subgraph ModuleA["业务模块 A"]
+        A1["服务代理对象"]
+    end
+
+    subgraph ProxyService["服务管理器"]
+        A2["统一服务注册与获取中心"]
+    end
+
+    subgraph ModuleB["业务模块 B"]
+        A3["服务接口定义"]
+        A4["服务具体实现"]
+    end
+
+    A1 -->|"获取服务"| A2
+    A2 -->|"返回接口"| A1
+    A3 --- A4
 ```
 
 **为什么这样做：**
@@ -79,18 +173,43 @@ cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/ChatGPT%
 
 ---
 
+## 典型调用时序
+
+```mermaid
+sequenceDiagram
+    participant M as 业务模块
+    participant PS as 服务管理器
+    participant S as 认证服务
+    participant R as 路由框架
+
+    M->>PS: 获取服务实例
+    PS->>M: 返回服务接口
+
+    M->>S: 调用服务方法
+    S-->>M: 返回业务数据
+
+    M->>R: 发起页面跳转
+    R-->>M: 跳转完成
+```
+
+---
+
 ## 统一 MVVM 架构
 
 每个业务模块都遵循相同的 MVVM 模式，但关键增强在于：**基础 ViewModel 集中处理横切关注点**。
 
-```
-View <──双向数据绑定──> ViewModel ──> Repository ──> Network / DB
-                         │
-                         └── 统一封装:
-                              • Loading 状态管理
-                              • 错误处理（Toast / Dialog / 业务错误）
-                              • 401 时自动刷新 Token 并重试
-                              • 重试逻辑
+```mermaid
+flowchart LR
+    V["视图层<br/>页面"] <-->|"数据绑定"| VM["视图模型层<br/>基础视图模型"]
+    VM --> R["数据仓库层"]
+    R --> API["网络层<br/>HTTP客户端"]
+    R --> DB["本地层<br/>数据库/键值存储"]
+
+    subgraph 基础视图模型
+        VM -->|"统一封装"| L["加载状态管理"]
+        VM -->|"统一封装"| E["错误处理"]
+        VM -->|"统一封装"| T["认证刷新"]
+    end
 ```
 
 每个模块的 ViewModel 继承自提供基础能力的基础类，而不是在每个 ViewModel 中重复编写相同的错误处理逻辑。
@@ -118,16 +237,121 @@ View <──双向数据绑定──> ViewModel ──> Repository ──> Netwo
 
 ### 第三层：交易安全（AML / KYC）
 
-```
-交易触发风控
-       │
-       ▼
-  风险等级判断 ──> 低风险 ──> 仅生物识别
-             ──> 中风险 ──> 验证码核身
-             ──> 高风险 ──> 密码 + 验证码 + 人工复核
+```mermaid
+flowchart TD
+    T["交易触发风控"] --> R["风险等级判断"]
+
+    R --> L["低风险"]
+    R --> M["中风险"]
+    R --> H["高风险"]
+
+    L --> B["生物识别"]
+    M --> O["验证码核身"]
+    H --> P["密码核身"]
+
+    B --> BR{"通过？"}
+    O --> OR{"通过？"}
+    P --> PR{"通过？"}
+
+    BR -->|是| BP["交易放行"]
+    BR -->|否| BD["拒绝交易"]
+    OR -->|是| OP["交易放行"]
+    OR -->|否| OD["拒绝交易"]
+    PR -->|是| PP["交易放行"]
+    PR -->|否| PD["拒绝交易"]
 ```
 
 AML 模块与其他业务模块**完全独立运行**。这不是偶然设计——金融监管要求反欺诈模块不能被其他模块的业务逻辑绕过。
+
+---
+
+## 令牌自动刷新机制
+
+```mermaid
+flowchart TD
+    R["网络请求"] --> I["认证拦截器"]
+    I --> C{"令牌有效？"}
+    C -->|是| P["继续请求"]
+    C -->|否| S["同步刷新令牌"]
+    S --> T["等待刷新完成"]
+    T -->|"成功"| N["携带新令牌重试"]
+    T -->|"失败"| L["自动登出"]
+
+    subgraph 刷新机制
+        S
+        T
+    end
+```
+
+**设计要点：**
+- HTTP 拦截器自动检测令牌有效期
+- 同步刷新机制，避免并发问题
+- 刷新失败自动登出，保证安全性
+
+---
+
+## 服务注册流程
+
+```mermaid
+flowchart TD
+    A["应用启动"] --> B["注册模块服务"]
+    B --> C["服务管理器注册"]
+    C --> D["注册主模块服务代理"]
+    C --> E["注册登录模块服务代理"]
+    C --> F["注册安全模块服务代理"]
+    C --> G["注册用户模块服务代理"]
+    C --> H["注册风控模块服务代理"]
+    D --> I{"注册完成"}
+    E --> I
+    F --> I
+    G --> I
+    H --> I
+```
+
+---
+
+## 服务代理类图
+
+```mermaid
+classDiagram
+    class 服务管理器 {
+        -代理对象映射表
+        +注册服务(代理对象)
+        +获取服务(名称) 服务接口
+        +获取单例实例()
+    }
+
+    class 服务代理接口 {
+        <<interface>>
+        +获取服务名称() 字符串
+        +获取服务() 服务接口
+    }
+
+    class 主模块代理 {
+        +获取服务名称() 字符串
+        +获取服务() 服务接口
+    }
+
+    class 登录模块代理 {
+        +获取服务名称() 字符串
+        +获取服务() 服务接口
+    }
+
+    class 业务服务接口 {
+        <<interface>>
+    }
+
+    class 认证服务接口 {
+        <<interface>>
+    }
+
+    服务管理器 o-- 服务代理接口
+    主模块代理 ..|> 服务代理接口
+    登录模块代理 ..|> 服务代理接口
+    主模块代理 ..> 业务服务接口
+    登录模块代理 ..> 认证服务接口
+    认证服务接口 --|> 业务服务接口
+```
 
 ---
 
@@ -158,18 +382,6 @@ AML 模块与其他业务模块**完全独立运行**。这不是偶然设计—
 - **滴滴平台** — 内部性能分析和网络抓包
 
 这些集成都通过共享库中的封装类进行隔离。如果某个第三方 SDK 需要替换，只需改动封装类，应用其余部分不受影响。
-
----
-
-## 如果重来，我会做什么不同
-
-上线后反思架构：
-
-1. **Kotlin Multiplatform (KMM) 共享业务逻辑** — 认证流程、令牌管理和 AML 规则本可以与 iOS 端共享，预计减少 30% 的重复代码。
-
-2. **更早引入 Feature Flags** — 我们通过发布新构建来上线新功能。完善的 Feature Flag 系统可以实现更快迭代，同时避免多环境构建矩阵的复杂性。
-
-3. **从第一天就做 Macrobenchmark 测试** — 性能回归测试是在后期才加入的，本应成为 CI 流水线的标配。
 
 ---
 
