@@ -4,7 +4,7 @@ date: "2026-05-18"
 summary: "深入解析一款面向墨西哥市场的真实生产级移动支付应用如何设计多模块架构、服务代理模式与安全体系——基于 Kotlin、MVVM、15 个独立模块的工程实践。"
 lang: "zh"
 category: "Android"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/ChatGPT%20Image%202026%E5%B9%B45%E6%9C%8818%E6%97%A5%2020_20_55.png"
 ---
 
 ## 背景

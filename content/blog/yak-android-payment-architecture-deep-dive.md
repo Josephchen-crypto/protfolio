@@ -4,7 +4,7 @@ date: "2026-05-18"
 summary: "A deep dive into how a real production mobile payment app handles multi-module architecture, service proxy patterns, and security design — built with Kotlin, MVVM, and 15 independent modules."
 lang: "en"
 category: "Android"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/ChatGPT%20Image%202026%E5%B9%B45%E6%9C%8818%E6%97%A5%2020_20_55.png"
 ---
 
 ## Background
