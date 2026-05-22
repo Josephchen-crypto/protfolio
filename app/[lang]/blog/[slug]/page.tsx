@@ -2,12 +2,50 @@ import { Navigation } from "@/components/Navigation";
 import { MermaidContent } from "@/components/MermaidContent";
 import { getDict, type Language } from "@/i18n";
 import { getBlogPost, getBlogPosts } from "@/lib/mdx";
+import { siteUrl, siteName } from "@/lib/site";
 import { ArrowLeft, Calendar } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
   return posts.map((post) => ({ lang: post.lang, slug: post.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}): Promise<Metadata> {
+  const { lang, slug: rawSlug } = await params;
+  const slug = decodeURIComponent(rawSlug);
+  const post = await getBlogPost(slug);
+
+  if (!post) {
+    return { title: "Post Not Found" };
+  }
+
+  return {
+    title: post.title,
+    description: post.summary,
+    openGraph: {
+      title: post.title,
+      description: post.summary,
+      type: "article",
+      locale: lang === "zh" ? "zh_CN" : "en_US",
+      url: `/${lang}/blog/${slug}`,
+      publishedTime: post.createdAt,
+      images: post.cover ? [{ url: post.cover }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary,
+    },
+    alternates: {
+      canonical: `/${lang}/blog/${slug}`,
+    },
+  };
 }
 
 const readingTime = (html: string): string => {

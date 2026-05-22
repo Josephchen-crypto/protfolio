@@ -3,9 +3,33 @@ import { Blog } from "@/components/Blog";
 import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
 import { getBlogPosts, getCategories } from "@/lib/mdx";
+import { siteName } from "@/lib/site";
+import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const dict = await getDict(lang as Language);
+  const otherLang = lang === "zh" ? "en" : "zh";
+  return {
+    title: dict.blog.title || "Blog",
+    description: dict.blog.description,
+    alternates: {
+      canonical: `/${lang}/blog`,
+      languages: {
+        [lang]: `/${lang}/blog`,
+        [otherLang]: `/${otherLang}/blog`,
+        "x-default": "/en/blog",
+      },
+    },
+  };
 }
 
 export default async function BlogPage({

@@ -12,9 +12,35 @@ import { languages } from "@/i18n/config";
 import { resumeData } from "@/content/resume/data";
 import { projects } from "@/content/resume/projects";
 import { getAllPosts } from "@/lib/mdx";
+import { siteName, siteDescription } from "@/lib/site";
+import type { Metadata } from "next";
 
 export async function generateStaticParams() {
   return languages.map((lang) => ({ lang }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const otherLang = lang === "zh" ? "en" : "zh";
+  return {
+    title: { absolute: `${siteName} - ${lang === "zh" ? "个人作品集" : "Portfolio"}` },
+    description: siteDescription[lang as "en" | "zh"],
+    openGraph: {
+      locale: lang === "zh" ? "zh_CN" : "en_US",
+    },
+    alternates: {
+      canonical: `/${lang}`,
+      languages: {
+        [lang]: `/${lang}`,
+        [otherLang]: `/${otherLang}`,
+        "x-default": "/en",
+      },
+    },
+  };
 }
 
 export default async function Page({
