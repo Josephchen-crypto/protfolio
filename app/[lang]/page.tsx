@@ -12,7 +12,7 @@ import { languages } from "@/i18n/config";
 import { resumeData } from "@/content/resume/data";
 import { projects } from "@/content/resume/projects";
 import { getAllPosts } from "@/lib/mdx";
-import { siteName, siteDescription } from "@/lib/site";
+import { siteUrl, siteName, siteDescription } from "@/lib/site";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
@@ -64,8 +64,26 @@ export default async function Page({
     lang: post.lang,
   }));
 
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: data.name,
+    alternateName: lang === "zh" ? "陈德基" : "Joseph Chen",
+    jobTitle: data.title,
+    description: data.summary,
+    email: data.email,
+    url: siteUrl,
+    sameAs: ["https://github.com/Josephchen-crypto", "https://linkedin.com/in/josephchen1990"],
+    knowsAbout: data.skills.map((s) => s.name),
+  };
+
   return (
-    <main className="bg-background min-h-screen">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+      <main className="bg-background min-h-screen">
       <Navigation lang={lang as Language} dict={dict} />
       <Hero
         name={data.name}
@@ -98,6 +116,7 @@ export default async function Page({
         cta={dict.contact.cta}
         copyright={dict.contact.copyright}
       />
-    </main>
+      </main>
+    </>
   );
 }
