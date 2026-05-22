@@ -1,0 +1,19 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0f"/>
+      <stop offset="100%" style="stop-color:#111118"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="50" y="50" width="1100" height="530" rx="16" fill="none" stroke="#1e1e2e" stroke-width="2"/>
+  <rect x="80" y="280" width="200" height="4" rx="2" fill="url(#accent)"/>
+  <text x="80" y="270" font-family="system-ui,sans-serif" font-size="72" font-weight="bold" fill="#ffffff">Joseph Chen</text>
+  <text x="80" y="340" font-family="system-ui,sans-serif" font-size="36" fill="#6366f1" font-weight="500">Android Engineer</text>
+  <text x="80" y="400" font-family="system-ui,sans-serif" font-size="22" fill="#64748b">12+ years · Kotlin · Jetpack Compose · Flutter</text>
+  <text x="80" y="520" font-family="system-ui,sans-serif" font-size="16" fill="#22d3ee">protfolio</text>
+</svg>

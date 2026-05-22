@@ -4,6 +4,7 @@ date: "2024-03-20"
 summary: "资深 Android 工程师的经验总结，包含代码质量、性能优化和开发工作流程的实用建议。"
 lang: "zh"
 category: "Android"
+paired: "android-development-tips"
 ---
 
 # 资深 Android 工程师的 10 个开发技巧

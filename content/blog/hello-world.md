@@ -4,6 +4,7 @@ date: "2024-01-15"
 summary: "A beginner's guide to starting your Android development journey with Kotlin and modern tools."
 lang: "en"
 category: "Getting Started"
+paired: "first-post-zh"
 cover: "https://i.pinimg.com/1200x/13/41/45/13414519583c03a8576b45d6171c11c9.jpg"
 ---
 

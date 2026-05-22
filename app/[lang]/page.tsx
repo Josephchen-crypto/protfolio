@@ -75,6 +75,10 @@ export default async function Page({
     url: siteUrl,
     sameAs: ["https://github.com/Josephchen-crypto", "https://linkedin.com/in/josephchen1990"],
     knowsAbout: data.skills.map((s) => s.name),
+    worksFor: data.experience.map((exp: { company: string }) => ({
+      "@type": "Organization",
+      name: exp.company,
+    })),
   };
 
   return (

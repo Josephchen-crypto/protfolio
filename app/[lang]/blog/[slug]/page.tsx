@@ -25,6 +25,26 @@ export async function generateMetadata({
     return { title: "Post Not Found" };
   }
 
+  const pairedPost = post.paired ? await getBlogPost(post.paired) : null;
+  const ogImage = post.cover
+    ? [{ url: post.cover }]
+    : [{ url: `${siteUrl}/og-default.svg` }];
+
+  const alternates: {
+    canonical: string;
+    languages?: Record<string, string>;
+  } = {
+    canonical: `${siteUrl}/${lang}/blog/${slug}`,
+  };
+
+  if (pairedPost) {
+    alternates.languages = {
+      [post.lang]: `${siteUrl}/${post.lang}/blog/${post.slug}`,
+      [pairedPost.lang]: `${siteUrl}/${pairedPost.lang}/blog/${pairedPost.slug}`,
+      "x-default": `${siteUrl}/en/blog/${post.lang === "en" ? post.slug : pairedPost.slug}`,
+    };
+  }
+
   return {
     title: post.title,
     description: post.summary,
@@ -33,18 +53,17 @@ export async function generateMetadata({
       description: post.summary,
       type: "article",
       locale: lang === "zh" ? "zh_CN" : "en_US",
-      url: `/${lang}/blog/${slug}`,
+      url: `${siteUrl}/${lang}/blog/${slug}`,
       publishedTime: post.createdAt,
-      images: post.cover ? [{ url: post.cover }] : [],
+      images: ogImage,
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.summary,
+      images: ogImage,
     },
-    alternates: {
-      canonical: `/${lang}/blog/${slug}`,
-    },
+    alternates,
   };
 }
 
@@ -97,8 +116,25 @@ export default async function BlogPostPage({
 
   const readTime = readingTime(post.content);
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.summary,
+    datePublished: post.createdAt,
+    author: {
+      "@type": "Person",
+      name: "Joseph Chen",
+      url: siteUrl,
+    },
+  };
+
   return (
     <main className="bg-background min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <Navigation lang={lang as Language} dict={dict} />
       <article>
         {/* Hero section */}
@@ -108,7 +144,8 @@ export default async function BlogPostPage({
             <div className="absolute inset-0 h-[70vh]">
               <img
                 src={post.cover}
-                alt=""
+                alt={post.title}
+                loading="lazy"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/60 to-background" />
@@ -132,7 +169,8 @@ export default async function BlogPostPage({
                 {post.icon.length > 2 ? (
                   <img
                     src={post.icon}
-                    alt=""
+                    alt={`${post.title} icon`}
+                    loading="lazy"
                     className="w-20 h-20 rounded-2xl shadow-2xl shadow-primary/10 ring-2 ring-white/10"
                   />
                 ) : (

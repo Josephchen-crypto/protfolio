@@ -16,6 +16,7 @@ export interface MDXPost {
   icon: string | null;
   cover: string | null;
   category: string;
+  paired: string | null;
   lang: "en" | "zh";
   published: boolean;
   createdAt: string;
@@ -68,6 +69,7 @@ export async function getAllPosts(): Promise<MDXPost[]> {
         icon: (data.icon as string) || null,
         cover: (data.cover as string) || null,
         category: (data.category as string) || "",
+        paired: (data.paired as string) || null,
         lang: (data.lang as "en" | "zh") || "en",
         published: data.published !== false,
         createdAt: (data.date as string) || "",
