@@ -3,7 +3,7 @@ title: "My Journey to Becoming a Super Individual"
 date: "2026-05-17"
 summary: "After 12+ years as an Android engineer, I chose remote work in 2025 to be present for my newborn, reclaim my health, and pursue a new path as a super individual."
 lang: "en"
-category: "Personal"
+category: "Essay"
 cover: "https://i.pinimg.com/1200x/d1/35/56/d13556ec053cffc2410a682ee33436d6.jpg"
 ---
 

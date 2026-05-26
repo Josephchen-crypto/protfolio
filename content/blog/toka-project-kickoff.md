@@ -3,7 +3,7 @@ title: "Toka Project Kickoff"
 date: "2026-05-26"
 summary: "A firsthand account of joining the Toka project in August 2023 — navigating corporate-grade git workflows, branch naming conventions, and the grueling late-night crunch that came with learning the ropes."
 lang: "en"
-category: "随笔"
+category: "Essay"
 paired: "toka-project-kickoff-zh"
 cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/ChatGPT%20Image%202026%E5%B9%B45%E6%9C%8818%E6%97%A5%2020_20_55.png"
 ---
