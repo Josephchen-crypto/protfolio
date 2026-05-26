@@ -41,6 +41,23 @@ cover: ""                 # optional — full-https URL to cover image
 - `paired` — The **slug** of the other language version. This is **critical for SEO** — without it, Google sees EN and ZH posts as unrelated. Must point to the other file's slug (not title, not path). If creating a single-language post, omit this field.
 - `cover` — Optional. Full HTTPS URL to a cover image. Used for OG image, Twitter card, and blog card hero. If omitted, the site uses the default branded OG image at `/og-default.svg`.
 
+### CRITICAL: YAML closing delimiter
+
+The frontmatter block MUST be closed with `---` on its own line BEFORE any Markdown content. Missing this delimiter causes a YAML parse error and the build to fail.
+
+```yaml
+---
+title: "..."
+date: "..."
+---
+# Heading starts here — no YAML after the closing ---
+```
+
+**Common mistakes that break the build:**
+- Forgetting the closing `---` entirely
+- Adding a trailing space after the closing `---` on the same line
+- Using `---` inside a string value without properly quoting
+
 ## Content Body
 
 Write standard Markdown after the `---` frontmatter closing. All GitHub Flavored Markdown features are supported:
