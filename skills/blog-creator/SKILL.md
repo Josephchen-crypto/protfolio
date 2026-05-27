@@ -37,7 +37,7 @@ cover: ""                 # optional — full-https URL to cover image
 - `date` — ISO format `YYYY-MM-DD`. Used for sorting, sitemap, and JSON-LD.
 - `summary` — 1–2 sentence description. Used for `<meta description>`, OG, Twitter card, and blog card previews.
 - `lang` — MUST be `"en"` or `"zh"`. Determines which language route and hreflang the post appears under.
-- `category` — Free-form display name. Appears as a filter tab on the blog listing page. No i18n needed — just use the post's language for the name.
+- `category` — **Use the post's language for the label.** English posts → English labels (e.g. `"Essay"`, `"Android"`, `"Getting Started"`). Chinese posts → Chinese labels (e.g. `"随笔"`, `"Android"`, `"入门指南"`). This is a recurring mistake — do NOT copy the other language's category string.
 - `paired` — The **slug** of the other language version. This is **critical for SEO** — without it, Google sees EN and ZH posts as unrelated. Must point to the other file's slug (not title, not path). If creating a single-language post, omit this field.
 - `cover` — Optional. Full HTTPS URL to a cover image. Used for OG image, Twitter card, and blog card hero. If omitted, the site uses the default branded OG image at `/og-default.svg`.
 
@@ -76,6 +76,10 @@ Write standard Markdown after the `---` frontmatter closing. All GitHub Flavored
 | Code blocks | ` ```lang ` |
 | Blockquotes | `> quote` |
 | Horizontal rule | `---` |
+
+### ⚠️ No H1 Heading in Body
+
+**The body MUST NOT contain a first-level heading (`# Title`).** The title is already defined in the frontmatter's `title` field. Starting the body with `# Title` creates a duplicate title on the rendered page. Begin the body content directly with the second level (`##`) or lower, or with prose paragraphs.
 
 ### Mermaid Diagrams
 
