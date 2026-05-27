@@ -1,5 +1,4 @@
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
-import { siteUrl } from "@/lib/site";
 import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
@@ -31,7 +30,7 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 }) {
-  const { lang } = await params;
+  await params;
   return (
     <div
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}

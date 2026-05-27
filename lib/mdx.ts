@@ -88,9 +88,12 @@ export async function getBlogPosts(): Promise<MDXPost[]> {
   return getAllPosts();
 }
 
-export async function getBlogPost(slug: string): Promise<MDXPost | null> {
+export async function getBlogPost(
+  slug: string,
+  lang?: "en" | "zh"
+): Promise<MDXPost | null> {
   const posts = await getAllPosts();
-  return posts.find((p) => p.slug === slug) || null;
+  return posts.find((p) => p.slug === slug && (!lang || p.lang === lang)) || null;
 }
 
 export async function getCategories(lang: string): Promise<CategoryMeta[]> {

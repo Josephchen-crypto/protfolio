@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { siteUrl, siteName, siteDescription } from "@/lib/site";
+import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -25,9 +26,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html lang="en">
       <body>
         {children}
+        <AnalyticsScripts />
       </body>
     </html>
   );

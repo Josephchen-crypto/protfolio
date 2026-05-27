@@ -2,7 +2,7 @@ import { Navigation } from "@/components/Navigation";
 import { MermaidContent } from "@/components/MermaidContent";
 import { getDict, type Language } from "@/i18n";
 import { getBlogPost, getBlogPosts } from "@/lib/mdx";
-import { siteUrl, siteName } from "@/lib/site";
+import { siteUrl } from "@/lib/site";
 import { ArrowLeft, Calendar } from "lucide-react";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -19,7 +19,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang, slug: rawSlug } = await params;
   const slug = decodeURIComponent(rawSlug);
-  const post = await getBlogPost(slug);
+  const post = await getBlogPost(slug, lang as Language);
 
   if (!post) {
     return { title: "Post Not Found" };
@@ -82,7 +82,7 @@ export default async function BlogPostPage({
   const { lang, slug: rawSlug } = await params;
   const slug = decodeURIComponent(rawSlug);
   const dict = await getDict(lang as Language);
-  const post = await getBlogPost(slug);
+  const post = await getBlogPost(slug, lang as Language);
 
   if (!post) {
     return (

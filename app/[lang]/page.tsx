@@ -73,7 +73,10 @@ export default async function Page({
     description: data.summary,
     email: data.email,
     url: siteUrl,
-    sameAs: ["https://github.com/Josephchen-crypto", "https://linkedin.com/in/josephchen1990"],
+    sameAs: [
+      `https://github.com/${data.social.github}`,
+      `https://linkedin.com/in/${data.social.linkedin}`,
+    ],
     knowsAbout: data.skills.map((s) => s.name),
     worksFor: data.experience.map((exp: { company: string }) => ({
       "@type": "Organization",
@@ -95,6 +98,9 @@ export default async function Page({
         subtitle={data.summary}
         cta={dict.hero.cta}
         label={dict.hero.label}
+        email={data.email}
+        github={data.social.github}
+        linkedin={data.social.linkedin}
       />
       <About
         title={dict.about.title}
@@ -113,8 +119,8 @@ export default async function Page({
       <Contact
         title={dict.contact.title}
         email={data.email}
-        github="Josephchen-crypto"
-        linkedin="josephchen1990"
+        github={data.social.github}
+        linkedin={data.social.linkedin}
         copied={dict.contact.copied}
         description={dict.contact.description}
         cta={dict.contact.cta}

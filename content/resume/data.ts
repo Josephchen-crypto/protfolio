@@ -1,6 +1,34 @@
 import { Language } from "@/i18n/config";
 
-export const resumeData = {
+type SocialLinks = {
+  github: string;
+  linkedin: string;
+};
+
+type ResumeLocaleData = {
+  name: string;
+  title: string;
+  summary: string;
+  phone: string;
+  email: string;
+  location: string;
+  social: SocialLinks;
+  stats: {
+    years: string;
+    projects: string;
+    companies: string;
+    languages: string;
+  };
+  skills: Array<{ name: string; level: number }>;
+  experience: Array<{
+    company: string;
+    position: string;
+    period: string;
+    description: string;
+  }>;
+};
+
+export const resumeData: Record<Language, ResumeLocaleData> = {
   en: {
     name: "Joseph Chen",
     title: "Android Engineer",
@@ -8,6 +36,10 @@ export const resumeData = {
     phone: "18559176792",
     email: "d28887856@gmail.com",
     location: "Fuzhou",
+    social: {
+      github: "Josephchen-crypto",
+      linkedin: "josephchen1990",
+    },
     stats: {
       years: "12+",
       projects: "15+",
@@ -77,6 +109,10 @@ export const resumeData = {
     phone: "18559176792",
     email: "18701434169@163.com",
     location: "福州",
+    social: {
+      github: "Josephchen-crypto",
+      linkedin: "josephchen1990",
+    },
     stats: {
       years: "12+",
       projects: "15+",

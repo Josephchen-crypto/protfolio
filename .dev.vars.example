@@ -1,0 +1,7 @@
+# Cloudflare Web Analytics (optional)
+# Create a site token in Cloudflare dashboard -> Analytics & Logs -> Web Analytics.
+NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN=""
+
+# Microsoft Clarity (optional)
+# Create a project in https://clarity.microsoft.com and copy your project ID.
+NEXT_PUBLIC_CLARITY_PROJECT_ID=""

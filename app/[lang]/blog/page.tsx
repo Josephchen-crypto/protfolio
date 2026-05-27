@@ -3,7 +3,7 @@ import { Blog } from "@/components/Blog";
 import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
 import { getBlogPosts, getCategories } from "@/lib/mdx";
-import { siteUrl, siteName } from "@/lib/site";
+import { siteUrl } from "@/lib/site";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {

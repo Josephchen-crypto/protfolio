@@ -46,7 +46,7 @@ export function Experience({
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [items.length]);
+  }, [items]);
 
   return (
     <section id="experience" ref={sectionRef} className="py-24 px-6 bg-surface/50">

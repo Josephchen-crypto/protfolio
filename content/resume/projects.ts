@@ -1,5 +1,3 @@
-import { Language } from "@/i18n/config";
-
 export const projects = {
   en: [
     {

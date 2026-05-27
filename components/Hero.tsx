@@ -11,12 +11,18 @@ export function Hero({
   subtitle,
   cta,
   label,
+  email,
+  github,
+  linkedin,
 }: {
   name: string;
   title: string;
   subtitle: string;
   cta: string;
   label: string;
+  email: string;
+  github: string;
+  linkedin: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -159,7 +165,7 @@ export function Hero({
             </Button>
           </a>
           <a
-            href="https://github.com/Josephchen-crypto"
+            href={`https://github.com/${github}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -169,7 +175,7 @@ export function Hero({
             </Button>
           </a>
           <a
-            href="https://linkedin.com/in/chendeji"
+            href={`https://linkedin.com/in/${linkedin}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -182,14 +188,14 @@ export function Hero({
 
         <div className="hero-social flex justify-center gap-6 text-slate-500 opacity-0">
           <a
-            href="mailto:18701434169@163.com"
+            href={`mailto:${email}`}
             className="hover:text-primary transition-colors"
             aria-label="Email"
           >
             <Mail size={20} />
           </a>
           <a
-            href="https://github.com/Josephchen-crypto"
+            href={`https://github.com/${github}`}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary transition-colors"
@@ -198,7 +204,7 @@ export function Hero({
             <Github size={20} />
           </a>
           <a
-            href="https://linkedin.com/in/chendeji"
+            href={`https://linkedin.com/in/${linkedin}`}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary transition-colors"

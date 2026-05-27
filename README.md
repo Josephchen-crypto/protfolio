@@ -27,9 +27,50 @@ npm install
 # Development
 npm run dev
 
+# Lint
+npm run lint
+
+# Tests
+npm test
+
 # Production build
 npm run build
 ```
+
+## Analytics Setup (Cloudflare + Clarity)
+
+This project supports optional analytics scripts controlled by environment variables.
+
+- `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN`: Cloudflare Web Analytics token
+- `NEXT_PUBLIC_CLARITY_PROJECT_ID`: Microsoft Clarity project ID
+
+### Local setup
+
+```bash
+cp .dev.vars.example .dev.vars
+# fill NEXT_PUBLIC_* values in .dev.vars
+```
+
+If you also use `npm run dev`, add the same `NEXT_PUBLIC_*` values to `.env.local` so Next.js dev mode can read them.
+
+### Production setup (Cloudflare)
+
+Set these variables in Cloudflare dashboard:
+
+1. **Build variables and secrets** (for build-time inlining of `NEXT_PUBLIC_*`)
+2. **Runtime environment variables** (for worker runtime)
+
+If you already enabled Cloudflare Pages one-click Web Analytics injection, leave `NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN` empty to avoid double-injecting the beacon.
+
+### What you can observe
+
+- **Inbound traffic**: Visits, page views, referrers (Cloudflare Web Analytics)
+- **Blog views**: Filter paths under `/en/blog` and `/zh/blog`
+- **Behavior details**: Heatmaps and session recordings (Clarity)
+
+### Compliance reminder
+
+Before enabling Clarity in production, update your privacy/cookie notice and verify it fits your legal requirements.
 
 ## Project Structure
 
@@ -57,11 +98,14 @@ protfolio/
 ### Cloudflare Pages
 
 ```bash
-# Build
-npm run build
+# Build for Cloudflare Worker
+npm run cf:build
+
+# Local preview
+npm run preview
 
 # Deploy
-npx wrangler pages deploy out --project-name=protfolio
+npm run deploy
 ```
 
 ### Vercel

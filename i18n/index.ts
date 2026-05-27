@@ -1,4 +1,4 @@
-import { Language, defaultLanguage } from "./config";
+import { Language } from "./config";
 
 export type { Language } from "./config";
 
