@@ -15,12 +15,13 @@ export function AnalyticsScripts() {
           defer
           strategy="afterInteractive"
           src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cfasync="false"
           data-cf-beacon={JSON.stringify({ token: cfWebAnalyticsToken })}
         />
       ) : null}
 
       {clarityProjectId ? (
-        <Script id="microsoft-clarity" strategy="afterInteractive">
+        <Script id="microsoft-clarity" strategy="afterInteractive" data-cfasync="false">
           {`
             (function(c,l,a,r,i,t,y){
                 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
