@@ -23,20 +23,31 @@ This post documents a real production four-layer error handling architecture. Al
 
 ## 1. Overall Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  Layer 1 │  ErrorHandler Interface + ErrorManager      │
-│          │  Business error codes → Custom UI dialogs    │
-├─────────────────────────────────────────────────────────┤
-│  Layer 2 │  BaseRepository (base network request class)│
-│          │  Code normalization / Token expiry / Net err │
-├─────────────────────────────────────────────────────────┤
-│  Layer 3 │  BaseViewModel (base ViewModel)             │
-│          │  Three UI strategy DSLs for caller to choose  │
-├─────────────────────────────────────────────────────────┤
-│  Layer 4 │  ResultBuilder (final fallback callback)      │
-│          │  Page handles any error no earlier layer caught│
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph L1["Layer 1"]
+        H[ErrorHandler Interface<br/>+ ErrorManager]
+        H --- H1[Business codes → Custom UI dialogs]
+    end
+
+    subgraph L2["Layer 2"]
+        R[BaseRepository<br/>Network Request Base]
+        R --- R1[Code normalization / Token expiry / Net error]
+    end
+
+    subgraph L3["Layer 3"]
+        V[BaseViewModel<br/>ViewModel Base]
+        V --- V1[Three DSL strategies for caller to choose]
+    end
+
+    subgraph L4["Layer 4"]
+        B[ResultBuilder<br/>Final Fallback]
+        B --- B1[Page handles uncaught errors]
+    end
+
+    L4 -->|"callback"| L3
+    L3 -->|"callback"| L2
+    L2 -->|"callback"| L1
 ```
 
 Each layer has a single, focused responsibility. Layers communicate through callbacks — no circular dependencies.
@@ -49,12 +60,13 @@ Each layer has a single, focused responsibility. Layers communicate through call
 
 ```kotlin
 interface ErrorHandler {
-    // Return true to intercept this code — stops propagating down
     fun accept(code: String): Boolean
-    // Custom error display behavior
     fun onError(errorCode: String, errorMsg: String)
 }
 ```
+
+- `accept` returns `true` → intercept this code, stop propagating
+- `onError` executes custom error display logic
 
 ### 2.2 Dispatch Mechanism
 
@@ -67,7 +79,6 @@ object ErrorManager {
         handlers.add(handler)
     }
 
-    // Traverses in registration order; first Handler with accept==true intercepts
     fun dispatch(code: String, msg: String): Boolean {
         handlers.forEach {
             if (it.accept(code)) {
@@ -75,7 +86,7 @@ object ErrorManager {
                 return true
             }
         }
-        return false  // No Handler intercepted → ResultBuilder fallback
+        return false
     }
 }
 ```
@@ -90,28 +101,15 @@ object ErrorManager {
 
 ### 2.3 Business Handler Example
 
-A typical business `ErrorHandler` structure, with error codes generalized:
-
 ```kotlin
 class BusinessErrorHandler : ErrorHandler {
 
-    // Physical card error codes (example)
     private val physicalCardCodes = listOf("PHYSICAL_01", "PHYSICAL_02", "PHYSICAL_03", "PHYSICAL_04")
-
-    // P2P transfer error codes (example)
-    private val p2pTransferCodes = listOf(
-        "P2P_01", "P2P_02", "P2P_03", "P2P_04",
-        "P2P_05", "P2P_06", "P2P_07", "P2P_08",
-        "P2P_09", "P2P_10", "P2P_11"
-    )
-
-    // Shared card duplicate error codes (example)
+    private val p2pTransferCodes = listOf("P2P_01", "P2P_02", "P2P_03", "P2P_04", "P2P_05")
     private val shareCardCodes = listOf("SHARE_01", "SHARE_02")
 
     override fun accept(code: String): Boolean {
-        return code in physicalCardCodes
-                || code in p2pTransferCodes
-                || code in shareCardCodes
+        return code in physicalCardCodes || code in p2pTransferCodes || code in shareCardCodes
     }
 
     override fun onError(errorCode: String, errorMsg: String) {
@@ -155,14 +153,11 @@ override fun normalizeCode(result: BaseResult) {
         if (it.size > 1) it.last() else it[0]
     }
 }
-// "PREFIX-04200" → "04200"
 ```
 
 > 📌 Upstream APIs return codes with inconsistent prefixes. Stripping to pure numeric codes lets all business Handlers match against a single format.
 
 ### 3.2 Token Expiry Fallback
-
-A list of common fail codes, handled uniformly:
 
 ```kotlin
 override fun getCommonFailCodes(): List<String> {
@@ -186,14 +181,10 @@ override fun handleCommonFail(result: BaseResult) {
 
 ```kotlin
 override fun handleException(e: Throwable) {
-    if (e.message != "Canceled") {  // User-initiated cancellation: silent
+    if (e.message != "Canceled") {
         when (e) {
-            is TokenRefreshException -> {
-                authService.logout(sessionOverTime = true)
-            }
-            else -> {
-                // Other network exceptions → propagate to ViewModel layer
-            }
+            is TokenRefreshException -> authService.logout(sessionOverTime = true)
+            else -> { /* propagate to ViewModel */ }
         }
     }
 }
@@ -211,10 +202,22 @@ override fun handleException(e: Throwable) {
 
 The base ViewModel exposes three higher-order functions — **the caller chooses** the error display strategy:
 
+```mermaid
+flowchart LR
+    subgraph ViewModel["ViewModel Layer"]
+        D1["requestWithDialogError<br/>Dialog + Retry"]
+        D2["requestWithToastError<br/>Toast"]
+        D3["requestWithFullPageError<br/>Full-page Error"]
+    end
+
+    D1 -->|"unified"| Internal["requestInternalWithErrorTip"]
+    D2 --> Internal
+    D3 --> Internal
+```
+
 ### 4.1 The Three Strategies
 
 ```kotlin
-// Strategy 1️⃣: Dialog + Retry button
 fun <T> requestWithDialogError(
     request: suspend () -> Response<T>,
     enableErrorHandler: Boolean = true,
@@ -222,13 +225,11 @@ fun <T> requestWithDialogError(
     result: ResultBuilder<T>.() -> Unit
 )
 
-// Strategy 2️⃣: Toast
 fun <T> requestWithToastError(
     request: suspend () -> Response<T>,
     result: ResultBuilder<T>.() -> Unit
 )
 
-// Strategy 3️⃣: Full-screen error page
 fun <T> requestWithFullPageError(
     request: suspend () -> Response<T>,
     result: ResultBuilder<T>.() -> Unit
@@ -237,72 +238,28 @@ fun <T> requestWithFullPageError(
 
 ### 4.2 Unified Dispatch Logic
 
-All three strategies internally route through `requestInternalWithErrorTip`:
-
-```kotlin
-fun <T> requestInternalWithErrorTip(
-    request: suspend () -> Response<T>,
-    errorTip: ((Throwable) -> Unit)? = null,  // Injected by each strategy
-    enableErrorHandler: Boolean = true,
-    result: ResultBuilder<T>.() -> Unit
-) {
-    val builder: ResultBuilder<T>.() -> Unit = {
-        onSuccess = { viewModelScope.launch(Dispatchers.Main) { listener.onSuccess.invoke(it) } }
-
-        onFailed = { errorCode, errorMsg ->
-            viewModelScope.launch(Dispatchers.Main) {
-                if (enableErrorHandler) {
-                    if (!ErrorManager.dispatch(errorCode, errorMsg)) {
-                        listener.onFailed.invoke(errorCode, errorMsg)  // fallback
-                    }
-                } else {
-                    listener.onFailed.invoke(errorCode, errorMsg)
-                }
-            }
-        }
-
-        onError = { error ->
-            viewModelScope.launch(Dispatchers.Main) {
-                if (isNetworkError(error)) {
-                    errorTip?.invoke(error)  // Dialog / Toast / FullPage
-                }
-                listener.onError.invoke(error)
-            }
-        }
-    }
-}
-```
+All three strategies internally route through `requestInternalWithErrorTip`, with the `errorTip` callback injected by each strategy (Dialog / Toast / FullPage).
 
 ### 4.3 Decision Flow
 
-```
-Business error code arrives
-    │
-    ├── enableErrorHandler == false?
-    │       └── Direct → ResultBuilder.onFailed (skip Handler)
-    │
-    └── enableErrorHandler == true
-            │
-            └── ErrorManager.dispatch(code, msg)
-                    │
-                    ├── Handler matched (accept == true)
-                    │       └── onError() → custom dialog, skip onFailed
-                    │
-                    └── No Handler matched
-                            └── ResultBuilder.onFailed (fallback)
+```mermaid
+flowchart TD
+    A["Business error code arrives"] --> B{"enableErrorHandler?"}
+    B -->|"false"| C["ResultBuilder.onFailed<br/>Skip Handler"]
+    B -->|"true"| D["ErrorManager.dispatch"]
+    D --> E{"Handler matched?"}
+    E -->|"命中"| F["onError() → Dialog"]
+    E -->|"未命中"| G["ResultBuilder.onFailed 兜底"]
 ```
 
 ### 4.4 Network Exception Detection
 
 ```kotlin
 fun isNetworkError(error: Throwable): Boolean {
-    return when (error) {
-        is ConnectException,
-        is SocketTimeoutException,
-        is SSLException,
-        is UnknownHostException -> true
-        else -> false
-    }
+    return error is ConnectException
+        || error is SocketTimeoutException
+        || error is SSLException
+        || error is UnknownHostException
 }
 ```
 
@@ -310,18 +267,10 @@ Only these four network exception types trigger Dialog/Toast/FullPage. Custom bu
 
 ### 4.5 Concurrent Request Strategy
 
-Concurrent multi-request supports all three strategies via the `errorTip` callback:
-
 ```kotlin
-concurrentRequests(
-    *requests,
-    isAsync = true,  // true=concurrent, false=sequential
-    showLoading = true
-) {
+concurrentRequests(*requests, isAsync = true, showLoading = true) {
     // Dialog strategy
-    ActivityManager.top()?.let {
-        NetworkErrorDialog(it, retryCallback).show()
-    }
+    ActivityManager.top()?.let { NetworkErrorDialog(it, retryCallback).show() }
     // Toast strategy
     ToastUtil.show(getString(R.string.network_error))
     // FullPage strategy
@@ -336,9 +285,7 @@ concurrentRequests(
 `ResultBuilder` is the innermost callback — the page handles any error no earlier layer caught:
 
 ```kotlin
-viewModel.requestWithDialogError(
-    request = { api.queryBalance() }
-) {
+viewModel.requestWithDialogError(request = { api.queryBalance() }) {
     onSuccess { balance -> updateUI(balance) }
     onFailed { code, msg -> showCustomDialog(code, msg) }
     onError { error -> logError(error) }
@@ -357,32 +304,27 @@ viewModel.requestWithDialogError(
 
 ## 6. Complete Data Flow
 
-```
-External request ── HTTP Client ──▶ Response
-    │
-    │ resultCode != null (business response)
-    │
-    ├─▶ normalizeCode()
-    │       "PREFIX-04200" → "04200"
-    │
-    ├─▶ getCommonFailCodes() match
-    │       Token expiry code detected
-    │       └─▶ handleCommonFail() → logout(sessionOverTime=true)
-    │
-    └─▶ ErrorManager.dispatch(code, msg)
-            │
-            ├── Handler matched
-            │       └─▶ onError() → custom dialog
-            │
-            └── No Handler matched
-                    └─▶ ResultBuilder.onFailed() fallback
+```mermaid
+flowchart TB
+    Req["External Request"] --> HTTP["HTTP Client"]
+    HTTP --> Resp["Response"]
 
-    │ resultCode == null (network exception)
-    │
-    └─▶ handleException(e)
-            ├─ TokenRefreshException → logout(sessionOverTime=true)
-            ├─ Network 4-exception → errorTip (Dialog/Toast/FullPage)
-            └─ else → Toast "network error"
+    Resp --> C{"resultCode != null?"}
+    C -->|"Yes"| NC["normalizeCode()"]
+    NC --> TC{"Token expiry code?"}
+    TC -->|"Yes"| CF["handleCommonFail()"]
+    CF --> L["logout()"]
+    TC -->|"No"| DM["ErrorManager.dispatch"]
+    DM --> H{"Handler matched?"}
+    H -->|"Yes"| OE["onError() → Custom dialog"]
+    H -->|"No"| OF["ResultBuilder.onFailed"]
+
+    C -->|"No resultCode==null"| EX["handleException(e)"]
+    EX --> TE{"TokenRefreshException?"}
+    TE -->|"Yes"| L2["logout()"]
+    TE -->|"No"| NET{"Network 4-exception?"}
+    NET -->|"Yes"| ET["errorTip → Dialog/Toast/FullPage"]
+    NET -->|"No"| TOAST["Toast network error"]
 ```
 
 ---
