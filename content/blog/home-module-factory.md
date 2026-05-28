@@ -1,7 +1,7 @@
 ---
 title: "HomeModuleFactory: A Flexible RecyclerView Module Architecture for Android"
 date: "2026-05-28"
-summary: "深度解析 Android 项目中如何通过工厂模式 + RecyclerView 实现页面模块化，兼顾首页卡片复用与多团队协作。"
+summary: "A deep dive into how a factory-pattern + RecyclerView architecture enables homepage modularity in Android, with reusable cards and clean module boundaries."
 lang: "en"
 category: "Android"
 paired: "home-module-factory-zh"
