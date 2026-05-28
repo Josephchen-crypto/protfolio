@@ -1,10 +1,11 @@
 ---
 title: "Four-Layer Error Handling in a Production Android Payment App"
-date: "2026-05-18"
+date: "2026-05-28"
 summary: "How a production-grade 15-module Android payment app structures error handling across four layers: ErrorHandler business interception, BaseRepository base layer, ViewModel DSL strategies, and ResultBuilder final fallback — each layer with a single responsibility."
 lang: "en"
 category: "Android"
 paired: "yak-android-error-handling-architecture-zh"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/ChatGPT%20Image%202026%E5%B9%B45%E6%9C%8818%E6%97%A5%2020_20_55.png"
 ---
 
 ## Background

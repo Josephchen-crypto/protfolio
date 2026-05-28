@@ -1,10 +1,11 @@
 ---
 title: "四层分层，逐层拦截：Android 支付应用错误处理架构"
-date: "2026-05-18"
+date: "2026-05-28"
 summary: "一个 15 模块 Android 支付应用的四层错误处理架构：Handler 业务拦截 → Repository 统一兜底 → ViewModel DSL 策略 → ResultBuilder 最终回调，分层解耦、各司其职。"
 lang: "zh"
 category: "Android"
 paired: "yak-android-error-handling-architecture"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/ChatGPT%20Image%202026%E5%B9%B45%E6%9C%8818%E6%97%A5%2020_20_55.png"
 ---
 
 ## 背景
