@@ -4,6 +4,7 @@ import { getDict, type Language } from "@/i18n";
 import { getBlogPost, getBlogPosts } from "@/lib/mdx";
 import { siteUrl } from "@/lib/site";
 import { ArrowLeft, Calendar } from "lucide-react";
+import { PostViewCount } from "@/components/PostViewCount";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -192,6 +193,13 @@ export default async function BlogPostPage({
               </span>
               <span className="w-1 h-1 rounded-full bg-slate-600" />
               <span>{readTime}</span>
+              <span className="w-1 h-1 rounded-full bg-slate-600" />
+              <PostViewCount
+                lang={lang}
+                slug={slug}
+                label={dict.blog.views}
+                incrementOnMount
+              />
             </div>
           </div>
         </div>

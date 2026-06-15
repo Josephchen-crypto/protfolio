@@ -2,7 +2,6 @@
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"main": ".open-next/worker.js",
 	"name": "protfolio",
-	"account_id": "b84bc70b8e19f158966cfa2f6859be5f",
 	"compatibility_date": "2026-05-11",
 	"compatibility_flags": [
 		"nodejs_compat",

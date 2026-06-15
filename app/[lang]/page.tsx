@@ -115,6 +115,7 @@ export default async function Page({
         title={dict.blog.title}
         posts={posts}
         viewAllLabel={dict.blog.viewAll}
+        viewsLabel={dict.blog.views}
       />
       <Contact
         title={dict.contact.title}

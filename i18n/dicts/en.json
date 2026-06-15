@@ -36,7 +36,8 @@
     "backToBlog": "Back to Blog",
     "notFound": "Post Not Found",
     "notFoundMessage": "Sorry, this post does not exist.",
-    "viewAll": "View Details"
+    "viewAll": "View Details",
+    "views": "{count} views"
   },
   "contact": {
     "title": "Get In Touch",

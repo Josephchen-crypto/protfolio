@@ -36,7 +36,8 @@
     "backToBlog": "返回博客",
     "notFound": "文章未找到",
     "notFoundMessage": "抱歉，这篇文章不存在。",
-    "viewAll": "查看详情"
+    "viewAll": "查看详情",
+    "views": "{count} 次阅读"
   },
   "contact": {
     "title": "联系我",

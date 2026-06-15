@@ -8,7 +8,7 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "eslint app components content i18n lib middleware.ts next.config.ts open-next.config.ts --ext .ts,.tsx --max-warnings=0",
-    "test": "node --test tests/**/*.test.mjs",
+    "test": "node --experimental-strip-types --test tests/**/*.test.ts tests/**/*.test.mjs",
     "typecheck": "tsc --noEmit",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",

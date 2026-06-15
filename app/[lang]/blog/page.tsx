@@ -84,6 +84,7 @@ export default async function BlogPage({
             categories={categories}
             viewAllLabel={dict.blog.viewAll}
             allLabel={dict.blog.all}
+            viewsLabel={dict.blog.views}
           />
         </div>
       </div>

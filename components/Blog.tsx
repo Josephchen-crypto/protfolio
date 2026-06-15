@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Calendar } from "lucide-react";
+import { PostViewCount } from "./PostViewCount";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -31,12 +32,14 @@ export function Blog({
   categories,
   viewAllLabel,
   allLabel,
+  viewsLabel,
 }: {
   title: string;
   posts: Post[];
   categories?: CategoryMeta[];
   viewAllLabel: string;
   allLabel?: string;
+  viewsLabel: string;
 }) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -195,6 +198,12 @@ export function Blog({
                     <Calendar size={12} />
                     {post.date}
                   </span>
+                  <span className="text-slate-600">·</span>
+                  <PostViewCount
+                    lang={post.lang}
+                    slug={post.slug}
+                    label={viewsLabel}
+                  />
                 </div>
 
                 {post.category && (
