@@ -39,4 +39,4 @@ jobs:
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: npx wrangler pages deploy .opennext/assets --project-name=protfolio
+        run: npx wrangler pages deploy .open-next/assets --project-name=protfolio
