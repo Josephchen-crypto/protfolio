@@ -7,7 +7,7 @@ import { type Language } from "@/i18n/config";
 import { clsx } from "clsx";
 import { type Dict } from "@/i18n";
 
-export function Navigation({ lang, dict }: { lang: Language; dict: Dict }) {
+export function Navigation({ lang, dict, pairedSlug }: { lang: Language; dict: Dict; pairedSlug?: string | null }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
@@ -53,7 +53,7 @@ export function Navigation({ lang, dict }: { lang: Language; dict: Dict }) {
               {dict.nav[item.key]}
             </a>
           ))}
-          <LanguageToggle currentLang={lang} />
+          <LanguageToggle currentLang={lang} pairedSlug={pairedSlug} />
         </div>
 
         <button
@@ -78,7 +78,7 @@ export function Navigation({ lang, dict }: { lang: Language; dict: Dict }) {
                 {dict.nav[item.key]}
               </a>
             ))}
-            <LanguageToggle currentLang={lang} />
+            <LanguageToggle currentLang={lang} pairedSlug={pairedSlug} />
           </div>
         </div>
       )}

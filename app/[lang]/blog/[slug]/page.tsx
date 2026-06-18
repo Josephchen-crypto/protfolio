@@ -159,7 +159,7 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
-      <Navigation lang={lang as Language} dict={dict} />
+      <Navigation lang={lang as Language} dict={dict} pairedSlug={post.paired} />
       <article>
         {/* Hero section */}
         <div className="relative pt-24">

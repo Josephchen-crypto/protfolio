@@ -4,15 +4,24 @@ import { useRouter, usePathname } from "next/navigation";
 import { languages, languageNames, type Language } from "@/i18n/config";
 import { clsx } from "clsx";
 
-export function LanguageToggle({ currentLang }: { currentLang: Language }) {
+export function LanguageToggle({ currentLang, pairedSlug }: { currentLang: Language; pairedSlug?: string | null }) {
   const router = useRouter();
   const pathname = usePathname();
 
   const switchLang = (newLang: Language) => {
     if (newLang === currentLang) return;
-    const segments = pathname.split("/");
-    segments[1] = newLang;
-    router.push(segments.join("/"));
+    // On a blog post page with paired slug, use the paired slug
+    if (pairedSlug) {
+      const segments = pathname.split("/");
+      // Replace language and slug: /en/blog/current-slug → /zh/blog/paired-slug
+      segments[1] = newLang;
+      segments[3] = pairedSlug;
+      router.push(segments.join("/"));
+    } else {
+      const segments = pathname.split("/");
+      segments[1] = newLang;
+      router.push(segments.join("/"));
+    }
   };
 
   return (
