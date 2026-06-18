@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { siteUrl, siteName, siteDescription } from "@/lib/site";
+import { siteUrl, siteName, siteDescription, fbAppId } from "@/lib/site";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
 
 export const metadata: Metadata = {
@@ -37,6 +37,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {fbAppId && <meta property="fb:app_id" content={fbAppId} />}
+      </head>
       <body>
         {children}
         <AnalyticsScripts />

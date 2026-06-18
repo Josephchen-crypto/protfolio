@@ -97,14 +97,21 @@ export default async function BlogPostPage({
 
   const readTime = readingTime(post.content);
 
+  const isoDate = `${post.createdAt}T00:00:00+08:00`;
+
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
     description: post.summary,
-    image: post.cover || `${siteUrl}/og-default.png`,
-    datePublished: post.createdAt,
-    dateModified: post.createdAt,
+    image: {
+      "@type": "ImageObject",
+      url: post.cover || `${siteUrl}/og-default.png`,
+      width: 1200,
+      height: 630,
+    },
+    datePublished: isoDate,
+    dateModified: isoDate,
     author: {
       "@type": "Person",
       name: "Joseph Chen",
