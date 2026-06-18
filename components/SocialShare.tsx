@@ -11,6 +11,12 @@ const PLATFORMS = [
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
   },
   {
+    id: "facebook",
+    label: "Facebook",
+    href: (url: string) =>
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+  },
+  {
     id: "linkedin",
     label: "LinkedIn",
     href: (url: string) =>
