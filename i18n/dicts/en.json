@@ -37,7 +37,9 @@
     "notFound": "Post Not Found",
     "notFoundMessage": "Sorry, this post does not exist.",
     "viewAll": "View Details",
-    "views": "{count} views"
+    "views": "{count} views",
+    "share": "Share",
+    "search": "Search posts..."
   },
   "contact": {
     "title": "Get In Touch",

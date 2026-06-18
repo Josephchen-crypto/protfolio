@@ -33,6 +33,7 @@ export function Blog({
   viewAllLabel,
   allLabel,
   viewsLabel,
+  searchPlaceholder,
 }: {
   title: string;
   posts: Post[];
@@ -40,13 +41,23 @@ export function Blog({
   viewAllLabel: string;
   allLabel?: string;
   viewsLabel: string;
+  searchPlaceholder?: string;
 }) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const sectionRef = useRef<HTMLElement>(null);
 
-  const filteredPosts = activeCategory
-    ? posts.filter((p) => p.category === activeCategory)
-    : posts;
+  const filteredPosts = posts.filter((p) => {
+    const matchesCategory = activeCategory ? p.category === activeCategory : true;
+    if (!searchQuery) return matchesCategory;
+    const q = searchQuery.toLowerCase();
+    return (
+      matchesCategory &&
+      (p.title.toLowerCase().includes(q) ||
+        p.summary.toLowerCase().includes(q) ||
+        (p.category || "").toLowerCase().includes(q))
+    );
+  });
 
   const hasCategories = categories && categories.length > 0;
 
@@ -97,7 +108,7 @@ export function Blog({
 
         {/* Category filter tabs */}
         {hasCategories && (
-          <div className="flex flex-wrap gap-2 mb-10">
+          <div className="flex flex-wrap gap-2 mb-4">
             <button
               onClick={() => setActiveCategory(null)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -122,6 +133,33 @@ export function Blog({
                 <span className="ml-1.5 text-xs opacity-60">({cat.count})</span>
               </button>
             ))}
+          </div>
+        )}
+
+        {/* Search bar */}
+        {searchPlaceholder && (
+          <div className="relative mb-10">
+            <svg
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={searchPlaceholder}
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-surface border border-border text-sm text-white placeholder-slate-500 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
+            />
           </div>
         )}
 

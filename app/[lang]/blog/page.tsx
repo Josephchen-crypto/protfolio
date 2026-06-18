@@ -90,6 +90,7 @@ export default async function BlogPage({
             viewAllLabel={dict.blog.viewAll}
             allLabel={dict.blog.all}
             viewsLabel={dict.blog.views}
+            searchPlaceholder={dict.blog.search}
           />
         </div>
       </div>

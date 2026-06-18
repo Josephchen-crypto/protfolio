@@ -5,6 +5,9 @@ import { getBlogPost, getBlogPosts } from "@/lib/mdx";
 import { siteUrl } from "@/lib/site";
 import { ArrowLeft, Calendar } from "lucide-react";
 import { PostViewCount } from "@/components/PostViewCount";
+import { ReadingProgress } from "@/components/ReadingProgress";
+import { BlogTOC } from "@/components/BlogTOC";
+import { SocialShare } from "@/components/SocialShare";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -130,6 +133,7 @@ export default async function BlogPostPage({
 
   return (
     <main className="bg-background min-h-screen">
+      <ReadingProgress />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -206,10 +210,22 @@ export default async function BlogPostPage({
           </div>
         </div>
 
-        {/* Content area */}
-        <div className="relative z-10 max-w-3xl mx-auto px-6 pb-24">
-          <div className="prose prose-invert prose-lg max-w-none">
-            <MermaidContent content={post.content} />
+        {/* Content area with TOC sidebar */}
+        <div className="relative z-10 max-w-6xl mx-auto px-6 pb-24">
+          <div className="flex gap-8 justify-center">
+            {/* Main content */}
+            <div className="min-w-0 max-w-3xl flex-1">
+              <div className="prose prose-invert prose-lg max-w-none">
+                <MermaidContent content={post.content} />
+              </div>
+              <SocialShare
+                url={`${siteUrl}/${lang}/blog/${slug}`}
+                title={post.title}
+                labels={{ share: dict.blog.share, copied: dict.contact.copied }}
+              />
+            </div>
+            {/* TOC sidebar */}
+            <BlogTOC content={post.content} />
           </div>
         </div>
       </article>
