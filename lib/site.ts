@@ -1,4 +1,4 @@
-export const siteUrl = process.env.SITE_URL || "https://protfolio.mljs1990.dpdns.org";
+export const siteUrl = process.env.SITE_URL || "https://portfolio.mljs1990.dpdns.org";
 export const siteName = "Joseph Chen - Android Engineer";
 export const siteDescription = {
   en: "Personal portfolio and resume website of Joseph Chen, an Android Engineer with 12+ years of experience.",
