@@ -23,6 +23,12 @@ const PLATFORMS = [
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
   },
   {
+    id: "weibo",
+    label: "微博",
+    href: (url: string, title: string) =>
+      `https://service.weibo.com/share/share.php?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
+  },
+  {
     id: "reddit",
     label: "Reddit",
     href: (url: string, title: string) =>
