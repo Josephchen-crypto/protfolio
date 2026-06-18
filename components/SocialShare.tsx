@@ -22,6 +22,24 @@ const PLATFORMS = [
     href: (url: string) =>
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
   },
+  {
+    id: "reddit",
+    label: "Reddit",
+    href: (url: string, title: string) =>
+      `https://www.reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
+  },
+  {
+    id: "hackernews",
+    label: "HN",
+    href: (url: string, title: string) =>
+      `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(url)}&t=${encodeURIComponent(title)}`,
+  },
+  {
+    id: "pocket",
+    label: "Pocket",
+    href: (url: string, title: string) =>
+      `https://getpocket.com/save?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
+  },
 ];
 
 export function SocialShare({
@@ -51,7 +69,7 @@ export function SocialShare({
         <Share2 size={14} />
         {labels.share}
       </span>
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {PLATFORMS.map((platform) => (
           <a
             key={platform.id}
