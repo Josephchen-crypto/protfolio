@@ -79,6 +79,24 @@ const readingTime = (html: string): string => {
   return `${minutes} min read`;
 };
 
+function addHeadingIds(html: string): string {
+  let headingIndex = 0;
+  return html.replace(
+    /<h([23])([^>]*)>([\s\S]*?)<\/h[23]>/gi,
+    (match, level, attrs, text) => {
+      // Skip if already has an id
+      if (/\bid\s*=/.test(attrs)) return match;
+      const plain = text.replace(/<[^>]*>/g, "").trim();
+      const id = `heading-${headingIndex}-${plain
+        .toLowerCase()
+        .replace(/[^a-z0-9\u4e00-\u9fff]+/g, "-")
+        .replace(/(^-|-$)/g, "")}`;
+      headingIndex++;
+      return `<h${level}${attrs} id="${id}">${text}</h${level}>`;
+    }
+  );
+}
+
 export default async function BlogPostPage({
   params,
 }: {
@@ -99,6 +117,9 @@ export default async function BlogPostPage({
   );
 
   const readTime = readingTime(post.content);
+
+  // Process HTML to add heading IDs for TOC navigation
+  const contentWithIds = addHeadingIds(post.content);
 
   const isoDate = `${post.createdAt}T00:00:00+08:00`;
 
@@ -216,7 +237,7 @@ export default async function BlogPostPage({
             {/* Main content */}
             <div className="min-w-0 max-w-3xl flex-1">
               <div className="prose prose-invert prose-lg max-w-none">
-                <MermaidContent content={post.content} />
+                <MermaidContent content={contentWithIds} />
               </div>
               <SocialShare
                 url={`${siteUrl}/${lang}/blog/${slug}`}
@@ -225,7 +246,7 @@ export default async function BlogPostPage({
               />
             </div>
             {/* TOC sidebar */}
-            <BlogTOC content={post.content} />
+            <BlogTOC content={contentWithIds} />
           </div>
         </div>
       </article>

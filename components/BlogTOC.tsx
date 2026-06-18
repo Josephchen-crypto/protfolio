@@ -15,25 +15,20 @@ export function BlogTOC({ content }: { content: string }) {
   const headingElementsRef = useRef<Map<string, IntersectionObserverEntry>>(new Map());
 
   useEffect(() => {
-    // Parse headings from the HTML content
+    // Parse headings from the HTML content (IDs are already injected server-side)
     const parser = new DOMParser();
-    const doc = parser.parseFromString(
-      `<div>${content}</div>`,
-      "text/html"
-    );
-    const elements = doc.querySelectorAll("h2, h3");
+    const doc = parser.parseFromString(`<div>${content}</div>`, "text/html");
+    const elements = doc.querySelectorAll("h2[id], h3[id]");
     const items: Heading[] = [];
-    elements.forEach((el, index) => {
+    elements.forEach((el) => {
+      const id = el.getAttribute("id") || "";
       const text = el.textContent || "";
-      const id = `heading-${index}-${text
-        .toLowerCase()
-        .replace(/[^a-z0-9\u4e00-\u9fff]+/g, "-")
-        .replace(/(^-|-$)/g, "")}`;
-      // Assign ID so real DOM elements match
-      el.id = id;
-      items.push({ id, text, level: el.tagName === "H2" ? 2 : 3 });
+      const level = el.tagName === "H2" ? 2 : 3;
+      if (id) items.push({ id, text, level });
     });
     setHeadings(items);
+
+    if (items.length === 0) return;
 
     // Wait for next frame then observe the real heading elements
     const raf = requestAnimationFrame(() => {
@@ -51,7 +46,6 @@ export function BlogTOC({ content }: { content: string }) {
             headingElementsRef.current.set(entry.target.id, entry);
           });
 
-          // Find the first heading that is above the top or visible
           const visibleEntries: IntersectionObserverEntry[] = [];
           headingElementsRef.current.forEach((value) => {
             if (value.isIntersecting || value.boundingClientRect.top < 0) {
@@ -60,7 +54,6 @@ export function BlogTOC({ content }: { content: string }) {
           });
 
           if (visibleEntries.length > 0) {
-            // Sort by position: the one closest to the top (but negative = above viewport)
             const sorted = visibleEntries.sort(
               (a, b) =>
                 Math.abs(a.boundingClientRect.top) -
@@ -83,7 +76,6 @@ export function BlogTOC({ content }: { content: string }) {
       cancelAnimationFrame(raf);
       observerRef.current?.disconnect();
     };
-    // Only parse when content changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content]);
 
@@ -110,7 +102,6 @@ export function BlogTOC({ content }: { content: string }) {
                   const el = document.getElementById(h.id);
                   if (el) {
                     el.scrollIntoView({ behavior: "smooth", block: "start" });
-                    // Update active immediately
                     setActiveId(h.id);
                   }
                 }}
