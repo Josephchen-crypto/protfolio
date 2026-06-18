@@ -12,6 +12,8 @@ cover: "https://i.pinimg.com/1200x/13/41/45/13414519583c03a8576b45d6171c11c9.jpg
 
 Android development is an exciting journey that starts with understanding the fundamentals. In this post, I'll share my experience and tips for getting started.
 
+add a test line
+
 ## Why Android?
 
 Android powers over 2.5 billion devices worldwide. As a developer, this means your apps can reach a massive audience across smartphones, tablets, TVs, and even cars.
