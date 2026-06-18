@@ -17,6 +17,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName,
+    title: siteName,
+    description: siteDescription.en,
+    url: siteUrl,
+    images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description: siteDescription.en,
+    images: [`${siteUrl}/og-default.png`],
   },
 };
 

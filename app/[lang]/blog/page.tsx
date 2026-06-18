@@ -17,8 +17,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params;
   const dict = await getDict(lang as Language);
-  const otherLang = lang === "zh" ? "en" : "zh";
-  const ogImage = `${siteUrl}/og-default.svg`;
+  const ogImage = `${siteUrl}/og-default.png`;
 
   return {
     title: dict.blog.title || "Blog",
@@ -27,15 +26,21 @@ export async function generateMetadata({
       title: dict.blog.title || "Blog",
       description: dict.blog.description,
       locale: lang === "zh" ? "zh_CN" : "en_US",
-      url: `/${lang}/blog`,
-      images: [{ url: ogImage }],
+      url: `${siteUrl}/${lang}/blog`,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dict.blog.title || "Blog",
+      description: dict.blog.description,
+      images: [ogImage],
     },
     alternates: {
-      canonical: `/${lang}/blog`,
+      canonical: `${siteUrl}/${lang}/blog`,
       languages: {
-        [lang]: `/${lang}/blog`,
-        [otherLang]: `/${otherLang}/blog`,
-        "x-default": "/en/blog",
+        en: `${siteUrl}/en/blog`,
+        zh: `${siteUrl}/zh/blog`,
+        "x-default": `${siteUrl}/en/blog`,
       },
     },
   };

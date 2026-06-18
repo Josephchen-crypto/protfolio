@@ -123,6 +123,8 @@ export function Hero({
               <img
                 src="https://avatars.githubusercontent.com/u/4225592?v=4"
                 alt="Joseph Chen (陈德基)"
+                width={160}
+                height={160}
                 loading="eager"
                 className="w-full h-full object-cover"
               />
@@ -136,12 +138,12 @@ export function Hero({
         </p>
 
         {/* Name */}
-        <h2 className="hero-name font-heading text-3xl md:text-4xl font-bold text-white mb-2 opacity-0">
+        <h1 className="hero-name font-heading text-3xl md:text-4xl font-bold text-white mb-2 opacity-0">
           {name}
-        </h2>
+        </h1>
 
         {/* Title (profession) */}
-        <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight tracking-tight">
+        <h2 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight tracking-tight">
           {words.map((word, i) => (
             <span
               key={i}
@@ -151,7 +153,7 @@ export function Hero({
               {word === " " ? "\u00A0" : word}
             </span>
           ))}
-        </h1>
+        </h2>
 
         <p className="hero-subtitle text-slate-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto opacity-0">
           {subtitle}

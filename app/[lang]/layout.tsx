@@ -1,6 +1,8 @@
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import type { Metadata } from "next";
 
+import { siteUrl } from "@/lib/site";
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-heading" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
@@ -13,12 +15,15 @@ export async function generateMetadata({
   const { lang } = await params;
   return {
     alternates: {
-      canonical: `/${lang}`,
+      canonical: `${siteUrl}/${lang}`,
       languages: {
-        en: "/en",
-        zh: "/zh",
-        "x-default": "/en",
+        en: `${siteUrl}/en`,
+        zh: `${siteUrl}/zh`,
+        "x-default": `${siteUrl}/en`,
       },
+    },
+    openGraph: {
+      locale: lang === "zh" ? "zh_CN" : "en_US",
     },
   };
 }

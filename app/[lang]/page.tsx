@@ -31,13 +31,23 @@ export async function generateMetadata({
     description: siteDescription[lang as "en" | "zh"],
     openGraph: {
       locale: lang === "zh" ? "zh_CN" : "en_US",
+      title: siteName,
+      description: siteDescription[lang as "en" | "zh"],
+      url: `${siteUrl}/${lang}`,
+      images: [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: siteName,
+      description: siteDescription[lang as "en" | "zh"],
+      images: [`${siteUrl}/og-default.png`],
     },
     alternates: {
-      canonical: `/${lang}`,
+      canonical: `${siteUrl}/${lang}`,
       languages: {
-        [lang]: `/${lang}`,
-        [otherLang]: `/${otherLang}`,
-        "x-default": "/en",
+        [lang]: `${siteUrl}/${lang}`,
+        [otherLang]: `${siteUrl}/${otherLang}`,
+        "x-default": `${siteUrl}/en`,
       },
     },
   };

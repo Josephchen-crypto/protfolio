@@ -53,6 +53,9 @@ export function Blog({
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    gsap.registerPlugin(ScrollTrigger);
+    const section = sectionRef.current;
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".blog-card",
@@ -64,14 +67,20 @@ export function Blog({
           stagger: 0.1,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: sectionRef.current,
+            trigger: section,
             start: "top 80%",
           },
         }
       );
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+      // Ensure all ScrollTriggers tied to this section are killed
+      ScrollTrigger.getAll().forEach((t) => {
+        if (t.vars?.trigger === section) t.kill();
+      });
+    };
   }, [activeCategory]);
 
   return (

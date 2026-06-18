@@ -7,6 +7,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import { PostViewCount } from "@/components/PostViewCount";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
@@ -28,8 +29,8 @@ export async function generateMetadata({
 
   const pairedPost = post.paired ? await getBlogPost(post.paired) : null;
   const ogImage = post.cover
-    ? [{ url: post.cover }]
-    : [{ url: `${siteUrl}/og-default.svg` }];
+    ? [{ url: post.cover, width: 1200, height: 630 }]
+    : [{ url: `${siteUrl}/og-default.png`, width: 1200, height: 630 }];
 
   const alternates: {
     canonical: string;
@@ -86,28 +87,7 @@ export default async function BlogPostPage({
   const post = await getBlogPost(slug, lang as Language);
 
   if (!post) {
-    return (
-      <main className="bg-background min-h-screen">
-        <Navigation lang={lang as Language} dict={dict} />
-        <div className="pt-32 pb-24 px-6">
-          <div className="max-w-3xl mx-auto">
-            <Link
-              href={`/${lang}/blog`}
-              className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors"
-            >
-              <ArrowLeft size={16} />
-              {dict.blog.backToBlog}
-            </Link>
-            <h1 className="text-3xl font-heading font-bold text-white mb-4">
-              {dict.blog.notFound}
-            </h1>
-            <p className="text-slate-400">
-              {dict.blog.notFoundMessage}
-            </p>
-          </div>
-        </div>
-      </main>
-    );
+    notFound();
   }
 
   const formattedDate = new Date(post.createdAt).toLocaleDateString(
@@ -122,11 +102,22 @@ export default async function BlogPostPage({
     "@type": "Article",
     headline: post.title,
     description: post.summary,
+    image: post.cover || `${siteUrl}/og-default.png`,
     datePublished: post.createdAt,
+    dateModified: post.createdAt,
     author: {
       "@type": "Person",
       name: "Joseph Chen",
       url: siteUrl,
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Joseph Chen",
+      url: siteUrl,
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/${lang}/blog/${slug}`,
     },
   };
 
@@ -146,6 +137,8 @@ export default async function BlogPostPage({
               <img
                 src={post.cover}
                 alt={post.title}
+                width={1200}
+                height={800}
                 loading="lazy"
                 className="w-full h-full object-cover"
               />
@@ -171,6 +164,8 @@ export default async function BlogPostPage({
                   <img
                     src={post.icon}
                     alt={`${post.title} icon`}
+                    width={80}
+                    height={80}
                     loading="lazy"
                     className="w-20 h-20 rounded-2xl shadow-2xl shadow-primary/10 ring-2 ring-white/10"
                   />
