@@ -17,7 +17,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - run: npm ci
@@ -26,8 +26,12 @@ jobs:
         run: npm run cf:build
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: b84bc70b8e19f158966cfa2f6859be5f
-          command: pages deploy .opennext/assets --project-name=protfolio
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "❌ CLOUDFLARE_API_TOKEN secret is not set."
+            echo "   Go to https://github.com/${{ github.repository }}/settings/secrets/actions to add it."
+            exit 1
+          fi
+          npx wrangler pages deploy .opennext/assets --project-name=protfolio
