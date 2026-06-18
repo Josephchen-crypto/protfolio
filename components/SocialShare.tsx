@@ -41,6 +41,18 @@ const PLATFORMS = [
       `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(url)}&t=${encodeURIComponent(title)}`,
   },
   {
+    id: "bluesky",
+    label: "Bluesky",
+    href: (url: string, title: string) =>
+      `https://bsky.app/intent/compose?text=${encodeURIComponent(title + " " + url)}`,
+  },
+  {
+    id: "indiehackers",
+    label: "Indie Hackers",
+    href: (url: string, title: string) =>
+      `https://www.indiehackers.com/post/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
+  },
+  {
     id: "pocket",
     label: "Pocket",
     href: (url: string, title: string) =>
