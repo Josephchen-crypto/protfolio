@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
+import { generateCover, ensureCoverDir } from "./cover-generator";
 
 const blogDirectory = path.join(process.cwd(), "content/blog");
 
@@ -84,8 +85,34 @@ export async function getAllPosts(): Promise<MDXPost[]> {
     );
 }
 
+/** Auto-generate cover images for posts without a cover */
+export async function autoGenerateCovers(posts: MDXPost[]): Promise<void> {
+  await ensureCoverDir();
+  for (const post of posts) {
+    if (post.cover) continue;
+    try {
+      const png = await generateCover({
+        title: post.title,
+        summary: post.summary,
+        category: post.category,
+        date: post.createdAt,
+        lang: post.lang,
+      });
+      const outPath = path.join(process.cwd(), "public", "covers", `${post.slug}.png`);
+      fs.writeFileSync(outPath, png);
+      post.cover = `/covers/${post.slug}.png`;
+      console.log(`  ✅ cover generated: ${post.slug}`);
+    } catch (e) {
+      console.error(`  ⚠️ cover failed for ${post.slug}:`, e);
+    }
+  }
+}
+
 export async function getBlogPosts(): Promise<MDXPost[]> {
-  return getAllPosts();
+  const posts = await getAllPosts();
+  // Auto-generate covers at build time for posts without one
+  await autoGenerateCovers(posts);
+  return posts;
 }
 
 export async function getBlogPost(

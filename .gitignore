@@ -11,6 +11,9 @@ tsconfig.tsbuildinfo
 # OpenNext
 .open-next
 
+# Generated assets
+public/covers/
+
 # wrangler files
 .wrangler
 .dev.vars*
