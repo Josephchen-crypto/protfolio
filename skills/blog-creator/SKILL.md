@@ -45,7 +45,7 @@ cover: ""                 # optional — full-https URL to cover image
     - Writing a vague/generic summary that could describe any blog ("本文介绍..." without specifics)
     - **A correct summary example for title "四层错误处理架构"**: "ErrorHandler 业务拦截 → BaseRepository 统一兜底 → ViewModel DSL 策略路由 → ResultBuilder 最终回调，四层各司其职、分层解耦。"
     - **A wrong summary example (duplication)**: title="四层错误处理架构总结", summary="本文总结 Tokapay 项目的四层错误处理架构" — the summary just restates the title without adding any new information.
-- `cover` — Optional but **strongly recommended**. Full HTTPS URL to a cover image. If omitted, the site uses the default branded OG image at `/og-default.svg`. **Cover is by author choice** — Joseph picks a cover image per post based on the topic's mood. Past covers have included the standard toka image (`ChatGPT Image 2026年5月18日 ...`) and `@linviena.jpeg`. No fixed default — but cover must be set explicitly on every post. (Updated 2026-06-18: Joseph replaced the standard toka cover with `@linviena.jpeg` on `business-or-tech-zh` because the topic is personal/essay — not technical. Treat cover as creative choice, not a hardcoded asset.)
+- `cover` — Optional. Full HTTPS URL to a cover image. If omitted, the build system **auto-generates a cover** using `lib/cover-generator.tsx` (Apple-style minimalist design, 1200×630, colors driven by the post's tech category). You may still manually set a cover URL to override auto-generation. Auto-generated covers are stored at `public/covers/[slug].png`.
 
 ### SKILL load verification (REQUIRED before writing)
 
@@ -157,6 +157,58 @@ When the user has edited the ZH version and asks to sync to EN (or vice versa):
 4. **Update SKILL rules** if the user's change broke a previous hard rule (e.g., user replaced mandatory cover URL → update the cover rule in SKILL.md to "by author choice")
 5. **Wait for explicit "push"** before `git add + commit + push` — never auto-push blog content even after sync
 
+## 封面自动生成（Cover Auto-Generation）
+
+博客文章未指定 `cover` 字段时，构建系统（`lib/cover-generator.tsx`）自动生成 1200×630 封面。
+
+### 设计风格
+
+- Apple 极简主义风格，浅色渐变背景（白/灰/蓝）
+- 左侧 6px 渐变色竖条
+- 标题上方渐变装饰线
+- Logo 半透明融入右侧背景
+- 底部细线分割 + 日期 / `<JOSEPH CHEN />`
+- 分类标签前缀 `~/` 终端风格
+
+### Logo 资源
+
+技术 Logo 存放于 `public/logos/`，按分类小写命名：
+
+| 文件 | 技术领域 |
+|------|----------|
+| `android.svg` | Android |
+| `kotlin.svg` | Kotlin |
+| `react.svg` | React |
+| `default.svg` | 通用科技图标 |
+
+**Logo 规格**: ≥256×256，SVG 优先，透明背景。
+
+### 色系映射
+
+`lib/cover-generator.tsx` 中的 `COLOR_SCHEMES` 对象定义每个分类的配色：
+
+```ts
+{ primary: "#3DDC84", secondary: "#34d399", light: "#d1fae5", dark: "#065f46", gradient: "..." }
+```
+
+封面所有装饰色（竖条、装饰线、分类文字、背景光晕）均由此色系驱动。
+
+### 新增技术分类步骤
+
+当创建涉及新技术领域的博客时，按以下步骤添加封面支持：
+
+1. **搜索官方 Logo** — Agent 在网上搜索该技术的官方图标/Logo
+2. **下载到本地** — 存为 `public/logos/[category-lowercase].svg`
+3. **提取主色调** — 从 Logo 中提取 primary 颜色（参考：Android `#3DDC84`、React `#61DAFB`）
+4. **新增色系配置** — 在 `lib/cover-generator.tsx` 的 `COLOR_SCHEMES` 中添加一条：
+   - `primary`: 主色
+   - `secondary`: 辅色（比主色稍亮/暗的同色系）
+   - `light`: 极淡色（用于背景光晕，~10% 不透明度用）
+   - `dark`: 深色变体
+   - `gradient`: 180deg 三色渐变
+
+色系会影响：左侧渐变竖条、标题装饰线、分类标签文字色、背景光晕色。
+
 ## What Happens Automatically
 
 After `next build` (or Cloudflare Pages deploy), the new post automatically gets:
@@ -169,6 +221,7 @@ After `next build` (or Cloudflare Pages deploy), the new post automatically gets
 - Article JSON-LD structured data
 - Category filter tab on `/blog` page
 - Blog card on homepage (filtered by language)
+- Auto-generated cover image (if no `cover` URL specified)
 
 ---
 
@@ -191,7 +244,7 @@ Before marking a post ready to push, verify:
 - [ ] No trade-offs / 折衷 sections
 - [ ] All diagrams are Mermaid (not ASCII/text boxes)
 - [ ] `date` is today's date (not source code date)
-- [ ] `cover` is set to standard cover URL
+- [ ] `cover` is auto-generated (if blank) or manually set to a valid HTTPS URL
 - [ ] Summary does not duplicate the title
 
 ### When NOT to use this skill
