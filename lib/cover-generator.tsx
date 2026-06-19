@@ -79,6 +79,10 @@ function getColorScheme(category: string): ColorScheme {
   return COLOR_SCHEMES[key] || COLOR_SCHEMES.essay;
 }
 
+export function getColorSchemeFor(category: string): ColorScheme {
+  return getColorScheme(category);
+}
+
 export interface CoverPost {
   title: string;
   summary: string;
