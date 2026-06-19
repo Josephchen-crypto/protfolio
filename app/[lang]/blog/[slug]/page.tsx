@@ -170,14 +170,30 @@ export default async function BlogPostPage({
       <article>
         {/* Hero section */}
         <div className="relative pt-24">
-          {/* Category color gradient hero background */}
-          <div
-            className="absolute inset-0 h-[60vh]"
-            style={{
-              background: `linear-gradient(180deg, ${colors.primary}08 0%, ${colors.primary}03 50%, transparent 100%)`,
-            }}
-          />
-          <div className="absolute inset-0 h-[60vh] bg-gradient-to-b from-background/80 via-background/40 to-background" />
+          {/* Cover image or category color gradient hero background */}
+          {post.cover ? (
+            <div className="absolute inset-0 h-[70vh]">
+              <img
+                src={post.cover}
+                alt={post.title}
+                width={1200}
+                height={800}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/60 to-background" />
+            </div>
+          ) : (
+            <>
+              <div
+                className="absolute inset-0 h-[60vh]"
+                style={{
+                  background: `linear-gradient(180deg, ${colors.primary}08 0%, ${colors.primary}03 50%, transparent 100%)`,
+                }}
+              />
+              <div className="absolute inset-0 h-[60vh] bg-gradient-to-b from-background/80 via-background/40 to-background" />
+            </>
+          )}
 
           {/* Hero content */}
           <div className="relative z-10 max-w-4xl mx-auto px-6 pt-20 pb-16 md:pb-24 text-center">
