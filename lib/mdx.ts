@@ -109,3 +109,24 @@ export async function getCategories(lang: string): Promise<CategoryMeta[]> {
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count);
 }
+
+export async function getRelatedPosts(
+  slug: string,
+  lang: "en" | "zh",
+  category: string,
+  limit = 3
+): Promise<MDXPost[]> {
+  const posts = await getAllPosts();
+  const sameLang = posts.filter((p) => p.lang === lang && p.slug !== slug);
+
+  // First try: same category
+  const sameCategory = sameLang.filter((p) => p.category === category);
+  if (sameCategory.length >= limit) {
+    return sameCategory.slice(0, limit);
+  }
+
+  // Fallback: fill remaining slots with recent posts from the same language
+  const existing = new Set(sameCategory.map((p) => p.slug));
+  const rest = sameLang.filter((p) => !existing.has(p.slug));
+  return [...sameCategory, ...rest].slice(0, limit);
+}

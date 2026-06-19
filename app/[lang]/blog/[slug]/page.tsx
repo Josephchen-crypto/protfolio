@@ -1,7 +1,7 @@
 import { Navigation } from "@/components/Navigation";
 import { MermaidContent } from "@/components/MermaidContent";
 import { getDict, type Language } from "@/i18n";
-import { getBlogPost, getBlogPosts } from "@/lib/mdx";
+import { getBlogPost, getBlogPosts, getRelatedPosts } from "@/lib/mdx";
 import { siteUrl } from "@/lib/site";
 import { ArrowLeft, Calendar } from "lucide-react";
 import { PostViewCount } from "@/components/PostViewCount";
@@ -120,6 +120,9 @@ export default async function BlogPostPage({
 
   // Process HTML to add heading IDs for TOC navigation
   const contentWithIds = addHeadingIds(post.content);
+
+  // Fetch related posts (same language, same category, exclude current)
+  const relatedPosts = await getRelatedPosts(slug, lang as "en" | "zh", post.category);
 
   const isoDate = `${post.createdAt}T00:00:00+08:00`;
 
@@ -244,6 +247,44 @@ export default async function BlogPostPage({
                 title={post.title}
                 labels={{ share: dict.blog.share, copied: dict.contact.copied }}
               />
+
+              {/* Related Posts */}
+              {relatedPosts.length > 0 && (
+                <div className="mt-12 pt-8 border-t border-border">
+                  <h2 className="text-2xl font-heading font-bold text-white mb-6">
+                    {dict.blog.relatedPosts}
+                  </h2>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {relatedPosts.map((rp) => (
+                      <a
+                        key={rp.slug}
+                        href={`/${lang}/blog/${rp.slug}`}
+                        className="group block bg-surface border border-border rounded-xl p-4 transition-all hover:border-primary/50 hover:-translate-y-0.5"
+                      >
+                        <h3 className="text-sm font-semibold text-white group-hover:text-primary transition-colors line-clamp-2 mb-1">
+                          {rp.title}
+                        </h3>
+                        <p className="text-xs text-slate-500 line-clamp-2 mb-2">
+                          {rp.summary}
+                        </p>
+                        <div className="flex items-center gap-2 text-xs">
+                          {rp.category && (
+                            <span className="px-2 py-0.5 rounded bg-primary/10 text-primary">
+                              {rp.category}
+                            </span>
+                          )}
+                          <span className="text-slate-600">
+                            {new Date(rp.createdAt).toLocaleDateString(
+                              lang === "zh" ? "zh-CN" : "en-US",
+                              { year: "numeric", month: "short", day: "numeric" }
+                            )}
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             {/* TOC sidebar */}
             <BlogTOC content={contentWithIds} />

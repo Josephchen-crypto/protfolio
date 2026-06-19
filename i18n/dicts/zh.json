@@ -39,7 +39,8 @@
     "viewAll": "查看详情",
     "views": "{count} 次阅读",
     "share": "分享",
-    "search": "搜索文章..."
+    "search": "搜索文章...",
+    "relatedPosts": "相关文章"
   },
   "contact": {
     "title": "联系我",

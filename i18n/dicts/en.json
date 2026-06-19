@@ -39,7 +39,8 @@
     "viewAll": "View Details",
     "views": "{count} views",
     "share": "Share",
-    "search": "Search posts..."
+    "search": "Search posts...",
+    "relatedPosts": "Related Posts"
   },
   "contact": {
     "title": "Get In Touch",
