@@ -78,18 +78,28 @@ export async function getAllPosts(): Promise<MDXPost[]> {
     })
   );
 
-  return posts
+  const result = posts
     .filter((p) => p.published)
     .sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
+
+  // Fill in auto-generated covers for posts without one
+  await fillMissingCovers(result);
+
+  return result;
 }
 
-/** Auto-generate cover images for posts without a cover */
-export async function autoGenerateCovers(posts: MDXPost[]): Promise<void> {
+async function fillMissingCovers(posts: MDXPost[]): Promise<void> {
   await ensureCoverDir();
   for (const post of posts) {
     if (post.cover) continue;
+    const pngPath = path.join(process.cwd(), "public", "covers", `${post.slug}.png`);
+    // Idempotent: if already generated, just set the field
+    if (fs.existsSync(pngPath)) {
+      post.cover = `/covers/${post.slug}.png`;
+      continue;
+    }
     try {
       const png = await generateCover({
         title: post.title,
@@ -98,8 +108,7 @@ export async function autoGenerateCovers(posts: MDXPost[]): Promise<void> {
         date: post.createdAt,
         lang: post.lang,
       });
-      const outPath = path.join(process.cwd(), "public", "covers", `${post.slug}.png`);
-      fs.writeFileSync(outPath, png);
+      fs.writeFileSync(pngPath, png);
       post.cover = `/covers/${post.slug}.png`;
       console.log(`  ✅ cover generated: ${post.slug}`);
     } catch (e) {
@@ -109,10 +118,7 @@ export async function autoGenerateCovers(posts: MDXPost[]): Promise<void> {
 }
 
 export async function getBlogPosts(): Promise<MDXPost[]> {
-  const posts = await getAllPosts();
-  // Auto-generate covers at build time for posts without one
-  await autoGenerateCovers(posts);
-  return posts;
+  return getAllPosts();
 }
 
 export async function getBlogPost(
