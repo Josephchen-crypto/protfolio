@@ -22,9 +22,6 @@ jobs:
 
       - run: npm ci
 
-      - name: Pre-generate blog covers
-        run: npx tsx scripts/generate-covers.ts
-
       - name: Build with OpenNext
         run: npm run cf:build
 

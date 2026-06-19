@@ -2,7 +2,6 @@ import { Navigation } from "@/components/Navigation";
 import { MermaidContent } from "@/components/MermaidContent";
 import { getDict, type Language } from "@/i18n";
 import { getBlogPost, getBlogPosts, getRelatedPosts } from "@/lib/mdx";
-import { getColorSchemeFor } from "@/lib/cover-generator";
 import { siteUrl } from "@/lib/site";
 import { ArrowLeft, Calendar } from "lucide-react";
 import { PostViewCount } from "@/components/PostViewCount";
@@ -119,9 +118,6 @@ export default async function BlogPostPage({
 
   const readTime = readingTime(post.content);
 
-  // Get category color scheme for hero background
-  const colors = getColorSchemeFor(post.category);
-
   // Process HTML to add heading IDs for TOC navigation
   const contentWithIds = addHeadingIds(post.content);
 
@@ -170,7 +166,7 @@ export default async function BlogPostPage({
       <article>
         {/* Hero section */}
         <div className="relative pt-24">
-          {/* Cover image or category color gradient hero background */}
+          {/* Cover image as full-width hero background */}
           {post.cover ? (
             <div className="absolute inset-0 h-[70vh]">
               <img
@@ -184,15 +180,7 @@ export default async function BlogPostPage({
               <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/60 to-background" />
             </div>
           ) : (
-            <>
-              <div
-                className="absolute inset-0 h-[60vh]"
-                style={{
-                  background: `linear-gradient(180deg, ${colors.primary}08 0%, ${colors.primary}03 50%, transparent 100%)`,
-                }}
-              />
-              <div className="absolute inset-0 h-[60vh] bg-gradient-to-b from-background/80 via-background/40 to-background" />
-            </>
+            <div className="absolute inset-0 h-[55vh] bg-gradient-to-b from-primary/5 via-neon-purple/5 to-transparent" />
           )}
 
           {/* Hero content */}
