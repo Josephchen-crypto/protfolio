@@ -1,7 +1,5 @@
 import fs from "fs";
 import path from "path";
-import satori from "satori";
-import { Resvg } from "@resvg/resvg-js";
 
 const rootDir = process.cwd();
 const fontsDir = path.join(rootDir, "lib/fonts");
@@ -92,6 +90,12 @@ export interface CoverPost {
 }
 
 export async function generateCover(post: CoverPost): Promise<Buffer> {
+  const [satoriModule, resvgModule] = await Promise.all([
+    import("satori"),
+    import("@resvg/resvg-js"),
+  ]);
+  const satori = satoriModule.default;
+  const Resvg = resvgModule.Resvg;
   const fonts = loadFonts();
   const colors = getColorScheme(post.category);
   const logoUrl = getLogoUri(post.category);
