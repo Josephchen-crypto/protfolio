@@ -39,4 +39,5 @@ jobs:
       - name: Deploy to Cloudflare
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: b84bc70b8e19f158966cfa2f6859be5f
         run: npx opennextjs-cloudflare deploy
