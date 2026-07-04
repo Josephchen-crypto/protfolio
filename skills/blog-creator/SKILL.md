@@ -303,6 +303,27 @@ Default flow is: 中文初稿 → file send → user feedback → revise → 英
 
 **Don't write the English version until the user confirms the Chinese version reads right.** "Try first, adjust later" (选项 4 in practice) is the default flow when the user's writing confidence is low.
 
+## ⚠️ Standard-mode Pitfalls (Joseph-specific)
+
+These pitfalls were learned the hard way on a "human courier" essay (2026-07-02). Joseph's reaction: "太没有感情了，跟我的原文比起来像机器人一样." Apply these even in Standard / Heavy mode unless the user explicitly asks for restructuring:
+
+1. **Never break a flowing personal narrative into multiple `##` subheadings.** Joseph writes in continuous prose with paragraph breaks, not as a structured timeline. Adding 5–6 subheadings ("起点 / 难关 / 交付 / 学艺 / 收尾") to a story-shaped draft is a strong AI tell and breaks the voice. Restructure only when the source material is truly disorganized (bullet points, scattered notes). One `##` for the title is enough for a 600–800 word personal essay.
+
+2. **Don't add "留白 / 上升" sentences that weren't in the source.** Forbidden patterns:
+   - Adding a single-sentence standalone paragraph like "这个问题我没有答案。" / "让我久久没说话。" after the user's punchline — Joseph reads this as "AI 上价值" / "placeholder emotion" and rejects it.
+   - Adding a forced closing hook like "还是得先把货送到。" to make the ending "neat" — Joseph flagged the same hook as not connecting to the rest.
+   **Rule**: if a sentence did not exist in the user's draft and is not strictly needed for grammar, do NOT add it. Polish = cut, not add.
+
+3. **Keep the user's self-deprecating tone.** Phrases like "我一个人扛不动" / "动车上的食物是真的贵" / "我就这体能" carry Joseph's authentic voice. Do NOT smooth these out into polite / neutral / professional phrasing. Standard-mode rewriting should preserve these intact, even if they feel "too casual" by mainstream blog standards.
+
+4. **The summary must not contain editorial coloring that doesn't appear in the body.** Bad example: summary says "让我久久没说话" when the body says "我没接话." Mismatch between summary and body = AI tell.
+
+## Output Format Preference (Caveat)
+
+Default flow is: 中文初稿 → file send → user feedback → revise → 英文版 → file send → user feedback → revise → final commit + push.
+
+**Don't write the English version until the user confirms the Chinese version reads right.** "Try first, adjust later" (选项 4 in practice) is the default flow when the user's writing confidence is low.
+
 ## Output Format Preference (Caveat)
 
 **Default**: Always send files for blog posts, never render full content in chat. (See `references/send-file-protocol.md`.)
