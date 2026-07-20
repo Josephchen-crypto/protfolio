@@ -51,10 +51,6 @@ jobs:
         # migration files use `CREATE TABLE IF NOT EXISTS`, so re-running any
         # historically-applied-out-of-band migration is safe.
         # `yes | ` handles the interactive confirmation in older wranglers.
-        # continue-on-error: the CI token may not yet have the D1:Edit scope —
-        # don't block the deploy while that's being fixed. Once the scope is
-        # granted, this step will just succeed with no further changes needed.
-        continue-on-error: true
         run: yes | npx wrangler d1 migrations apply protfolio-blog-views --remote --config=wrangler.jsonc
 
       - name: Deploy to Cloudflare
