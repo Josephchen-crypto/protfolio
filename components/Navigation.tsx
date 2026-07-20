@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
+import { UserMenu } from "./auth/UserMenu";
 import { type Language } from "@/i18n/config";
 import { clsx } from "clsx";
 import { type Dict } from "@/i18n";
@@ -43,7 +44,7 @@ export function Navigation({ lang, dict, pairedSlug }: { lang: Language; dict: D
           JC
         </a>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
             <a
               key={item.key}
@@ -54,6 +55,7 @@ export function Navigation({ lang, dict, pairedSlug }: { lang: Language; dict: D
             </a>
           ))}
           <LanguageToggle currentLang={lang} pairedSlug={pairedSlug} />
+          <UserMenu lang={lang} dict={dict} />
         </div>
 
         <button
@@ -78,7 +80,10 @@ export function Navigation({ lang, dict, pairedSlug }: { lang: Language; dict: D
                 {dict.nav[item.key]}
               </a>
             ))}
-            <LanguageToggle currentLang={lang} pairedSlug={pairedSlug} />
+            <div className="flex items-center justify-between gap-4">
+              <LanguageToggle currentLang={lang} pairedSlug={pairedSlug} />
+              <UserMenu lang={lang} dict={dict} />
+            </div>
           </div>
         </div>
       )}

@@ -51,5 +51,12 @@
     "linkedin": "LinkedIn",
     "copied": "Copied!",
     "copyright": "All rights reserved."
+  },
+  "auth": {
+    "loginTitle": "Sign In",
+    "signIn": "Sign in to continue",
+    "signInWith": "Sign in with {provider}",
+    "signOut": "Sign out",
+    "loggingIn": "Logging in..."
   }
 }

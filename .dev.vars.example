@@ -5,3 +5,24 @@ NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN=""
 # Microsoft Clarity (optional)
 # Create a project in https://clarity.microsoft.com and copy your project ID.
 NEXT_PUBLIC_CLARITY_PROJECT_ID=""
+
+# GitHub OAuth (required for login with GitHub)
+# Create an OAuth App at https://github.com/settings/developers
+# Authorization callback URL: https://your-domain.com/api/auth/github/callback
+GITHUB_CLIENT_ID=""
+GITHUB_CLIENT_SECRET=""
+
+# JWT signing secret (generate with `openssl rand -hex 32`)
+JWT_SECRET=""
+
+# Admin GitHub usernames (comma-separated)
+# Any login matching one of these usernames gets the "admin" role
+ADMIN_GITHUB_USERS=""
+
+# Google OAuth (future extension, uncomment when ready)
+# GOOGLE_CLIENT_ID=""
+# GOOGLE_CLIENT_SECRET=""
+
+# Apple Sign in (future extension, uncomment when ready)
+# APPLE_CLIENT_ID=""
+# APPLE_CLIENT_SECRET=""

@@ -51,5 +51,12 @@
     "linkedin": "领英",
     "copied": "已复制！",
     "copyright": "保留所有权利。"
+  },
+  "auth": {
+    "loginTitle": "登录",
+    "signIn": "登录以继续",
+    "signInWith": "使用 {provider} 登录",
+    "signOut": "退出登录",
+    "loggingIn": "登录中..."
   }
 }
