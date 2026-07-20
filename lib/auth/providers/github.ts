@@ -10,6 +10,10 @@ const GITHUB_AUTHORIZE_URL = "https://github.com/login/oauth/authorize";
 const GITHUB_ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token";
 const GITHUB_USER_API_URL = "https://api.github.com/user";
 
+// GitHub requires a User-Agent header on all API requests, otherwise it
+// rejects with 403. In Workers/Node fetch this isn't set automatically.
+const GITHUB_USER_AGENT = "portfolio-oauth-app";
+
 /**
  * GitHub OAuth 2.0 provider implementation.
  *
@@ -51,6 +55,7 @@ export class GitHubProvider implements OAuthProvider {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": GITHUB_USER_AGENT,
       },
     });
 
@@ -61,10 +66,26 @@ export class GitHubProvider implements OAuthProvider {
       );
     }
 
-    const data: { access_token: string; token_type: string; scope?: string } = await response.json();
+    // GitHub can return HTTP 200 with an error body — e.g. when the code has
+    // already been used, redirect_uri mismatch, or client_secret is wrong.
+    // Detect and surface these instead of silently passing undefined downstream.
+    const data: {
+      access_token?: string;
+      token_type?: string;
+      scope?: string;
+      error?: string;
+      error_description?: string;
+    } = await response.json();
+
+    if (data.error || !data.access_token) {
+      throw new Error(
+        `GitHub exchangeCodeForToken returned error: ${data.error ?? "no_access_token"} - ${data.error_description ?? "no description"}`,
+      );
+    }
+
     return {
       accessToken: data.access_token,
-      tokenType: data.token_type,
+      tokenType: data.token_type ?? "bearer",
       scope: data.scope ?? null,
     };
   }
@@ -74,6 +95,7 @@ export class GitHubProvider implements OAuthProvider {
       headers: {
         Authorization: `token ${accessToken}`,
         Accept: "application/json",
+        "User-Agent": GITHUB_USER_AGENT,
       },
     });
 

@@ -161,9 +161,14 @@ export async function GET(request: NextRequest) {
     return response;
   } catch (error) {
     console.error("OAuth callback error:", error);
-    return NextResponse.json(
-      { error: "Authentication failed" },
-      { status: 500 },
-    );
+    const message =
+      error instanceof Error ? error.message : String(error);
+    // In non-production, surface the real error so debugging is possible.
+    // In production, log it but return a generic message to the client.
+    const body =
+      process.env.NODE_ENV === "production"
+        ? { error: "Authentication failed" }
+        : { error: "Authentication failed", detail: message };
+    return NextResponse.json(body, { status: 500 });
   }
 }
