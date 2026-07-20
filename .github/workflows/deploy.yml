@@ -50,7 +50,8 @@ jobs:
         # idempotent — already-applied files are skipped automatically. All our
         # migration files use `CREATE TABLE IF NOT EXISTS`, so re-running any
         # historically-applied-out-of-band migration is safe.
-        run: npx wrangler d1 migrations apply protfolio-blog-views --remote
+        # `yes | ` handles the interactive confirmation in older wranglers.
+        run: yes | npx wrangler d1 migrations apply protfolio-blog-views --remote --config=wrangler.jsonc
 
       - name: Deploy to Cloudflare
         env:
