@@ -5,12 +5,13 @@ import { SignInButton } from "@/components/auth/SignInButton";
 import type { Language } from "@/i18n/config";
 
 interface LoginPageProps {
-  params: {
+  params: Promise<{
     lang: Language;
-  };
+  }>;
 }
 
-export default async function LoginPage({ params: { lang } }: LoginPageProps) {
+export default async function LoginPage({ params }: LoginPageProps) {
+  const { lang } = await params;
   const dict = await getDict(lang);
   const providers = listEnabledProviders();
 

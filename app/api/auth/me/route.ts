@@ -3,10 +3,15 @@ import { NextResponse } from "next/server";
 import { verifyJWT } from "@/lib/auth/jwt";
 import { getUserById } from "@/lib/auth/user-store";
 
-const JWT_SECRET = process.env.JWT_SECRET!;
+let JWT_SECRET: string | undefined;
 
-if (!JWT_SECRET) {
-  throw new Error("JWT_SECRET is not set in environment");
+function getEnv() {
+  if (!JWT_SECRET) {
+    JWT_SECRET = process.env.JWT_SECRET;
+  }
+  return {
+    JWT_SECRET: JWT_SECRET!,
+  };
 }
 
 /**
@@ -15,6 +20,7 @@ if (!JWT_SECRET) {
  * Response: { userId, username, role, provider, displayName, avatarUrl }
  */
 export async function GET(request: NextRequest) {
+  const { JWT_SECRET } = getEnv();
   const token = request.cookies.get("auth-jwt")?.value;
   if (!token) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });

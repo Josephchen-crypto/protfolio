@@ -14,19 +14,37 @@ import {
   type UserRecord,
 } from "@/lib/auth/user-store";
 
-const ADMIN_WHITELIST = parseAdminWhitelist(process.env.ADMIN_GITHUB_USERS);
-const JWT_SECRET = process.env.JWT_SECRET!;
+let ADMIN_WHITELIST: string[] | undefined;
+let JWT_SECRET: string | undefined;
 
-if (!JWT_SECRET) {
-  throw new Error("JWT_SECRET is not set in environment");
+// Lazy load the env vars so build doesn't fail when env is not set locally/in CI
+function getEnv() {
+  if (!ADMIN_WHITELIST) {
+    ADMIN_WHITELIST = parseAdminWhitelist(process.env.ADMIN_GITHUB_USERS);
+  }
+  if (!JWT_SECRET) {
+    JWT_SECRET = process.env.JWT_SECRET;
+  }
+  return {
+    ADMIN_WHITELIST,
+    JWT_SECRET: JWT_SECRET!,
+  };
 }
 
 export async function GET(request: NextRequest) {
+  const { ADMIN_WHITELIST, JWT_SECRET } = getEnv();
   const { searchParams } = request.nextUrl;
   const providerId = request.nextUrl.pathname.split("/")[3] as ProviderId;
   const code = searchParams.get("code");
   const stateQuery = searchParams.get("state");
   const stateCookie = request.cookies.get("oauth-state")?.value;
+
+  if (!JWT_SECRET) {
+    return NextResponse.json(
+      { error: "JWT_SECRET is not set in environment" },
+      { status: 500 },
+    );
+  }
 
   // Validate required parameters
   if (!code || !stateQuery || !stateCookie) {
