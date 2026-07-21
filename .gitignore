@@ -17,3 +17,6 @@ tsconfig.tsbuildinfo
 !.dev.vars.example
 .deepseek/
 AGENTS.md
+
+# Generated at build time (scripts/build-post-index.ts)
+content/blog/index.json

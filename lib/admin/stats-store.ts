@@ -1,14 +1,57 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { getBlogPosts } from "../mdx";
+import postIndex from "../../content/blog/index.json";
+import type { MDXPost } from "../mdx";
 import { composeDashboardStats, type DashboardStats } from "./stats";
 
 /**
  * D1 access layer for the admin dashboard.
  *
  * Pure aggregation lives in `./stats.ts` — this file only fetches raw rows
- * from D1 and hands them to the pure composer. Blog posts come from the
- * markdown store (`lib/mdx.ts`) since posts aren't in D1.
+ * from D1 and hands them to the pure composer.
+ *
+ * Post metadata comes from `content/blog/index.json`, a lightweight manifest
+ * generated at build time by `scripts/build-post-index.ts`. We can't use
+ * `lib/mdx.ts` here — it calls `fs.readdirSync`, which is unavailable on the
+ * Cloudflare Workers runtime.
  */
+
+interface PostIndexEntry {
+  slug: string;
+  title: string;
+  date: string;
+  summary: string;
+  category: string;
+  lang: "en" | "zh";
+  published: boolean;
+}
+
+/**
+ * Convert an index entry into the `MDXPost` shape the aggregation layer
+ * expects. Only fields the pure composer reads have to be real — the rest
+ * get sensible defaults so we don't leak "TODO / N/A" strings into the JSON.
+ */
+function toPost(entry: PostIndexEntry): MDXPost {
+  return {
+    slug: entry.slug,
+    title: entry.title,
+    date: entry.date,
+    summary: entry.summary,
+    content: "",
+    icon: null,
+    cover: null,
+    category: entry.category,
+    paired: null,
+    lang: entry.lang,
+    published: entry.published,
+    createdAt: entry.date,
+  };
+}
+
+function getPublishedPosts(): MDXPost[] {
+  return (postIndex as PostIndexEntry[])
+    .filter((p) => p.published)
+    .map(toPost);
+}
 
 function getDb(): D1Database | null {
   try {
@@ -70,7 +113,7 @@ export async function getDashboardStats(
   options: { topPostsLimit?: number } = {},
 ): Promise<DashboardStats> {
   const db = getDb();
-  const posts = await getBlogPosts();
+  const posts = getPublishedPosts();
 
   if (!db) {
     return composeDashboardStats({

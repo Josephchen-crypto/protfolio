@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build-post-index": "node --experimental-strip-types scripts/build-post-index.ts",
+    "prebuild": "npm run build-post-index",
+    "precf:build": "npm run build-post-index",
     "build": "next build",
     "cf:build": "opennextjs-cloudflare build",
     "dev": "next dev",
