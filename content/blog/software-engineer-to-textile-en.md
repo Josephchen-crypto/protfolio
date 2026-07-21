@@ -5,6 +5,7 @@ summary: "One month into the switch. The blocker is talking to strangers who run
 lang: "en"
 category: "Essay"
 paired: "software-engineer-to-textile"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/Galaxy%20background.jpeg"
 ---
 
 I wrote code for over a decade. Then I switched into textile fabric trading. It's been roughly a month.

@@ -5,6 +5,7 @@ summary: "从写代码到跑工厂，跟陌生老板尬聊是真正的卡点。�
 lang: "zh"
 category: "随笔"
 paired: "software-engineer-to-textile-en"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/pics/master/Galaxy%20background.jpeg"
 ---
 
 写代码这件事我干了十多年，突然转行到纺织面料贸易差不多快一个月了。
