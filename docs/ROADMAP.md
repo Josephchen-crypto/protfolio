@@ -2,6 +2,21 @@
 
 本文档是**下次会话的接续起点**。任何完全没有上下文的新对话，只要阅读本文档就能理解现状、约束、决策与后续开发规格。
 
+## 进度总览
+
+| 阶段 | 状态 | 完成时间 |
+|------|------|---------|
+| 首轮：OAuth 登录基础设施 | ✅ 完成 | 2026-07-19 |
+| A：管理后台仪表盘 | ✅ 完成 | 2026-07-20 |
+| B：博客浏览事件采集 | ✅ 完成 | 2026-07-20（与 A 一并交付） |
+| C：阅读量趋势图（recharts） | ⏳ 未开始 | — |
+| D：评论系统 | ⏳ 未开始 | — |
+| E：广告弹窗与用户偏好 | ⏳ 未开始 | — |
+
+**已知遗留 / 小任务**：
+- OAuth callback 目前不消费 `?next=` 参数，登录后固定跳首页；middleware 已把 `next` 塞到登录 URL，但真正吃它需要改 `state` 编码 + callback 重定向逻辑。改动量小，等下一次开工时顺手做。
+- `todayViews` 按 UTC 当日统计，跨时区用户可能会觉得"今天"边界不吻合。方案 C 做趋势图时一并处理。
+
 ---
 
 ## 一、项目背景与技术栈快照
@@ -292,6 +307,16 @@ JWT 存储在 `auth-jwt` HTTP-only Secure cookie 中，SameSite=Lax，路径 `/`
 
 ### 阶段 A：管理后台仪表盘
 
+**状态：✅ 已完成（2026-07-20）**
+
+#### 实际交付时的偏差（相对下面规格）
+
+- 页面**直接调用 `getDashboardStats()`**（服务端），不走 `fetch('/api/admin/stats')` self-fetch —— 少一跳更快。API 路由**保留**给未来客户端组件 / 外部工具用。
+- 文章元数据来源不是 `lib/mdx.ts`：那个模块用 `fs.readdirSync`，Cloudflare Workers 运行时不允许。新增 `scripts/build-post-index.ts` 在 build 前 dump 出 `content/blog/index.json`，仪表盘运行时 import 这个 JSON。详见 `/Users/chendeji/.claude/projects/-Users-chendeji-Downloads-project-protfolio/memory/protfolio-runtime-fs-forbidden.md` 记忆。
+- 新增 `lib/auth/session.ts` 抽出 JWT+role 校验共用逻辑；未在规格里但符合"分层"约定，后续 admin 路由都走这个。
+- Middleware 加了 `/[lang]/admin/**` 的防御纵深重定向（未登录直接跳登录页），主校验仍在 `layout.tsx` 里。
+- `todayViews` 用 UTC 当日边界（SQLite `datetime('now', 'start of day')`）。
+
 #### 目标与范围
 
 - 给管理员提供博客统计概览仪表盘
@@ -347,6 +372,10 @@ JWT 存储在 `auth-jwt` HTTP-only Secure cookie 中，SameSite=Lax，路径 `/`
 ---
 
 ### 阶段 B：博客浏览事件采集
+
+**状态：✅ 已完成（2026-07-20，与阶段 A 一并交付）**
+
+`migrations/0002_create_blog_view_events.sql` 已应用到远程 D1；`incrementView()` 用 `db.batch()` 同一事务里 UPSERT views + INSERT event。
 
 #### 目标与范围
 
