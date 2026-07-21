@@ -57,6 +57,41 @@
     "signIn": "Sign in to continue",
     "signInWith": "Sign in with {provider}",
     "signOut": "Sign out",
-    "loggingIn": "Logging in..."
+    "loggingIn": "Logging in...",
+    "dashboard": "Dashboard"
+  },
+  "admin": {
+    "title": "Dashboard",
+    "subtitle": "Blog overview and analytics",
+    "signedInAs": "Signed in as",
+    "backToSite": "Back to site",
+    "unauthorized": "Admin access required",
+    "unauthorizedMessage": "You need to sign in with an admin account to view this page.",
+    "stats": {
+      "totalPosts": "Total posts",
+      "totalViews": "Total views",
+      "totalCategories": "Categories",
+      "todayViews": "Views today"
+    },
+    "topPosts": {
+      "title": "Top posts by views",
+      "empty": "No posts yet.",
+      "columns": {
+        "rank": "#",
+        "title": "Title",
+        "lang": "Lang",
+        "category": "Category",
+        "views": "Views"
+      }
+    },
+    "categories": {
+      "title": "By category",
+      "empty": "No categorised posts.",
+      "columns": {
+        "name": "Category",
+        "postCount": "Posts",
+        "totalViews": "Views"
+      }
+    }
   }
 }

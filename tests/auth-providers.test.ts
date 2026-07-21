@@ -60,7 +60,13 @@ test("NormalizeGitHubProfile maps correctly", () => {
 });
 
 test("NormalizeGitHubProfile handles missing optional fields", () => {
-  const githubData = {
+  const githubData: {
+    id: number;
+    login: string;
+    name?: string;
+    avatar_url?: string;
+    email?: string;
+  } = {
     id: 12345,
     login: "testuser",
   };

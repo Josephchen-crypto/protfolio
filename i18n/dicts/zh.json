@@ -57,6 +57,41 @@
     "signIn": "登录以继续",
     "signInWith": "使用 {provider} 登录",
     "signOut": "退出登录",
-    "loggingIn": "登录中..."
+    "loggingIn": "登录中...",
+    "dashboard": "管理后台"
+  },
+  "admin": {
+    "title": "管理后台",
+    "subtitle": "博客概览与数据",
+    "signedInAs": "登录身份",
+    "backToSite": "返回站点",
+    "unauthorized": "需要管理员权限",
+    "unauthorizedMessage": "该页面仅对管理员开放，请使用管理员账号登录。",
+    "stats": {
+      "totalPosts": "文章总数",
+      "totalViews": "总阅读量",
+      "totalCategories": "分类数",
+      "todayViews": "今日阅读"
+    },
+    "topPosts": {
+      "title": "文章阅读排行",
+      "empty": "暂无文章。",
+      "columns": {
+        "rank": "#",
+        "title": "标题",
+        "lang": "语言",
+        "category": "分类",
+        "views": "阅读量"
+      }
+    },
+    "categories": {
+      "title": "分类统计",
+      "empty": "暂无有分类的文章。",
+      "columns": {
+        "name": "分类",
+        "postCount": "文章数",
+        "totalViews": "阅读量"
+      }
+    }
   }
 }

@@ -120,7 +120,7 @@ export function UserMenu({ lang, dict }: UserMenuProps) {
                 className="block px-4 py-2 text-sm text-slate-300 hover:bg-background hover:text-white transition-colors"
                 onClick={() => setOpen(false)}
               >
-                Dashboard
+                {dict.auth?.dashboard ?? "Dashboard"}
               </a>
             )}
             <button

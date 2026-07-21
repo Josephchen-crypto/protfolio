@@ -22,6 +22,14 @@ function getDb(): D1Database | null {
 
 /**
  * Increment the view count for a single blog post and return the new count.
+ *
+ * Two writes happen atomically in one D1 batch:
+ *   1. UPSERT `blog_post_views` running total
+ *   2. APPEND `blog_view_events` row so we can aggregate by day / month later
+ *
+ * D1 `batch()` runs statements sequentially in a single transaction — either
+ * both succeed or both roll back. If the batch fails we return null and the
+ * caller responds with 0 (the same fallback we use when the binding is absent).
  */
 export async function incrementView(
   payload: ViewPayload,
@@ -32,19 +40,30 @@ export async function incrementView(
   const postKey = `${payload.lang}:${payload.slug}`;
 
   try {
-    const result = await db
-      .prepare(
-        `INSERT INTO blog_post_views (post_key, lang, slug, views, updated_at)
-         VALUES (?, ?, ?, 1, CURRENT_TIMESTAMP)
-         ON CONFLICT(post_key) DO UPDATE SET
-           views = views + 1,
-           updated_at = CURRENT_TIMESTAMP
-         RETURNING views`,
-      )
-      .bind(postKey, payload.lang, payload.slug)
-      .first<{ views: number }>();
+    const results = await db.batch([
+      db
+        .prepare(
+          `INSERT INTO blog_post_views (post_key, lang, slug, views, updated_at)
+           VALUES (?, ?, ?, 1, CURRENT_TIMESTAMP)
+           ON CONFLICT(post_key) DO UPDATE SET
+             views = views + 1,
+             updated_at = CURRENT_TIMESTAMP
+           RETURNING views`,
+        )
+        .bind(postKey, payload.lang, payload.slug),
+      db
+        .prepare(
+          `INSERT INTO blog_view_events (post_key, lang, slug)
+           VALUES (?, ?, ?)`,
+        )
+        .bind(postKey, payload.lang, payload.slug),
+    ]);
 
-    return result?.views ?? null;
+    // First statement's result carries the RETURNING views value.
+    const first = results[0];
+    if (!first?.success) return null;
+    const row = (first.results as Array<{ views: number }> | undefined)?.[0];
+    return row?.views ?? null;
   } catch {
     return null;
   }
