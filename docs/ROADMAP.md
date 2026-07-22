@@ -15,7 +15,8 @@
 
 **已知遗留 / 小任务**：
 - OAuth callback 目前不消费 `?next=` 参数，登录后固定跳首页；middleware 已把 `next` 塞到登录 URL，但真正吃它需要改 `state` 编码 + callback 重定向逻辑。改动量小，等下一次开工时顺手做。
-- `todayViews` 按 UTC 当日统计，跨时区用户可能会觉得"今天"边界不吻合。方案 C 做趋势图时一并处理。
+- 仪表盘的 `todayViews` 与趋势图按 **UTC 当日**分桶，跨时区用户看"今天"的边界会不吻合本地。要按用户时区分桶需要客户端传 offset 或读用户偏好，本轮先按 UTC。
+- D1 里其他表（`blog_post_views`、`blog_view_events`、`users`、`user_identities`）的时间戳都没显式 strftime 成 ISO。目前它们没暴露给前端做相对时间显示，暂时不修。**如果哪天要 SELECT 这些 timestamp 给前端展示，必须先在 SQL 里 `strftime('%Y-%m-%dT%H:%M:%SZ', ...)`**，否则会重现"8h ago"那个坑。参考 `lib/comments/store.ts` 的做法。
 
 ---
 
@@ -485,6 +486,16 @@ CREATE INDEX IF NOT EXISTS idx_blog_view_events_post_key
 ---
 
 ### 阶段 D：评论系统
+
+**状态：✅ 已完成（2026-07-22）**
+
+#### 实际交付时的偏差
+
+- 单层嵌套已实现（回复评论）；深度嵌套的 UI 收敛按 ROADMAP 里"一期可以先做单层"处理。
+- 内容长度限制：5000 字符，服务端和客户端双重校验。
+- 时间戳修正：D1 `CURRENT_TIMESTAMP` 输出无时区，V8 会当本地时间解析。`lib/comments/store.ts` 里 SELECT 和 INSERT ... RETURNING 都用 `strftime('%Y-%m-%dT%H:%M:%SZ', ...)` 明确 ISO 8601 UTC。别的表遇到同样场景照抄。
+- Admin 删除功能保留，任意用户只能删自己的评论。
+- `unused-imports` 干净：CommentItem 的 dict/currentUserId props 因为没实际用被移除。
 
 #### 目标与范围
 
