@@ -40,7 +40,23 @@
     "views": "{count} views",
     "share": "Share",
     "search": "Search posts...",
-    "relatedPosts": "Related Posts"
+    "relatedPosts": "Related Posts",
+    "comments": {
+      "title": "Comments",
+      "empty": "No comments yet. Be the first to share your thoughts!",
+      "loginToComment": "Sign in to leave a comment",
+      "placeholder": "Write a comment…",
+      "post": "Post",
+      "reply": "Reply",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "posting": "Posting…",
+      "errorPost": "Failed to post comment",
+      "errorDelete": "Failed to delete comment",
+      "edited": "(edited)",
+      "justNow": "just now",
+      "count": "{count} comments"
+    }
   },
   "contact": {
     "title": "Get In Touch",

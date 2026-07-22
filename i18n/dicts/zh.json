@@ -40,7 +40,23 @@
     "views": "{count} 次阅读",
     "share": "分享",
     "search": "搜索文章...",
-    "relatedPosts": "相关文章"
+    "relatedPosts": "相关文章",
+    "comments": {
+      "title": "评论",
+      "empty": "暂无评论，来发表你的看法吧！",
+      "loginToComment": "登录后发表评论",
+      "placeholder": "写下你的评论…",
+      "post": "发表",
+      "reply": "回复",
+      "cancel": "取消",
+      "delete": "删除",
+      "posting": "发表中…",
+      "errorPost": "评论发表失败",
+      "errorDelete": "评论删除失败",
+      "edited": "（已编辑）",
+      "justNow": "刚刚",
+      "count": "{count} 条评论"
+    }
   },
   "contact": {
     "title": "联系我",

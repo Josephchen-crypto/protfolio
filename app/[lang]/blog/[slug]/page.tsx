@@ -8,6 +8,7 @@ import { PostViewCount } from "@/components/PostViewCount";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { BlogTOC } from "@/components/BlogTOC";
 import { SocialShare } from "@/components/SocialShare";
+import { CommentsSection } from "@/components/comments/CommentsSection";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -246,6 +247,13 @@ export default async function BlogPostPage({
                 url={`${siteUrl}/${lang}/blog/${slug}`}
                 title={post.title}
                 labels={{ share: dict.blog.share, copied: dict.contact.copied }}
+              />
+
+              {/* Comments */}
+              <CommentsSection
+                dict={dict}
+                lang={lang as "en" | "zh"}
+                slug={slug}
               />
 
               {/* Related Posts */}
