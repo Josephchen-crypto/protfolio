@@ -35,14 +35,22 @@ export async function listComments(
     // LEFT JOIN users so we can show author name + avatar.
     // ORDER BY parent_id NULLS FIRST, then by created_at so top-level
     // comments come first (newest at top), then replies follow.
+    //
+    // Format timestamps as ISO 8601 with the `Z` suffix. SQLite's raw
+    // `CURRENT_TIMESTAMP` yields "YYYY-MM-DD HH:MM:SS" (no timezone), which
+    // V8 parses as local time — that broke relative-time display for anyone
+    // outside UTC. The strftime() output is unambiguous UTC.
     const rows = await db
       .prepare(
         `SELECT
            c.id,
            c.parent_id,
            c.content,
-           c.created_at,
-           c.updated_at,
+           strftime('%Y-%m-%dT%H:%M:%SZ', c.created_at) AS created_at,
+           CASE
+             WHEN c.updated_at IS NULL THEN NULL
+             ELSE strftime('%Y-%m-%dT%H:%M:%SZ', c.updated_at)
+           END AS updated_at,
            c.user_id,
            u.display_name AS author_display_name,
            u.avatar_url   AS author_avatar_url,
@@ -103,7 +111,19 @@ export async function createComment(
       .prepare(
         `INSERT INTO comments (post_key, lang, slug, user_id, parent_id, content)
          VALUES (?, ?, ?, ?, ?, ?)
-         RETURNING *`,
+         RETURNING
+           id,
+           post_key,
+           lang,
+           slug,
+           user_id,
+           parent_id,
+           content,
+           strftime('%Y-%m-%dT%H:%M:%SZ', created_at) AS created_at,
+           CASE
+             WHEN updated_at IS NULL THEN NULL
+             ELSE strftime('%Y-%m-%dT%H:%M:%SZ', updated_at)
+           END AS updated_at`,
       )
       .bind(
         postKey,
