@@ -1,9 +1,11 @@
 import { getDashboardStats } from "@/lib/admin/stats-store";
+import { getTrendPoints } from "@/lib/admin/trends-store";
 import { getDict } from "@/i18n";
 import type { Language } from "@/i18n/config";
 import { StatsCard } from "@/components/admin/StatsCard";
 import { PostsRankingTable } from "@/components/admin/PostsRankingTable";
 import { CategoryStats } from "@/components/admin/CategoryStats";
+import { TrendChart } from "@/components/admin/TrendChart";
 
 /**
  * Admin dashboard root page.
@@ -12,6 +14,9 @@ import { CategoryStats } from "@/components/admin/CategoryStats";
  * (no self-fetch to `/api/admin/stats` — that endpoint is for future
  * client-side widgets / external tools). Access is enforced by the parent
  * `layout.tsx`.
+ *
+ * The trend chart hydrates with a server-fetched day series so the first
+ * paint has data; the client re-fetches only when the user flips to month.
  */
 export default async function AdminDashboardPage({
   params,
@@ -21,7 +26,10 @@ export default async function AdminDashboardPage({
   const { lang: rawLang } = await params;
   const lang = rawLang as Language;
   const dict = await getDict(lang);
-  const stats = await getDashboardStats({ topPostsLimit: 20 });
+  const [stats, initialTrendPoints] = await Promise.all([
+    getDashboardStats({ topPostsLimit: 20 }),
+    getTrendPoints("day"),
+  ]);
 
   const cards = [
     { label: dict.admin.stats.totalPosts, value: stats.totalPosts },
@@ -47,6 +55,12 @@ export default async function AdminDashboardPage({
           <StatsCard key={card.label} label={card.label} value={card.value} />
         ))}
       </section>
+
+      <TrendChart
+        dict={dict}
+        initialGranularity="day"
+        initialPoints={initialTrendPoints}
+      />
 
       <PostsRankingTable
         dict={dict}

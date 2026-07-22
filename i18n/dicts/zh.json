@@ -92,6 +92,15 @@
         "postCount": "文章数",
         "totalViews": "阅读量"
       }
+    },
+    "trend": {
+      "title": "阅读趋势",
+      "granularity": {
+        "day": "按天（30 天）",
+        "month": "按月（12 个月）"
+      },
+      "empty": "暂无数据。",
+      "tooltipCount": "{count} 次阅读"
     }
   }
 }

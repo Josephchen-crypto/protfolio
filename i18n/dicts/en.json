@@ -92,6 +92,15 @@
         "postCount": "Posts",
         "totalViews": "Views"
       }
+    },
+    "trend": {
+      "title": "Views over time",
+      "granularity": {
+        "day": "Day (30d)",
+        "month": "Month (12m)"
+      },
+      "empty": "No data yet.",
+      "tooltipCount": "{count} views"
     }
   }
 }
