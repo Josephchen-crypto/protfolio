@@ -5,7 +5,7 @@ summary: "用一个 add() 方法和 javap 实验拆开 ClassFile、constant_pool
 lang: "zh"
 category: "Android"
 paired: "jvm-class-file-bytecode"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jvm-classfile-04.svg"
 ---
 
 写 Java 很多年以后，我才真正认真看过一次 .class。

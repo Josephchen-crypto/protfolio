@@ -5,7 +5,7 @@ summary: "从一次普通方法调用出发，把 JVM Stack、Frame、Local Vari
 lang: "zh"
 category: "Android"
 paired: "jvm-runtime-data-areas"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jvm-runtime-02.svg"
 ---
 
 以前提到 JVM 内存，我脑子里通常只有两个词：

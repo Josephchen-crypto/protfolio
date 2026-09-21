@@ -5,7 +5,7 @@ summary: "A method-call-first explanation of JVM stacks, frames, local variables
 lang: "en"
 category: "Android"
 paired: "jvm-runtime-data-areas-zh"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jvm-runtime-02.svg"
 ---
 
 For a long time, my JVM memory model was basically two words: stack and heap.

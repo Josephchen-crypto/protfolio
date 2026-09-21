@@ -5,7 +5,7 @@ summary: "把 Java/Kotlin 源码、.class、D8/R8、DEX 与 ART 串成一条完�
 lang: "zh"
 category: "Android"
 paired: "android-runtime-from-source-to-art"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/android-runtime-01.svg"
 ---
 
 做了很多年 Android 之后，我发现一个很容易被忽略的问题：

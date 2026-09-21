@@ -5,7 +5,7 @@ summary: "A practical tour of the ClassFile format, constant pool, Code attribut
 lang: "en"
 category: "Android"
 paired: "jvm-class-file-bytecode-zh"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jvm-classfile-04.svg"
 ---
 
 For years I treated the .class file as a boring intermediate artifact.

@@ -5,7 +5,7 @@ summary: "沿着一条 new 指令拆开类初始化、对象分配、默认值�
 lang: "zh"
 category: "Android"
 paired: "java-object-creation-jvm"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jvm-object-03.svg"
 ---
 
 new User() 可能是 Java 里最普通的一行代码之一。

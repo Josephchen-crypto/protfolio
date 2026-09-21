@@ -5,7 +5,7 @@ summary: "A practical map of how source code becomes JVM bytecode, DEX, and fina
 lang: "en"
 category: "Android"
 paired: "android-runtime-from-source-to-art-zh"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/android-runtime-01.svg"
 ---
 
 After years of Android development, I realized that I could use Java, Kotlin, Gradle, and Android Studio every day without having one clean mental model of how code actually reaches the CPU.

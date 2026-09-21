@@ -5,7 +5,7 @@ summary: "A bytecode-level walkthrough of class readiness, instance allocation, 
 lang: "en"
 category: "Android"
 paired: "java-object-creation-jvm-zh"
-cover: ""
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jvm-object-03.svg"
 ---
 
 new User() looks trivial, but it connects several JVM concepts that are often learned separately.
