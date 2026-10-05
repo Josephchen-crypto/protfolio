@@ -51,7 +51,7 @@ export function Navigation({
     <nav className="mk-nav">
       <div className="mk-nav-inner">
         <a href={`/${lang}`} className="mk-brand" aria-label="MyKnowledge home">
-          <span className="mk-brand-mark">◇</span>
+          <span className="mk-brand-mark"><img src="/myknowledge/brand-logo.svg" alt="" /></span>
           <span className="mk-brand-copy">
             <b>MyKnowledge <em>v1.0</em></b>
             <small>{isZh ? "技术人的终身学习库" : "Personal Tech Learning OS"}</small>
