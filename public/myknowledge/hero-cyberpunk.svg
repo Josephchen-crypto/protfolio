@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 360" preserveAspectRatio="xMidYMid slice">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08111f"/><stop offset=".48" stop-color="#0e1b36"/><stop offset=".72" stop-color="#17183f"/><stop offset="1" stop-color="#0a1021"/></linearGradient>
+  <linearGradient id="ridge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#19305a"/><stop offset=".55" stop-color="#1a2a53"/><stop offset="1" stop-color="#241c55"/></linearGradient>
+  <linearGradient id="front" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0d223d"/><stop offset=".7" stop-color="#23184c"/><stop offset="1" stop-color="#2c1755"/></linearGradient>
+  <linearGradient id="horizon" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#43dcff" stop-opacity="0"/><stop offset=".2" stop-color="#43dcff"/><stop offset=".7" stop-color="#8b5cf6"/><stop offset="1" stop-color="#ef5ec9" stop-opacity="0"/></linearGradient>
+  <radialGradient id="orb"><stop stop-color="#8b5cf6" stop-opacity=".32"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
+  <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
+  <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#6e8db9" stroke-opacity=".08" stroke-width="1"/></pattern>
+</defs>
+<rect width="1600" height="360" fill="url(#sky)"/>
+<rect width="1600" height="360" fill="url(#grid)"/>
+<ellipse cx="1160" cy="75" rx="260" ry="155" fill="url(#orb)" filter="url(#blur)"/>
+<path d="M0 285 160 170 270 238 430 125 570 248 735 135 875 252 1040 108 1190 245 1380 142 1600 235 1600 360 0 360Z" fill="url(#ridge)" opacity=".9"/>
+<path d="M0 318 190 250 330 302 510 206 690 305 880 232 1060 300 1230 218 1410 296 1600 232 1600 360 0 360Z" fill="url(#front)" opacity=".98"/>
+<path d="M665 295H1380" stroke="url(#horizon)" stroke-width="2" filter="url(#glow)"/>
+<g transform="translate(1030 203)" filter="url(#glow)">
+  <circle cx="0" cy="0" r="12" fill="#a995ff"/>
+  <path d="M-10 16H10L16 82H3L0 45-4 82H-18L-13 32-24 48-31 41-12 16Z" fill="#544ca5"/>
+  <path d="M10 17 31 42 24 49 9 33Z" fill="#544ca5"/>
+</g>
+<g opacity=".35" fill="#43dcff"><circle cx="250" cy="78" r="1.5"/><circle cx="720" cy="58" r="1"/><circle cx="1330" cy="86" r="1.6"/><circle cx="1510" cy="48" r="1"/></g>
+</svg>
