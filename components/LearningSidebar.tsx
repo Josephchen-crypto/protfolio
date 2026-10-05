@@ -21,6 +21,7 @@ export function LearningSidebar({
         ["java-object-creation-jvm", "03 · Object creation"],
         ["jvm-class-file-bytecode", "04 · ClassFile / Bytecode"],
         ["jvm-gc-memory", "05 · GC / Memory"],
+        ["jmm-basics", "06 · JMM / happens-before"],
       ],
     },
     {
