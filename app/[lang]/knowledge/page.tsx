@@ -5,7 +5,6 @@ import { languages } from "@/i18n/config";
 import { getAllPosts } from "@/lib/mdx";
 import {
   ArrowRight,
-  BookOpenText,
   Cpu,
   Network,
   ShieldCheck,
@@ -47,7 +46,7 @@ export default async function KnowledgePage({
       <Navigation lang={language} dict={dict} />
       <div className="mk-content-shell">
         <header className="mk-page-heading">
-          <p className="mk-eyebrow">// KNOWLEDGE LIBRARY</p>
+          <p className="mk-eyebrow">{"// KNOWLEDGE LIBRARY"}</p>
           <h1>{isZh ? "知识库" : "Knowledge Library"}</h1>
           <p>
             {isZh
