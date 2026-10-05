@@ -80,7 +80,7 @@ export function Navigation({
         </div>
 
         <div className="mk-nav-actions">
-          <a className="mk-search-link" href={`/${lang}/knowledge`}>
+          <a className="mk-search-link" href={`/${lang}/search`}>
             <Search size={14} />
             <span>{isZh ? "搜索知识、笔记、概念..." : "Search knowledge..."}</span>
             <kbd>⌘K</kbd>
