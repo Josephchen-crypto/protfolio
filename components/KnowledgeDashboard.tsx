@@ -88,11 +88,6 @@ export function KnowledgeDashboard({
   return (
     <>
       <section className="mk-hero">
-        <div className="mk-hero-grid" />
-        <div className="mk-mountains mk-mountains-back" />
-        <div className="mk-mountains mk-mountains-front" />
-        <div className="mk-horizon" />
-        <div className="mk-explorer" />
         <div className="mk-hero-inner">
           <div className="mk-hero-copy">
             <p className="mk-eyebrow">{"// "}{copy.eyebrow}</p>
