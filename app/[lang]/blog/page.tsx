@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SiteFooter } from "@/components/SiteFooter";
 import { Blog } from "@/components/Blog";
 import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
@@ -97,6 +98,7 @@ export default async function BlogPage({
           searchPlaceholder={dict.blog.search}
         />
       </div>
-    </main>
+      <SiteFooter lang={language} />
+      </main>
   );
 }
