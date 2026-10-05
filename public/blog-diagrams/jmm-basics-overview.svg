@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 860">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#09111f"/><stop offset=".58" stop-color="#0d1729"/><stop offset="1" stop-color="#15132e"/>
+  </linearGradient>
+  <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#43dcff"/><stop offset="1" stop-color="#617dff"/>
+  </linearGradient>
+  <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1">
+    <stop stop-color="#617dff"/><stop offset="1" stop-color="#8b5cf6"/>
+  </linearGradient>
+  <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="5" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" fill="#5f7ea5"/>
+  </marker>
+  <style>
+    .title{font:700 40px Inter,"PingFang SC","Microsoft YaHei",sans-serif;fill:#eff4ff}
+    .h{font:700 26px Inter,"PingFang SC","Microsoft YaHei",sans-serif;fill:#e3ebfa}
+    .t{font:21px Inter,"PingFang SC","Microsoft YaHei",sans-serif;fill:#aab9cd}
+    .s{font:18px Inter,"PingFang SC","Microsoft YaHei",sans-serif;fill:#7f91aa}
+    .mono{font:19px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#9deeff}
+  </style>
+</defs>
+<rect width="1400" height="860" fill="url(#bg)"/>
+<text x="700" y="60" text-anchor="middle" class="title">Java Memory Model · JMM 基础</text>
+<text x="700" y="100" text-anchor="middle" class="t">JMM 不是“内存区域图”，而是多线程读写共享状态的语义规则</text>
+
+<g transform="translate(70,155)">
+  <rect width="360" height="245" rx="20" fill="#0d1a2d" stroke="#2e6f92" stroke-width="2"/>
+  <text x="180" y="42" text-anchor="middle" class="h">Thread A</text>
+  <text x="28" y="92" class="mono">number = 42;</text>
+  <text x="28" y="137" class="mono">ready = true;</text>
+  <text x="28" y="188" class="s">写共享状态</text>
+  <text x="28" y="220" class="s">Visibility / Ordering 从这里开始</text>
+</g>
+
+<g transform="translate(970,155)">
+  <rect width="360" height="245" rx="20" fill="#17152b" stroke="#7354a2" stroke-width="2"/>
+  <text x="180" y="42" text-anchor="middle" class="h">Thread B</text>
+  <text x="28" y="92" class="mono">if (ready) {</text>
+  <text x="52" y="128" class="mono">print(number);</text>
+  <text x="28" y="164" class="mono">}</text>
+  <text x="28" y="212" class="s">读共享状态</text>
+</g>
+
+<g transform="translate(505,170)">
+  <rect width="390" height="210" rx="20" fill="#0d1d27" stroke="#3e8b72" stroke-width="2"/>
+  <text x="195" y="42" text-anchor="middle" class="h">JMM Rules</text>
+  <text x="28" y="88" class="t">可见性 Visibility</text>
+  <text x="28" y="128" class="t">顺序性 Ordering</text>
+  <text x="28" y="168" class="t">原子性 Atomicity</text>
+</g>
+
+<line x1="430" y1="278" x2="500" y2="278" stroke="#5f7ea5" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="895" y1="278" x2="965" y2="278" stroke="#5f7ea5" stroke-width="3" marker-end="url(#arrow)"/>
+
+<g transform="translate(120,470)">
+  <rect width="1160" height="230" rx="22" fill="#0b1525" stroke="#2b4263" stroke-width="2"/>
+  <text x="580" y="45" text-anchor="middle" class="h">happens-before：线程之间的“同步凭证”</text>
+
+  <rect x="80" y="90" width="260" height="74" rx="15" fill="#102033" stroke="#43dcff"/>
+  <text x="210" y="135" text-anchor="middle" class="t">volatile write</text>
+
+  <line x1="340" y1="127" x2="500" y2="127" stroke="url(#blue)" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="420" y="108" text-anchor="middle" class="s">happens-before</text>
+
+  <rect x="510" y="90" width="260" height="74" rx="15" fill="#15182f" stroke="#617dff"/>
+  <text x="640" y="135" text-anchor="middle" class="t">volatile read</text>
+
+  <line x1="770" y1="127" x2="915" y2="127" stroke="url(#purple)" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <rect x="925" y="90" width="160" height="74" rx="15" fill="#1b1430" stroke="#8b5cf6"/>
+  <text x="1005" y="135" text-anchor="middle" class="t">safe view</text>
+
+  <text x="580" y="205" text-anchor="middle" class="s">同类关系还包括 synchronized unlock→lock、Thread.start()、Thread.join()</text>
+</g>
+
+<g transform="translate(185,750)">
+  <rect width="1030" height="70" rx="16" fill="#10182a" stroke="#273a58"/>
+  <text x="515" y="29" text-anchor="middle" class="h">先记住</text>
+  <text x="515" y="54" text-anchor="middle" class="t">共享状态 + 多线程 → 问可见性、顺序性、原子性 → 用 happens-before 建立可靠关系</text>
+</g>
+</svg>
