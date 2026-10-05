@@ -1372,3 +1372,29 @@ code, pre { font-family: var(--font-mono); }
     animation-iteration-count: 1 !important;
   }
 }
+
+
+.mk-domain-art {
+  position: relative;
+  height: 86px;
+  margin: -4px -4px 10px;
+  overflow: hidden;
+  border: 1px solid #243b5a;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+}
+.mk-domain-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,rgba(7,11,20,.08),rgba(7,11,20,.7));
+}
+.mk-domain-art .mk-domain-icon {
+  position: absolute;
+  z-index: 2;
+  left: 9px;
+  bottom: 9px;
+  backdrop-filter: blur(8px);
+  background: rgba(8,17,30,.72);
+}
