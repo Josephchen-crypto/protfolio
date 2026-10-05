@@ -1,12 +1,7 @@
 import { Navigation } from "@/components/Navigation";
-
-import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
-import { Experience } from "@/components/Experience";
-import { Skills } from "@/components/Skills";
-import { Projects } from "@/components/Projects";
-import { Blog } from "@/components/Blog";
-import { Contact } from "@/components/Contact";
+import { KnowledgeDashboard } from "@/components/KnowledgeDashboard";
+import { EngineeringSnapshot } from "@/components/EngineeringSnapshot";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
 import { resumeData } from "@/content/resume/data";
@@ -27,7 +22,9 @@ export async function generateMetadata({
   const { lang } = await params;
   const otherLang = lang === "zh" ? "en" : "zh";
   return {
-    title: { absolute: `${siteName} - ${lang === "zh" ? "个人作品集" : "Portfolio"}` },
+    title: {
+      absolute: `${siteName} - ${lang === "zh" ? "个人技术学习博客" : "Personal Tech Learning Blog"}`,
+    },
     description: siteDescription[lang as "en" | "zh"],
     openGraph: {
       locale: lang === "zh" ? "zh_CN" : "en_US",
@@ -59,20 +56,21 @@ export default async function Page({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-  const dict = await getDict(lang as Language);
-  const data = resumeData[lang as Language];
-  const projectList = projects[lang as Language];
+  const language = lang as Language;
+  const dict = await getDict(language);
+  const data = resumeData[language];
+  const projectList = projects[language];
   const allPosts = await getAllPosts();
-  const langPosts = allPosts.filter((post) => post.lang === lang);
-  const posts = langPosts.map((post) => ({
-    slug: post.slug,
-    title: post.title,
-    date: new Date(post.createdAt).toLocaleDateString(lang === "zh" ? "zh-CN" : "en-US"),
-    summary: post.summary,
-    icon: post.icon,
-    cover: post.cover,
-    lang: post.lang,
-  }));
+  const posts = allPosts
+    .filter((post) => post.lang === lang)
+    .map((post) => ({
+      slug: post.slug,
+      title: post.title,
+      summary: post.summary,
+      category: post.category,
+      cover: post.cover,
+      createdAt: post.createdAt,
+    }));
 
   const personSchema = {
     "@context": "https://schema.org",
@@ -87,57 +85,48 @@ export default async function Page({
       `https://github.com/${data.social.github}`,
       `https://linkedin.com/in/${data.social.linkedin}`,
     ],
-    knowsAbout: data.skills.map((s) => s.name),
-    worksFor: data.experience.map((exp: { company: string }) => ({
-      "@type": "Organization",
-      name: exp.company,
-    })),
+    knowsAbout: [
+      "Android",
+      "Java",
+      "Kotlin",
+      "JVM",
+      "Mobile Architecture",
+      "Web3 Wallet",
+      "Mobile Security",
+    ],
   };
 
   return (
-    <>
+    <main className="bg-background min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
-      <main className="bg-background min-h-screen">
-      <Navigation lang={lang as Language} dict={dict} />
-      <Hero
+
+      <Navigation lang={language} dict={dict} />
+
+      <KnowledgeDashboard
+        lang={language}
         name={data.name}
         title={data.title}
-        subtitle={data.summary}
-        cta={dict.hero.cta}
-        label={dict.hero.label}
-        email={data.email}
+        summary={data.summary}
         github={data.social.github}
-        linkedin={data.social.linkedin}
-      />
-      <About
-        title={dict.about.title}
-        content={data.summary}
-        stats={data.stats}
-        statLabels={dict.about.stats}
-      />
-      <Experience title={dict.experience.title} items={data.experience} />
-      <Skills title={dict.skills.title} items={data.skills} />
-      <Projects title={dict.projects.title} items={projectList} />
-      <Blog
-        title={dict.blog.title}
         posts={posts}
-        viewAllLabel={dict.blog.viewAll}
-        viewsLabel={dict.blog.views}
       />
-      <Contact
-        title={dict.contact.title}
+
+      <EngineeringSnapshot
+        lang={language}
+        projects={projectList}
+        years={data.stats.years}
+        github={data.social.github}
+      />
+
+      <SiteFooter
+        lang={language}
         email={data.email}
         github={data.social.github}
         linkedin={data.social.linkedin}
-        copied={dict.contact.copied}
-        description={dict.contact.description}
-        cta={dict.contact.cta}
-        copyright={dict.contact.copyright}
       />
-      </main>
-    </>
+    </main>
   );
 }

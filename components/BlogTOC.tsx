@@ -10,65 +10,38 @@ interface Heading {
 
 export function BlogTOC({ content }: { content: string }) {
   const [headings, setHeadings] = useState<Heading[]>([]);
-  const [activeId, setActiveId] = useState<string>("");
+  const [activeId, setActiveId] = useState("");
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const headingElementsRef = useRef<Map<string, IntersectionObserverEntry>>(new Map());
 
   useEffect(() => {
-    // Parse headings from the HTML content (IDs are already injected server-side)
     const parser = new DOMParser();
     const doc = parser.parseFromString(`<div>${content}</div>`, "text/html");
-    const elements = doc.querySelectorAll("h2[id], h3[id]");
-    const items: Heading[] = [];
-    elements.forEach((el) => {
-      const id = el.getAttribute("id") || "";
-      const text = el.textContent || "";
-      const level = el.tagName === "H2" ? 2 : 3;
-      if (id) items.push({ id, text, level });
-    });
+    const items = Array.from(doc.querySelectorAll("h2[id], h3[id]")).map((el) => ({
+      id: el.getAttribute("id") || "",
+      text: el.textContent || "",
+      level: el.tagName === "H2" ? 2 : 3,
+    })).filter((item) => item.id);
+
     setHeadings(items);
+    if (!items.length) return;
 
-    if (items.length === 0) return;
-
-    // Wait for next frame then observe the real heading elements
     const raf = requestAnimationFrame(() => {
-      const realElements = items
-        .map((h) => document.getElementById(h.id))
+      const elements = items
+        .map((item) => document.getElementById(item.id))
         .filter(Boolean) as HTMLElement[];
 
-      if (realElements.length === 0) return;
-
       observerRef.current?.disconnect();
-
       const observer = new IntersectionObserver(
         (entries) => {
-          entries.forEach((entry) => {
-            headingElementsRef.current.set(entry.target.id, entry);
-          });
-
-          const visibleEntries: IntersectionObserverEntry[] = [];
-          headingElementsRef.current.forEach((value) => {
-            if (value.isIntersecting || value.boundingClientRect.top < 0) {
-              visibleEntries.push(value);
-            }
-          });
-
-          if (visibleEntries.length > 0) {
-            const sorted = visibleEntries.sort(
-              (a, b) =>
-                Math.abs(a.boundingClientRect.top) -
-                Math.abs(b.boundingClientRect.top)
-            );
-            setActiveId(sorted[0].target.id);
-          }
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          if (visible[0]) setActiveId(visible[0].target.id);
         },
-        {
-          rootMargin: "-80px 0px -60% 0px",
-          threshold: [0, 0.25, 0.5, 1],
-        }
+        { rootMargin: "-90px 0px -72% 0px", threshold: [0, .2, .6] }
       );
 
-      realElements.forEach((el) => observer.observe(el));
+      elements.forEach((el) => observer.observe(el));
       observerRef.current = observer;
     });
 
@@ -76,42 +49,33 @@ export function BlogTOC({ content }: { content: string }) {
       cancelAnimationFrame(raf);
       observerRef.current?.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content]);
 
   if (headings.length < 2) return null;
 
   return (
-    <nav className="hidden xl:block sticky top-32 w-56 shrink-0" aria-label="Table of contents">
-      <div className="max-h-[calc(100vh-10rem)] overflow-y-auto">
-        <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-          On this page
-        </h3>
-        <ul className="space-y-1.5">
-          {headings.map((h) => (
-            <li key={h.id}>
-              <a
-                href={`#${h.id}`}
-                className={`block text-sm py-1 transition-colors border-l-2 pl-3 ${
-                  activeId === h.id
-                    ? "text-primary border-primary font-medium"
-                    : "text-slate-500 border-transparent hover:text-slate-300 hover:border-slate-600"
-                } ${h.level === 3 ? "pl-6" : ""}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const el = document.getElementById(h.id);
-                  if (el) {
-                    el.scrollIntoView({ behavior: "smooth", block: "start" });
-                    setActiveId(h.id);
-                  }
-                }}
-              >
-                {h.text}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <nav className="mk-toc" aria-label="Table of contents">
+      {headings.map((heading, index) => (
+        <a
+          key={heading.id}
+          href={`#${heading.id}`}
+          className={[
+            activeId === heading.id ? "is-active" : "",
+            heading.level === 3 ? "is-child" : "",
+          ].join(" ")}
+          onClick={(event) => {
+            event.preventDefault();
+            document.getElementById(heading.id)?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+            setActiveId(heading.id);
+          }}
+        >
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <b>{heading.text}</b>
+        </a>
+      ))}
     </nav>
   );
 }

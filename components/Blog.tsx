@@ -61,6 +61,15 @@ export function Blog({
 
   const hasCategories = categories && categories.length > 0;
 
+  const fallbackCover = (category?: string) => {
+    const value = (category || "").toLowerCase();
+    if (value.includes("android")) return "/myknowledge/cover-android.svg";
+    if (value.includes("web3") || value.includes("wallet") || value.includes("blockchain")) {
+      return "/myknowledge/cover-web3.svg";
+    }
+    return "/myknowledge/cover-jvm.svg";
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -184,37 +193,13 @@ export function Blog({
                   </>
                 ) : (
                   <>
-                    {/* Gradient background */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-surface to-neon-purple/15" />
-
-                    {/* Subtle grid pattern */}
-                    <div className="absolute inset-0 opacity-[0.03]"
-                      style={{
-                        backgroundImage: `linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)`,
-                        backgroundSize: '24px 24px',
-                      }}
+                    <img
+                      src={fallbackCover(post.category)}
+                      alt=""
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-
-                    {/* Decorative glow orbs */}
-                    <div className="absolute -top-8 -left-8 w-24 h-24 bg-primary/20 rounded-full blur-3xl" />
-                    <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-neon-purple/15 rounded-full blur-3xl" />
-
-                    {/* Large centered icon */}
-                    {post.icon && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        {post.icon.length > 2 ? (
-                          <img
-                            src={post.icon}
-                            alt=""
-                            className="w-12 h-12 rounded-xl opacity-40 grayscale"
-                          />
-                        ) : (
-                          <span className="text-5xl opacity-30 select-none drop-shadow-2xl">
-                            {post.icon}
-                          </span>
-                        )}
-                      </div>
-                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent" />
                   </>
                 )}
 

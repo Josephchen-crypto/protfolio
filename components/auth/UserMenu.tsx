@@ -60,14 +60,14 @@ export function UserMenu({ lang, dict }: UserMenuProps) {
   };
 
   if (loading) {
-    return <div className="w-8 h-8 animate-pulse bg-surface rounded-full" />;
+    return <div className="mk-user-skeleton" />;
   }
 
   if (!user) {
     return (
       <a
         href={`/${lang}/login`}
-        className="text-sm text-slate-400 hover:text-white transition-colors"
+        className="mk-signin-link"
       >
         {dict.auth?.signIn ?? "Sign In"}
       </a>
@@ -78,20 +78,20 @@ export function UserMenu({ lang, dict }: UserMenuProps) {
   const avatarUrl = user.avatarUrl;
 
   return (
-    <div className="relative">
+    <div className="mk-user-menu">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 rounded-full hover:bg-surface transition-colors p-1"
+        className="mk-user-button"
         aria-label="Open user menu"
       >
         {avatarUrl ? (
           <img
             src={avatarUrl}
             alt={displayName}
-            className="w-8 h-8 rounded-full object-cover"
+            className="mk-user-avatar"
           />
         ) : (
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
+          <div className="mk-user-avatar mk-user-fallback">
             {displayName.charAt(0).toUpperCase()}
           </div>
         )}
@@ -105,10 +105,10 @@ export function UserMenu({ lang, dict }: UserMenuProps) {
           />
           <div
             className={clsx(
-              "absolute right-0 top-10 z-20 w-48 bg-surface border border-border rounded-xl shadow-xl py-2",
+              "mk-user-dropdown",
             )}
           >
-            <div className="px-4 py-2 border-b border-border">
+            <div className="mk-user-dropdown-head">
               <p className="font-medium text-white">{displayName}</p>
               {user.role === "admin" && (
                 <p className="text-xs text-neon-purple">Admin</p>
@@ -117,7 +117,7 @@ export function UserMenu({ lang, dict }: UserMenuProps) {
             {user.role === "admin" && (
               <a
                 href={`/${lang}/admin`}
-                className="block px-4 py-2 text-sm text-slate-300 hover:bg-background hover:text-white transition-colors"
+                className="mk-user-dropdown-link"
                 onClick={() => setOpen(false)}
               >
                 {dict.auth?.dashboard ?? "Dashboard"}
@@ -125,7 +125,7 @@ export function UserMenu({ lang, dict }: UserMenuProps) {
             )}
             <button
               onClick={handleSignOut}
-              className="w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-background hover:text-white transition-colors"
+              className="mk-user-dropdown-link mk-user-dropdown-button"
             >
               {dict.auth?.signOut ?? "Sign Out"}
             </button>
