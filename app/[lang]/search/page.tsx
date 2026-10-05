@@ -33,7 +33,7 @@ export default async function SearchPage({
       <Navigation lang={language} dict={dict} />
       <div className="mk-content-shell">
         <header className="mk-page-heading">
-          <p className="mk-eyebrow">// GLOBAL SEARCH</p>
+          <p className="mk-eyebrow">{"// GLOBAL SEARCH"}</p>
           <h1>{isZh ? "搜索知识" : "Search Knowledge"}</h1>
           <p>
             {isZh
