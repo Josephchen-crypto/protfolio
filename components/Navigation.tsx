@@ -1,90 +1,104 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import {
+  BookOpenText,
+  BriefcaseBusiness,
+  Home,
+  Menu,
+  Route,
+  Search,
+  UserRound,
+  X,
+} from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
 import { UserMenu } from "./auth/UserMenu";
 import { type Language } from "@/i18n/config";
-import { clsx } from "clsx";
 import { type Dict } from "@/i18n";
 
-export function Navigation({ lang, dict, pairedSlug }: { lang: Language; dict: Dict; pairedSlug?: string | null }) {
-  const [isScrolled, setIsScrolled] = useState(false);
+export function Navigation({
+  lang,
+  dict,
+  pairedSlug,
+}: {
+  lang: Language;
+  dict: Dict;
+  pairedSlug?: string | null;
+}) {
+  const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
+  const isZh = lang === "zh";
   const navItems = [
-    { key: "about", href: `/${lang}#about` },
-    { key: "experience", href: `/${lang}#experience` },
-    { key: "skills", href: `/${lang}#skills` },
-    { key: "projects", href: `/${lang}#projects` },
-    { key: "blog", href: `/${lang}/blog` },
-    { key: "contact", href: `/${lang}#contact` },
+    { key: "home", label: isZh ? "首页" : "Home", href: `/${lang}`, icon: Home },
+    { key: "knowledge", label: isZh ? "知识库" : "Knowledge", href: `/${lang}/knowledge`, icon: BookOpenText },
+    { key: "path", label: isZh ? "学习路径" : "Learning Path", href: `/${lang}/learning-path`, icon: Route },
+    { key: "projects", label: isZh ? "项目" : "Projects", href: `/${lang}#projects`, icon: BriefcaseBusiness },
+    { key: "about", label: isZh ? "关于" : "About", href: `/${lang}#about`, icon: UserRound },
   ] as const;
 
-  useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const activeKey =
+    pathname.includes("/knowledge") || pathname.includes("/blog")
+      ? "knowledge"
+      : pathname.includes("/learning-path")
+        ? "path"
+        : pathname === `/${lang}`
+          ? "home"
+          : "";
 
   return (
-    <nav
-      className={clsx(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-background/80 backdrop-blur-lg border-b border-border"
-          : "bg-transparent",
-      )}
-    >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a
-          href={`/${lang}`}
-          className="font-heading font-bold text-xl text-white tracking-wider"
-        >
-          JC
+    <nav className="mk-nav">
+      <div className="mk-nav-inner">
+        <a href={`/${lang}`} className="mk-brand" aria-label="MyKnowledge home">
+          <span className="mk-brand-mark">◇</span>
+          <span className="mk-brand-copy">
+            <b>MyKnowledge <em>v1.0</em></b>
+            <small>{isZh ? "技术人的终身学习库" : "Personal Tech Learning OS"}</small>
+          </span>
         </a>
 
-        <div className="hidden md:flex items-center gap-6">
-          {navItems.map((item) => (
-            <a
-              key={item.key}
-              href={item.href}
-              className="text-slate-400 hover:text-white transition-colors text-sm"
-            >
-              {dict.nav[item.key]}
+        <div className="mk-nav-links">
+          {navItems.map(({ key, label, href, icon: Icon }) => (
+            <a key={key} href={href} className={activeKey === key ? "is-active" : ""}>
+              <Icon size={14} />
+              <span>{label}</span>
             </a>
           ))}
-          <LanguageToggle currentLang={lang} pairedSlug={pairedSlug} />
-          <UserMenu lang={lang} dict={dict} />
         </div>
 
-        <button
-          className="md:hidden text-white p-2"
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="mk-nav-actions">
+          <a className="mk-search-link" href={`/${lang}/knowledge`}>
+            <Search size={14} />
+            <span>{isZh ? "搜索知识、笔记、概念..." : "Search knowledge..."}</span>
+            <kbd>⌘K</kbd>
+          </a>
+          <LanguageToggle currentLang={lang} pairedSlug={pairedSlug} />
+          <UserMenu lang={lang} dict={dict} />
+          <button
+            className="mk-mobile-menu"
+            onClick={() => setIsMobileOpen((v) => !v)}
+            aria-label="Toggle menu"
+            type="button"
+          >
+            {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       {isMobileOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-lg border-b border-border">
-          <div className="px-6 py-4 flex flex-col gap-4">
-            {navItems.map((item) => (
-              <a
-                key={item.key}
-                href={item.href}
-                onClick={() => setIsMobileOpen(false)}
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                {dict.nav[item.key]}
-              </a>
-            ))}
-            <div className="flex items-center justify-between gap-4">
-              <LanguageToggle currentLang={lang} pairedSlug={pairedSlug} />
-              <UserMenu lang={lang} dict={dict} />
-            </div>
-          </div>
+        <div className="mk-mobile-nav">
+          {navItems.map(({ key, label, href, icon: Icon }) => (
+            <a
+              key={key}
+              href={href}
+              className={activeKey === key ? "is-active" : ""}
+              onClick={() => setIsMobileOpen(false)}
+            >
+              <Icon size={15} />
+              {label}
+            </a>
+          ))}
         </div>
       )}
     </nav>
