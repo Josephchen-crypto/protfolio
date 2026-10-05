@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
 import { resumeData } from "@/content/resume/data";
@@ -67,6 +68,7 @@ export default async function AboutPage({
           ))}
         </section>
       </div>
-    </main>
+      <SiteFooter lang={language} />
+      </main>
   );
 }
