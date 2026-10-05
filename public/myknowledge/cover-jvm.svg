@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset=".58" stop-color="#0d2445"/><stop offset="1" stop-color="#17153b"/></linearGradient><filter id="gl"><feGaussianBlur stdDeviation="18"/></filter></defs>
+<rect width="1200" height="630" fill="url(#g)"/>
+<circle cx="930" cy="150" r="170" fill="#617dff" opacity=".16" filter="url(#gl)"/>
+<g stroke="#43dcff" fill="none" stroke-width="3" opacity=".8"><rect x="120" y="150" width="260" height="330" rx="24"/><rect x="470" y="115" width="260" height="160" rx="18"/><rect x="470" y="340" width="260" height="140" rx="18"/><path d="M380 315H470M730 195H870M730 410H870"/></g>
+<g fill="#dff7ff"><text x="250" y="320" text-anchor="middle" font-size="72" font-family="monospace">JVM</text><text x="600" y="210" text-anchor="middle" font-size="32" font-family="monospace">STACK</text><text x="600" y="420" text-anchor="middle" font-size="32" font-family="monospace">HEAP</text></g>
+<text x="120" y="560" fill="#8ca6c8" font-size="34" font-family="sans-serif">RUNTIME · MEMORY · GC · BYTECODE</text>
+</svg>
