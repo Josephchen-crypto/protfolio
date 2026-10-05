@@ -88,11 +88,6 @@ export function KnowledgeDashboard({
   return (
     <>
       <section className="mk-hero">
-        <div className="mk-hero-grid" />
-        <div className="mk-mountains mk-mountains-back" />
-        <div className="mk-mountains mk-mountains-front" />
-        <div className="mk-horizon" />
-        <div className="mk-explorer" />
         <div className="mk-hero-inner">
           <div className="mk-hero-copy">
             <p className="mk-eyebrow">{"// "}{copy.eyebrow}</p>
@@ -133,7 +128,7 @@ export function KnowledgeDashboard({
               <Link href={`/${lang}/blog/${localizeSlug("jvm-runtime-data-areas")}`}>02 · Runtime data areas</Link>
               <Link href={`/${lang}/blog/${localizeSlug("java-object-creation-jvm")}`}>03 · Object creation</Link>
               <Link href={`/${lang}/blog/${localizeSlug("jvm-class-file-bytecode")}`}>04 · ClassFile / Bytecode</Link>
-              <span className="mk-roadmap-current">05 · GC / Memory</span>
+              <Link className="mk-roadmap-current" href={`/${lang}/blog/${localizeSlug("jvm-gc-memory")}`}>05 · GC / Memory</Link>
             </div>
             <div className="mk-roadmap-group">
               <span className="mk-roadmap-heading"><Network size={14} /> Web3 / Wallet</span>
@@ -152,7 +147,7 @@ export function KnowledgeDashboard({
                 <p>{copy.foundation}</p>
                 <div className="mk-track-meta"><span>43%</span><span>JVM FOUNDATION</span></div>
                 <div className="mk-track-progress"><span style={{ width: "43%" }} /></div>
-                <Link href={`/${lang}/blog/${localizeSlug("jvm-runtime-data-areas")}`}>{copy.continue}<ArrowRight size={14} /></Link>
+                <Link href={`/${lang}/blog/${localizeSlug("jvm-gc-memory")}`}>{copy.continue}<ArrowRight size={14} /></Link>
               </article>
 
               <article className="mk-track-card mk-track-card-purple">
