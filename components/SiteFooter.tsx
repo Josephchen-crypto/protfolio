@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Github, Linkedin, Mail } from "lucide-react";
+import { resumeData } from "@/content/resume/data";
 
 export function SiteFooter({
   lang,
@@ -8,11 +9,15 @@ export function SiteFooter({
   linkedin,
 }: {
   lang: "en" | "zh";
-  email: string;
-  github: string;
-  linkedin: string;
+  email?: string;
+  github?: string;
+  linkedin?: string;
 }) {
   const isZh = lang === "zh";
+  const profile = resumeData[lang];
+  const resolvedEmail = email || profile.email;
+  const resolvedGithub = github || profile.social.github;
+  const resolvedLinkedin = linkedin || profile.social.linkedin;
 
   return (
     <footer className="mk-site-footer">
@@ -30,9 +35,9 @@ export function SiteFooter({
         </nav>
 
         <div className="mk-footer-social">
-          <a href={`https://github.com/${github}`} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={15} /></a>
-          <a href={`https://linkedin.com/in/${linkedin}`} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={15} /></a>
-          <a href={`mailto:${email}`} aria-label="Email"><Mail size={15} /></a>
+          <a href={`https://github.com/${resolvedGithub}`} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={15} /></a>
+          <a href={`https://linkedin.com/in/${resolvedLinkedin}`} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={15} /></a>
+          <a href={`mailto:${resolvedEmail}`} aria-label="Email"><Mail size={15} /></a>
         </div>
       </div>
     </footer>
