@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SiteFooter } from "@/components/SiteFooter";
 import { MermaidContent } from "@/components/MermaidContent";
 import { LearningSidebar } from "@/components/LearningSidebar";
 import { getDict, type Language } from "@/i18n";
@@ -242,6 +243,7 @@ export default async function BlogPostPage({
           )}
         </aside>
       </div>
-    </main>
+      <SiteFooter lang={language} />
+      </main>
   );
 }
