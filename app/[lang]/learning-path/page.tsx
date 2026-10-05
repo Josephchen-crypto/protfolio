@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
 
@@ -88,6 +89,7 @@ export default async function LearningPathPage({
           ))}
         </section>
       </div>
-    </main>
+      <SiteFooter lang={language} />
+      </main>
   );
 }
