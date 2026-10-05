@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+<defs>
+<style>
+.title{font:700 42px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;fill:#123b70}
+.h{font:700 27px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;fill:#173a66}
+.t{font:22px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;fill:#24364b}
+.s{font:18px -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;fill:#425466}
+.mono{font:20px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;fill:#18324b}
+</style>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#55718d"/></marker>
+</defs>
+<rect width="1400" height="900" fill="#fff"/>
+<text x="700" y="62" text-anchor="middle" class="title">GC 与 JVM 内存管理基础</text>
+<text x="700" y="102" text-anchor="middle" class="t">核心：对象是否还能从 GC Roots 被访问到，而不是“变量是否出了作用域”</text>
+
+<g transform="translate(45,145)">
+<rect x="0" y="0" width="390" height="240" rx="18" fill="#eef6ff" stroke="#8ab9ea" stroke-width="2"/>
+<text x="195" y="42" text-anchor="middle" class="h">1. 对象进入 Heap</text>
+<text x="25" y="90" class="mono">User a = new User();</text>
+<text x="25" y="135" class="s">Local Variables 保存 reference</text>
+<text x="25" y="175" class="s">Heap 保存真正的 User 对象</text>
+<text x="25" y="215" class="s">reference ≠ object</text>
+</g>
+
+<line x1="445" y1="265" x2="505" y2="265" stroke="#55718d" stroke-width="3" marker-end="url(#arrow)"/>
+
+<g transform="translate(515,145)">
+<rect x="0" y="0" width="390" height="240" rx="18" fill="#f0fbf3" stroke="#8dcc9b" stroke-width="2"/>
+<text x="195" y="42" text-anchor="middle" class="h">2. GC Roots</text>
+<text x="25" y="90" class="s">从一组“根”开始寻找对象</text>
+<text x="25" y="130" class="s">例如：活动线程栈中的引用</text>
+<text x="25" y="170" class="s">例如：某些 static 引用</text>
+<text x="25" y="210" class="s">例如：JNI / VM 内部根</text>
+</g>
+
+<line x1="915" y1="265" x2="975" y2="265" stroke="#55718d" stroke-width="3" marker-end="url(#arrow)"/>
+
+<g transform="translate(985,145)">
+<rect x="0" y="0" width="370" height="240" rx="18" fill="#fff5e9" stroke="#e8bc64" stroke-width="2"/>
+<text x="185" y="42" text-anchor="middle" class="h">3. Reachability</text>
+<text x="25" y="90" class="s">从 GC Roots 能走到？</text>
+<text x="25" y="135" class="s">YES → 对象仍然存活</text>
+<text x="25" y="180" class="s">NO → 成为可回收候选</text>
+<text x="25" y="220" class="s">“可回收” ≠ “立刻回收”</text>
+</g>
+
+<g transform="translate(100,455)">
+<rect x="0" y="0" width="1200" height="270" rx="22" fill="#f8fbff" stroke="#9db8cf" stroke-width="2"/>
+<text x="600" y="42" text-anchor="middle" class="h">对象图：GC 看的是“还能不能到达”</text>
+
+<rect x="70" y="90" width="180" height="70" rx="14" fill="#dfefff" stroke="#6ea5d9"/>
+<text x="160" y="134" text-anchor="middle" class="t">GC Root</text>
+
+<rect x="355" y="90" width="180" height="70" rx="14" fill="#e9f8ed" stroke="#7ebf8c"/>
+<text x="445" y="134" text-anchor="middle" class="t">Object A</text>
+
+<rect x="640" y="90" width="180" height="70" rx="14" fill="#e9f8ed" stroke="#7ebf8c"/>
+<text x="730" y="134" text-anchor="middle" class="t">Object B</text>
+
+<rect x="930" y="90" width="180" height="70" rx="14" fill="#ffecec" stroke="#db7c7c"/>
+<text x="1020" y="134" text-anchor="middle" class="t">Object C</text>
+
+<line x1="250" y1="125" x2="350" y2="125" stroke="#55718d" stroke-width="3" marker-end="url(#arrow)"/>
+<line x1="535" y1="125" x2="635" y2="125" stroke="#55718d" stroke-width="3" marker-end="url(#arrow)"/>
+
+<text x="445" y="210" text-anchor="middle" class="s">A、B：从 Root 可达，所以活着</text>
+<text x="1020" y="210" text-anchor="middle" class="s">C：没有路径到达，可回收候选</text>
+</g>
+
+<g transform="translate(140,770)">
+<rect x="0" y="0" width="1120" height="82" rx="16" fill="#eef5fb"/>
+<text x="560" y="32" text-anchor="middle" class="h">这篇先记住</text>
+<text x="560" y="64" text-anchor="middle" class="t">Heap 放对象 → GC Roots 出发 → 可达性判断存活 → 不可达对象的空间可被 GC 回收</text>
+</g>
+</svg>
