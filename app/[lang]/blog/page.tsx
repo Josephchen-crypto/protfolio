@@ -79,7 +79,7 @@ export default async function BlogPage({
 
       <div className="mk-content-shell">
         <header className="mk-page-heading">
-          <p className="mk-eyebrow">// LEARNING IN PUBLIC</p>
+          <p className="mk-eyebrow">{"// LEARNING IN PUBLIC"}</p>
           <h1>{isZh ? "技术学习博客" : "Technical Learning Blog"}</h1>
           <p>
             {isZh
