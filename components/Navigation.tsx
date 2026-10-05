@@ -4,12 +4,14 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   BookOpenText,
-  BriefcaseBusiness,
+  BookMarked,
+  Boxes,
   Home,
   Menu,
   Route,
   Search,
   UserRound,
+  Wrench,
   X,
 } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
@@ -34,18 +36,28 @@ export function Navigation({
     { key: "home", label: isZh ? "首页" : "Home", href: `/${lang}`, icon: Home },
     { key: "knowledge", label: isZh ? "知识库" : "Knowledge", href: `/${lang}/knowledge`, icon: BookOpenText },
     { key: "path", label: isZh ? "学习路径" : "Learning Path", href: `/${lang}/learning-path`, icon: Route },
-    { key: "projects", label: isZh ? "项目" : "Projects", href: `/${lang}#projects`, icon: BriefcaseBusiness },
-    { key: "about", label: isZh ? "关于" : "About", href: `/${lang}#about`, icon: UserRound },
+    { key: "notes", label: isZh ? "笔记" : "Notes", href: `/${lang}/blog`, icon: BookMarked },
+    { key: "tools", label: isZh ? "工具箱" : "Toolbox", href: `/${lang}/toolbox`, icon: Wrench },
+    { key: "resources", label: isZh ? "资源" : "Resources", href: `/${lang}/resources`, icon: Boxes },
+    { key: "about", label: isZh ? "关于" : "About", href: `/${lang}/about`, icon: UserRound },
   ] as const;
 
   const activeKey =
-    pathname.includes("/knowledge") || pathname.includes("/blog")
+    pathname.includes("/knowledge")
       ? "knowledge"
-      : pathname.includes("/learning-path")
-        ? "path"
-        : pathname === `/${lang}`
-          ? "home"
-          : "";
+      : pathname.includes("/blog")
+        ? "notes"
+        : pathname.includes("/learning-path")
+          ? "path"
+          : pathname.includes("/toolbox")
+            ? "tools"
+            : pathname.includes("/resources")
+              ? "resources"
+              : pathname.includes("/about")
+                ? "about"
+                : pathname === `/${lang}`
+                  ? "home"
+                  : "";
 
   return (
     <nav className="mk-nav">
