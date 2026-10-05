@@ -19,11 +19,11 @@ export async function generateStaticParams() {
 }
 
 const domains = [
-  { key: "JVM", icon: Cpu, descZh: "运行机制、内存、类加载、GC、JMM 与并发。", descEn: "Runtime, memory, class loading, GC, JMM and concurrency." },
-  { key: "Android", icon: Smartphone, descZh: "Framework、UI、性能、架构、Compose 与工程实践。", descEn: "Framework, UI, performance, architecture, Compose and engineering." },
-  { key: "Web3", icon: Network, descZh: "区块链、账户、交易、节点与 RPC。", descEn: "Blockchain, accounts, transactions, nodes and RPC." },
-  { key: "Wallet", icon: WalletCards, descZh: "私钥、签名、HD Wallet 与移动端钱包工程。", descEn: "Private keys, signing, HD wallets and mobile wallet engineering." },
-  { key: "Security", icon: ShieldCheck, descZh: "Android 安全、Keystore、密钥保护与系统设计。", descEn: "Android security, Keystore, secret protection and system design." },
+  { key: "JVM", icon: Cpu, art: "/myknowledge/cover-jvm.svg", descZh: "运行机制、内存、类加载、GC、JMM 与并发。", descEn: "Runtime, memory, class loading, GC, JMM and concurrency." },
+  { key: "Android", icon: Smartphone, art: "/myknowledge/cover-android.svg", descZh: "Framework、UI、性能、架构、Compose 与工程实践。", descEn: "Framework, UI, performance, architecture, Compose and engineering." },
+  { key: "Web3", icon: Network, art: "/myknowledge/cover-web3.svg", descZh: "区块链、账户、交易、节点与 RPC。", descEn: "Blockchain, accounts, transactions, nodes and RPC." },
+  { key: "Wallet", icon: WalletCards, art: "/myknowledge/cover-web3.svg", descZh: "私钥、签名、HD Wallet 与移动端钱包工程。", descEn: "Private keys, signing, HD wallets and mobile wallet engineering." },
+  { key: "Security", icon: ShieldCheck, art: "/myknowledge/cover-android.svg", descZh: "Android 安全、Keystore、密钥保护与系统设计。", descEn: "Android security, Keystore, secret protection and system design." },
 ] as const;
 
 export default async function KnowledgePage({
@@ -57,9 +57,11 @@ export default async function KnowledgePage({
         </header>
 
         <section className="mk-card-grid">
-          {domains.map(({ key, icon: Icon, descZh, descEn }) => (
+          {domains.map(({ key, icon: Icon, art, descZh, descEn }) => (
             <article className="mk-domain-card" key={key}>
-              <div className="mk-domain-icon"><Icon size={18} /></div>
+              <div className="mk-domain-art" style={{ backgroundImage: `url(${art})` }}>
+                <div className="mk-domain-icon"><Icon size={18} /></div>
+              </div>
               <h2>{key}</h2>
               <p>{isZh ? descZh : descEn}</p>
               <footer>
