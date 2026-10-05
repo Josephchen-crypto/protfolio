@@ -39,7 +39,7 @@ export function EngineeringSnapshot({
         <article className="mk-engineering-profile">
           <div className="mk-engineering-icon"><Code2 size={20} /></div>
           <small>{isZh ? "长期技术主线" : "LONG-TERM TRACK"}</small>
-          <h3>{years}+ {isZh ? "年移动端开发" : "years mobile development"}</h3>
+          <h3>{years} {isZh ? "年移动端开发" : "years mobile development"}</h3>
           <p>
             {isZh
               ? "从 Android 项目经验重新向 JVM、Framework、性能、安全与 Wallet 工程收拢。"
