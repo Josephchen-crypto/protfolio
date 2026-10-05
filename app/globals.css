@@ -846,3 +846,131 @@ code, pre { font-family: var(--font-mono); }
 #projects p, #about p, #experience p, #contact p {
   color: #91a1b8;
 }
+
+
+/* Resources / Toolbox / About */
+.mk-resource-grid,
+.mk-tool-grid,
+.mk-project-grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 12px;
+}
+.mk-resource-card,
+.mk-tool-card,
+.mk-project-card,
+.mk-about-profile {
+  border: 1px solid var(--mk-line);
+  border-radius: 10px;
+  background: linear-gradient(145deg,#0f1829,#0b1423);
+}
+.mk-resource-card,
+.mk-tool-card,
+.mk-project-card {
+  padding: 14px;
+}
+.mk-resource-card:hover {
+  border-color: #456996;
+  transform: translateY(-1px);
+  transition: .2s ease;
+}
+.mk-resource-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mk-resource-top > svg:last-child {
+  margin-left: auto;
+  color: #657d9b;
+}
+.mk-resource-type {
+  color: #6bcfe3;
+  font: 800 8px var(--font-mono);
+  letter-spacing: .08em;
+}
+.mk-resource-card h2,
+.mk-tool-card h2,
+.mk-project-card h2 {
+  margin: 10px 0 5px;
+  color: #edf3ff;
+  font-size: 14px;
+}
+.mk-resource-card p,
+.mk-tool-card p,
+.mk-project-card p {
+  margin: 0;
+  color: #8495ad;
+  font-size: 9.8px;
+  line-height: 1.65;
+}
+.mk-tool-status {
+  display: inline-flex;
+  margin-top: 11px;
+  padding: 3px 7px;
+  border: 1px solid #315175;
+  border-radius: 999px;
+  color: #9ab6d7;
+  font: 700 8px var(--font-mono);
+}
+.mk-about-profile {
+  display: grid;
+  grid-template-columns: 120px minmax(0,1fr);
+  gap: 18px;
+  align-items: center;
+  padding: 18px;
+}
+.mk-about-profile > img {
+  width: 112px;
+  height: 112px;
+  border-radius: 18px;
+  object-fit: cover;
+  border: 1px solid #466188;
+  box-shadow: 0 0 28px rgba(97,125,255,.12);
+}
+.mk-about-copy > span {
+  color: var(--mk-cyan);
+  font: 800 9px var(--font-mono);
+  letter-spacing: .08em;
+}
+.mk-about-copy h2 {
+  margin: 5px 0 7px;
+  font-size: 22px;
+}
+.mk-about-copy p {
+  max-width: 760px;
+  margin: 0;
+  color: #8d9db4;
+  font-size: 10px;
+  line-height: 1.7;
+}
+.mk-about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 12px;
+}
+.mk-about-links a,
+.mk-about-links span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #91a8c6;
+  font-size: 9px;
+}
+.mk-project-card small {
+  color: #68cee3;
+  font: 700 8px var(--font-mono);
+}
+
+@media (max-width: 960px) {
+  .mk-resource-grid,
+  .mk-tool-grid,
+  .mk-project-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 620px) {
+  .mk-resource-grid,
+  .mk-tool-grid,
+  .mk-project-grid { grid-template-columns: 1fr; }
+  .mk-about-profile { grid-template-columns: 1fr; }
+  .mk-about-profile > img { width: 84px; height: 84px; }
+}
