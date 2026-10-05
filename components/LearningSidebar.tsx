@@ -9,6 +9,8 @@ export function LearningSidebar({
   lang: Language;
   currentSlug?: string;
 }) {
+  const localizeSlug = (base: string) => lang === "zh" ? `${base}-zh` : base;
+
   const groups = [
     {
       title: "Java / JVM",
@@ -57,8 +59,8 @@ export function LearningSidebar({
             items.map(([slug, label]) => (
               <Link
                 key={slug}
-                href={`/${lang}/blog/${slug}`}
-                className={currentSlug === slug ? "is-active" : ""}
+                href={`/${lang}/blog/${localizeSlug(slug)}`}
+                className={currentSlug === localizeSlug(slug) ? "is-active" : ""}
               >
                 {label}
               </Link>
