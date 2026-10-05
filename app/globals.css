@@ -165,12 +165,13 @@ code, pre { font-family: var(--font-mono); }
 .mk-hero {
   position: relative;
   isolation: isolate;
-  height: 164px;
+  height: 196px;
   overflow: hidden;
   border-bottom: 1px solid rgba(56,77,115,.35);
   background:
-    linear-gradient(90deg,rgba(7,11,20,.84) 0%,rgba(7,11,20,.48) 48%,rgba(7,11,20,.18) 100%),
-    url("/myknowledge/hero-cyberpunk.svg") center 54% / cover no-repeat;
+    linear-gradient(90deg,rgba(7,11,20,.88) 0%,rgba(7,11,20,.56) 31%,rgba(7,11,20,.18) 58%,rgba(7,11,20,.12) 76%,rgba(7,11,20,.42) 100%),
+    linear-gradient(180deg,rgba(7,11,20,.04) 0%,rgba(7,11,20,.08) 60%,rgba(7,11,20,.55) 100%),
+    url("/myknowledge/hero-cyberpunk-bg.webp") center 64% / cover no-repeat;
 }
 .mk-hero-grid {
   position: absolute; inset: 0; opacity: .08;
@@ -204,7 +205,7 @@ code, pre { font-family: var(--font-mono); }
   justify-content: space-between;
   gap: 30px;
 }
-.mk-hero-copy { max-width: 760px; }
+.mk-hero-copy { max-width: 650px; }
 .mk-eyebrow {
   margin: 0 0 8px !important;
   color: var(--mk-cyan) !important;
@@ -212,8 +213,8 @@ code, pre { font-family: var(--font-mono); }
   letter-spacing: .18em;
 }
 .mk-hero h1 { margin: 0 0 6px; font-size: 30px; line-height: 1.15; letter-spacing: -.03em; }
-.mk-hero p { margin: 0; color: #a8b5c9; font-size: 12px; max-width: 760px; }
-.mk-hero-quote { max-width: 360px; text-align: right; font-size: 11px; line-height: 1.7; color: #d8e0ef; }
+.mk-hero p { margin: 0; color: #afbdd0; font-size: 11.5px; max-width: 630px; line-height: 1.65; text-shadow: 0 1px 14px rgba(0,0,0,.48); }
+.mk-hero-quote { max-width: 330px; text-align: right; font-size: 10.5px; line-height: 1.72; color: #e0e7f4; text-shadow: 0 1px 14px rgba(0,0,0,.65); }
 .mk-hero-quote small { display: block; color: #7587a4; margin-top: 3px; }
 
 /* Dashboard */
@@ -1397,4 +1398,44 @@ code, pre { font-family: var(--font-mono); }
   bottom: 9px;
   backdrop-filter: blur(8px);
   background: rgba(8,17,30,.72);
+}
+
+
+/* Selected hero artwork tuning */
+.mk-hero-inner {
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+.mk-hero h1 {
+  text-shadow: 0 2px 20px rgba(0,0,0,.52);
+}
+.mk-hero-grid {
+  opacity: .035;
+}
+.mk-hero::after {
+  opacity: .045;
+}
+.mk-hero-quote {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: linear-gradient(90deg,transparent,rgba(5,10,24,.22));
+}
+@media (max-width: 1200px) {
+  .mk-hero {
+    height: 184px;
+    background-position: center 64%;
+  }
+}
+@media (max-width: 960px) {
+  .mk-hero {
+    height: 168px;
+    background-position: 62% 64%;
+  }
+}
+@media (max-width: 720px) {
+  .mk-hero {
+    height: 156px;
+    background-position: 67% 64%;
+  }
+  .mk-hero-copy { max-width: 92%; }
 }
