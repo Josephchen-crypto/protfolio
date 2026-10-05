@@ -137,7 +137,7 @@ code, pre { font-family: var(--font-mono); }
 }
 .mk-nav-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
 .mk-search-link {
-  width: 230px;
+  width: 176px;
   height: 34px;
   padding: 0 10px;
   display: flex;
@@ -973,4 +973,63 @@ code, pre { font-family: var(--font-mono); }
   .mk-project-grid { grid-template-columns: 1fr; }
   .mk-about-profile { grid-template-columns: 1fr; }
   .mk-about-profile > img { width: 84px; height: 84px; }
+}
+
+
+/* Global search */
+.mk-search-page { display: grid; gap: 12px; }
+.mk-search-input-wrap {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 12px;
+  border: 1px solid #2c4466;
+  border-radius: 9px;
+  background: #0a1424;
+}
+.mk-search-input-wrap > svg { color: #7186a2; }
+.mk-search-input-wrap input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #edf4ff;
+  font-size: 11px;
+}
+.mk-search-input-wrap input::placeholder { color: #5f738e; }
+.mk-search-input-wrap kbd {
+  padding: 2px 6px;
+  border: 1px solid #2f4768;
+  border-radius: 5px;
+  color: #8295b1;
+  background: #09111f;
+  font: 700 8px var(--font-mono);
+}
+.mk-search-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.mk-search-filters button {
+  padding: 5px 8px;
+  border: 1px solid #29415f;
+  border-radius: 6px;
+  background: #0a1322;
+  color: #8497b0;
+  font: 700 8px var(--font-mono);
+}
+.mk-search-filters button:hover { border-color: #486b99; color: #d2def0; }
+.mk-search-filters button.is-active {
+  border-color: #5e7cff;
+  background: #151d43;
+  color: #b9c6ff;
+}
+.mk-search-results { display: grid; gap: 7px; }
+.mk-search-empty {
+  padding: 28px;
+  border: 1px solid #20324d;
+  border-radius: 8px;
+  background: #0a1322;
+  color: #70839e;
+  text-align: center;
+  font-size: 10px;
 }
