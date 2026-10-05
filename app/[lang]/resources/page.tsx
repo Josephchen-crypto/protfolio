@@ -66,7 +66,7 @@ export default async function ResourcesPage({
       <Navigation lang={language} dict={dict} />
       <div className="mk-content-shell">
         <header className="mk-page-heading">
-          <p className="mk-eyebrow">// CURATED RESOURCES</p>
+          <p className="mk-eyebrow">{"// CURATED RESOURCES"}</p>
           <h1>{isZh ? "精选学习资源" : "Curated Resources"}</h1>
           <p>
             {isZh
