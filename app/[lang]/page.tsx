@@ -1,9 +1,7 @@
 import { Navigation } from "@/components/Navigation";
 import { KnowledgeDashboard } from "@/components/KnowledgeDashboard";
-import { About } from "@/components/About";
-import { Experience } from "@/components/Experience";
-import { Projects } from "@/components/Projects";
-import { Contact } from "@/components/Contact";
+import { EngineeringSnapshot } from "@/components/EngineeringSnapshot";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
 import { resumeData } from "@/content/resume/data";
@@ -116,26 +114,19 @@ export default async function Page({
         posts={posts}
       />
 
-      <div className="border-t border-border/70 bg-background">
-        <Projects title={dict.projects.title} items={projectList} />
-        <About
-          title={dict.about.title}
-          content={data.summary}
-          stats={data.stats}
-          statLabels={dict.about.stats}
-        />
-        <Experience title={dict.experience.title} items={data.experience} />
-        <Contact
-          title={dict.contact.title}
-          email={data.email}
-          github={data.social.github}
-          linkedin={data.social.linkedin}
-          copied={dict.contact.copied}
-          description={dict.contact.description}
-          cta={dict.contact.cta}
-          copyright={dict.contact.copyright}
-        />
-      </div>
+      <EngineeringSnapshot
+        lang={language}
+        projects={projectList}
+        years={data.stats.years}
+        github={data.social.github}
+      />
+
+      <SiteFooter
+        lang={language}
+        email={data.email}
+        github={data.social.github}
+        linkedin={data.social.linkedin}
+      />
     </main>
   );
 }
