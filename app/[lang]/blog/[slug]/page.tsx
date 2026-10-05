@@ -115,12 +115,14 @@ export default async function BlogPostPage({
     { year: "numeric", month: "long", day: "numeric" }
   );
   const readTime = readingTime(post.content);
-  const categoryValue = (post.category || "").toLowerCase();
+  const categoryValue = [post.category, post.title, slug].join(" ").toLowerCase();
   const fallbackCover = categoryValue.includes("web3") || categoryValue.includes("wallet") || categoryValue.includes("blockchain")
     ? "/myknowledge/cover-web3.svg"
-    : categoryValue.includes("android") || categoryValue.includes("jvm")
-      ? "/myknowledge/cover-android.svg"
-      : "/myknowledge/cover-jvm.svg";
+    : categoryValue.includes("jvm") || categoryValue.includes("bytecode") || categoryValue.includes("class")
+      ? "/myknowledge/cover-jvm.svg"
+      : categoryValue.includes("android")
+        ? "/myknowledge/cover-android.svg"
+        : "/myknowledge/cover-jvm.svg";
   const articleCover = post.cover || fallbackCover;
   const contentWithIds = addHeadingIds(post.content);
   const relatedPosts = await getRelatedPosts(slug, lang as "en" | "zh", post.category);
