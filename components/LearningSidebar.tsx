@@ -20,6 +20,7 @@ export function LearningSidebar({
         ["jvm-runtime-data-areas", "02 · Runtime data areas"],
         ["java-object-creation-jvm", "03 · Object creation"],
         ["jvm-class-file-bytecode", "04 · ClassFile / Bytecode"],
+        ["jvm-gc-memory", "05 · GC / Memory"],
       ],
     },
     {
