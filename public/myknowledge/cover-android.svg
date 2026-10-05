@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07111f"/><stop offset=".55" stop-color="#0b2530"/><stop offset="1" stop-color="#15173b"/></linearGradient><filter id="gl"><feGaussianBlur stdDeviation="22"/></filter></defs>
+<rect width="1200" height="630" fill="url(#g)"/>
+<circle cx="900" cy="150" r="180" fill="#5ce5a8" opacity=".15" filter="url(#gl)"/>
+<rect x="140" y="120" width="330" height="390" rx="38" fill="none" stroke="#5ce5a8" stroke-width="4"/>
+<rect x="175" y="170" width="260" height="120" rx="20" fill="#0d1f2a" stroke="#2a6f59" stroke-width="2"/>
+<rect x="175" y="320" width="120" height="150" rx="18" fill="#0d1f2a" stroke="#2a6f59" stroke-width="2"/>
+<rect x="315" y="320" width="120" height="150" rx="18" fill="#0d1f2a" stroke="#2a6f59" stroke-width="2"/>
+<path d="M580 315H820" stroke="#617dff" stroke-width="4"/>
+<circle cx="870" cy="315" r="90" fill="none" stroke="#617dff" stroke-width="4"/>
+<path d="M870 250V380M805 315H935" stroke="#dff7ff" stroke-width="4"/>
+<text x="140" y="565" fill="#9ec1b2" font-size="34" font-family="sans-serif">ANDROID · FRAMEWORK · UI · PERFORMANCE</text>
+</svg>
