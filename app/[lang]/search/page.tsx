@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/Navigation";
+import { SiteFooter } from "@/components/SiteFooter";
 import { KnowledgeSearch } from "@/components/KnowledgeSearch";
 import { getDict, type Language } from "@/i18n";
 import { languages } from "@/i18n/config";
@@ -46,6 +47,7 @@ export default async function SearchPage({
           placeholder={isZh ? "输入 GC、ClassLoader、Wallet、Security..." : "Search GC, ClassLoader, Wallet, Security..."}
         />
       </div>
-    </main>
+      <SiteFooter lang={language} />
+      </main>
   );
 }
