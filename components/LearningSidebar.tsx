@@ -164,7 +164,8 @@ export function LearningSidebar({
             <div
               className={[
                 "mk-side-items",
-                isOpen && hasItems ? "is-open" : "",
+                (isOpen && hasItems) || !hasItems ? "is-open" : "",
+                !hasItems ? "is-empty" : "",
               ].join(" ")}
             >
               {hasItems ? (
