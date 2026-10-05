@@ -5,7 +5,7 @@ import { LearningSidebar } from "@/components/LearningSidebar";
 import { getDict, type Language } from "@/i18n";
 import { getBlogPost, getBlogPosts, getRelatedPosts } from "@/lib/mdx";
 import { siteUrl } from "@/lib/site";
-import { ArrowLeft, Calendar, Clock3, Eye, Link2 } from "lucide-react";
+import { ArrowLeft, Calendar, Clock3, Link2 } from "lucide-react";
 import { PostViewCount } from "@/components/PostViewCount";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { BlogTOC } from "@/components/BlogTOC";
@@ -181,7 +181,6 @@ export default async function BlogPostPage({
             <span><Calendar size={13} />{formattedDate}</span>
             <span><Clock3 size={13} />{readTime}</span>
             <span>
-              <Eye size={13} />
               <PostViewCount
                 lang={lang}
                 slug={slug}
