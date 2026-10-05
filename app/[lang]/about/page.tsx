@@ -27,7 +27,7 @@ export default async function AboutPage({
       <Navigation lang={language} dict={dict} />
       <div className="mk-content-shell">
         <header className="mk-page-heading">
-          <p className="mk-eyebrow">// ABOUT / ENGINEERING TRACK</p>
+          <p className="mk-eyebrow">{"// ABOUT / ENGINEERING TRACK"}</p>
           <h1>{data.name}</h1>
           <p>{data.summary}</p>
         </header>
