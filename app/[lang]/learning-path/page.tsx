@@ -65,7 +65,7 @@ export default async function LearningPathPage({
       <Navigation lang={language} dict={dict} />
       <div className="mk-content-shell">
         <header className="mk-page-heading">
-          <p className="mk-eyebrow">// LEARNING ROADMAP</p>
+          <p className="mk-eyebrow">{"// LEARNING ROADMAP"}</p>
           <h1>{isZh ? "学习路径" : "Learning Path"}</h1>
           <p>
             {isZh
