@@ -171,7 +171,7 @@ code, pre { font-family: var(--font-mono); }
   background:
     linear-gradient(90deg,rgba(7,11,20,.88) 0%,rgba(7,11,20,.56) 31%,rgba(7,11,20,.18) 58%,rgba(7,11,20,.12) 76%,rgba(7,11,20,.42) 100%),
     linear-gradient(180deg,rgba(7,11,20,.04) 0%,rgba(7,11,20,.08) 60%,rgba(7,11,20,.55) 100%),
-    url("/myknowledge/hero-cyberpunk-bg.webp") center 64% / cover no-repeat;
+    url("/myknowledge/hero-cyberpunk-bg.webp?v=20261005b") center 64% / cover no-repeat;
 }
 .mk-hero-grid {
   position: absolute; inset: 0; opacity: .08;
@@ -1438,4 +1438,14 @@ code, pre { font-family: var(--font-mono); }
     background-position: 67% 64%;
   }
   .mk-hero-copy { max-width: 92%; }
+}
+
+
+/* Hero bugfix: the selected artwork already contains its own grid, mountains and explorer.
+   Keep legacy decorative layers hard-disabled so they cannot reappear after CSS reordering. */
+.mk-hero > .mk-hero-grid,
+.mk-hero > .mk-mountains,
+.mk-hero > .mk-horizon,
+.mk-hero > .mk-explorer {
+  display: none !important;
 }
