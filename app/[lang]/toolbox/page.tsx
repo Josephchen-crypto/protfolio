@@ -32,7 +32,7 @@ export default async function ToolboxPage({
       <Navigation lang={language} dict={dict} />
       <div className="mk-content-shell">
         <header className="mk-page-heading">
-          <p className="mk-eyebrow">// ENGINEERING TOOLBOX</p>
+          <p className="mk-eyebrow">{"// ENGINEERING TOOLBOX"}</p>
           <h1>{isZh ? "工具箱" : "Toolbox"}</h1>
           <p>
             {isZh
