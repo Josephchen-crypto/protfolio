@@ -95,7 +95,7 @@ export function KnowledgeDashboard({
         <div className="mk-explorer" />
         <div className="mk-hero-inner">
           <div className="mk-hero-copy">
-            <p className="mk-eyebrow">// {copy.eyebrow}</p>
+            <p className="mk-eyebrow">{"// "}{copy.eyebrow}</p>
             <h1>{copy.title}</h1>
             <p>{copy.desc}</p>
           </div>
