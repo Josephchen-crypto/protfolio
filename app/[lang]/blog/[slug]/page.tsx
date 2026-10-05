@@ -114,6 +114,13 @@ export default async function BlogPostPage({
     { year: "numeric", month: "long", day: "numeric" }
   );
   const readTime = readingTime(post.content);
+  const categoryValue = (post.category || "").toLowerCase();
+  const fallbackCover = categoryValue.includes("web3") || categoryValue.includes("wallet") || categoryValue.includes("blockchain")
+    ? "/myknowledge/cover-web3.svg"
+    : categoryValue.includes("android") || categoryValue.includes("jvm")
+      ? "/myknowledge/cover-android.svg"
+      : "/myknowledge/cover-jvm.svg";
+  const articleCover = post.cover || fallbackCover;
   const contentWithIds = addHeadingIds(post.content);
   const relatedPosts = await getRelatedPosts(slug, lang as "en" | "zh", post.category);
   const isoDate = `${post.createdAt}T00:00:00+08:00`;
@@ -125,7 +132,7 @@ export default async function BlogPostPage({
     description: post.summary,
     image: {
       "@type": "ImageObject",
-      url: post.cover || `${siteUrl}/og-default.png`,
+      url: articleCover.startsWith("http") ? articleCover : `${siteUrl}${articleCover}`,
       width: 1200,
       height: 630,
     },
@@ -149,12 +156,10 @@ export default async function BlogPostPage({
       <Navigation lang={language} dict={dict} pairedSlug={post.paired} />
 
       <section className="mk-article-hero">
-        {post.cover && (
-          <div
-            className="mk-article-cover"
-            style={{ backgroundImage: `url(${post.cover})` }}
-          />
-        )}
+        <div
+          className="mk-article-cover"
+          style={{ backgroundImage: `url(${articleCover})` }}
+        />
         <div className="mk-article-hero-shade" />
         <div className="mk-article-hero-inner">
           <Link href={`/${lang}/knowledge`} className="mk-back-link">
