@@ -62,7 +62,7 @@ export function LearningSidebar({
     []
   );
 
-  const activeGroupId = useMemo(() => {
+  const activeGroupId = (() => {
     if (!currentSlug) return "jvm";
 
     for (const group of groups) {
@@ -73,7 +73,7 @@ export function LearningSidebar({
     }
 
     return "jvm";
-  }, [currentSlug, groups, lang]);
+  })();
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     jvm: true,
