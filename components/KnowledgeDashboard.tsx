@@ -13,6 +13,16 @@ import {
   WalletCards,
 } from "lucide-react";
 import type { Language } from "@/i18n/config";
+import {
+  androidFoundationMilestones,
+  completedCount,
+  jvmMilestones,
+  progressPercent,
+  securityStatus,
+  secondaryTrackMilestones,
+  walletMilestones,
+  web3Milestones,
+} from "@/lib/learning-progress";
 
 type PostPreview = {
   slug: string;
@@ -65,13 +75,7 @@ const trackCopy = {
   },
 } as const;
 
-const skillCards = [
-  { key: "JVM", icon: Cpu, tone: "blue", progress: 43, count: "12/24", subtitle: "Runtime / Memory" },
-  { key: "Android", icon: Smartphone, tone: "green", progress: 31, count: "8/20", subtitle: "Framework / UI" },
-  { key: "Web3", icon: Network, tone: "purple", progress: 48, count: "10/18", subtitle: "Chain / Account" },
-  { key: "Wallet", icon: WalletCards, tone: "pink", progress: 34, count: "6/16", subtitle: "Signing / RPC" },
-  { key: "Security", icon: ShieldCheck, tone: "cyan", progress: 26, count: "5/14", subtitle: "Mobile / System" },
-] as const;
+
 
 export function KnowledgeDashboard({
   lang,
@@ -84,6 +88,54 @@ export function KnowledgeDashboard({
   const copy = trackCopy[lang];
   const latestPosts = posts.slice(0, 5);
   const localizeSlug = (base: string) => lang === "zh" ? `${base}-zh` : base;
+
+  const skillCards = [
+    {
+      key: "JVM",
+      icon: Cpu,
+      tone: "blue",
+      progress: progressPercent(jvmMilestones),
+      count: `${completedCount(jvmMilestones)}/${jvmMilestones.length}`,
+      subtitle: "Runtime / Memory",
+    },
+    {
+      key: "Android",
+      icon: Smartphone,
+      tone: "green",
+      progress: progressPercent(androidFoundationMilestones),
+      count: `${completedCount(androidFoundationMilestones)}/${androidFoundationMilestones.length}`,
+      subtitle: "Framework / UI",
+    },
+    {
+      key: "Web3",
+      icon: Network,
+      tone: "purple",
+      progress: progressPercent(web3Milestones),
+      count: `${completedCount(web3Milestones)}/${web3Milestones.length}`,
+      subtitle: "Chain / Account",
+    },
+    {
+      key: "Wallet",
+      icon: WalletCards,
+      tone: "pink",
+      progress: progressPercent(walletMilestones),
+      count: `${completedCount(walletMilestones)}/${walletMilestones.length}`,
+      subtitle: "Signing / RPC",
+    },
+    {
+      key: "Security",
+      icon: ShieldCheck,
+      tone: "cyan",
+      progress: securityStatus.progress,
+      count: securityStatus.label,
+      subtitle: "Mobile / System",
+    },
+  ] as const;
+
+  const primaryProgress = progressPercent(jvmMilestones);
+  const primaryDone = completedCount(jvmMilestones);
+  const secondaryProgress = progressPercent(secondaryTrackMilestones);
+  const secondaryDone = completedCount(secondaryTrackMilestones);
 
   return (
     <>
@@ -124,12 +176,24 @@ export function KnowledgeDashboard({
             <div className="mk-panel-title"><BookOpenText size={15} /> {copy.learning}</div>
             <div className="mk-roadmap-group">
               <span className="mk-roadmap-heading"><Cpu size={14} /> Java / JVM</span>
-              <Link href={`/${lang}/blog/${localizeSlug("android-runtime-from-source-to-art")}`}>01 · Runtime model</Link>
-              <Link href={`/${lang}/blog/${localizeSlug("jvm-runtime-data-areas")}`}>02 · Runtime data areas</Link>
-              <Link href={`/${lang}/blog/${localizeSlug("java-object-creation-jvm")}`}>03 · Object creation</Link>
-              <Link href={`/${lang}/blog/${localizeSlug("jvm-class-file-bytecode")}`}>04 · ClassFile / Bytecode</Link>
-              <Link href={`/${lang}/blog/${localizeSlug("jvm-gc-memory")}`}>05 · GC / Memory</Link>
-              <Link className="mk-roadmap-current" href={`/${lang}/blog/${localizeSlug("jmm-basics")}`}>06 · JMM / happens-before</Link>
+              {jvmMilestones.map((item) =>
+                item.slug ? (
+                  <Link
+                    key={item.id}
+                    className={item.status === "current" ? "mk-roadmap-current" : undefined}
+                    href={`/${lang}/blog/${localizeSlug(item.slug)}`}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span
+                    key={item.id}
+                    className={item.status === "current" ? "mk-roadmap-current" : undefined}
+                  >
+                    {item.label}
+                  </span>
+                )
+              )}
             </div>
             <div className="mk-roadmap-group">
               <span className="mk-roadmap-heading"><Network size={14} /> Web3 / Wallet</span>
@@ -146,8 +210,11 @@ export function KnowledgeDashboard({
                 <div className="mk-track-kicker"><Braces size={14} /> {copy.primary}</div>
                 <h2>Java / JVM <span>→</span> Android</h2>
                 <p>{copy.foundation}</p>
-                <div className="mk-track-meta"><span>43%</span><span>JVM FOUNDATION</span></div>
-                <div className="mk-track-progress"><span style={{ width: "43%" }} /></div>
+                <div className="mk-track-meta">
+                  <span>{primaryProgress}% · {primaryDone}/{jvmMilestones.length}</span>
+                  <span>JVM FOUNDATION</span>
+                </div>
+                <div className="mk-track-progress"><span style={{ width: `${primaryProgress}%` }} /></div>
                 <Link href={`/${lang}/blog/${localizeSlug("jmm-basics")}`}>{copy.continue}<ArrowRight size={14} /></Link>
               </article>
 
@@ -155,8 +222,11 @@ export function KnowledgeDashboard({
                 <div className="mk-track-kicker"><WalletCards size={14} /> {copy.secondary}</div>
                 <h2>Web3 <span>→</span> Crypto Wallet</h2>
                 <p>{copy.wallet}</p>
-                <div className="mk-track-meta"><span>34%</span><span>WALLET ENGINEERING</span></div>
-                <div className="mk-track-progress"><span style={{ width: "34%" }} /></div>
+                <div className="mk-track-meta">
+                  <span>{secondaryProgress}% · {secondaryDone}/{secondaryTrackMilestones.length}</span>
+                  <span>WALLET ENGINEERING</span>
+                </div>
+                <div className="mk-track-progress"><span style={{ width: `${secondaryProgress}%` }} /></div>
                 <Link href={`/${lang}/knowledge`}>{copy.browse}<ArrowRight size={14} /></Link>
               </article>
             </div>

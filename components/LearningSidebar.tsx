@@ -11,6 +11,7 @@ import {
   Smartphone,
 } from "lucide-react";
 import type { Language } from "@/i18n/config";
+import { jvmMilestones } from "@/lib/learning-progress";
 
 const STORAGE_KEY = "myknowledge-learning-sidebar-v1";
 
@@ -29,23 +30,20 @@ export function LearningSidebar({
         id: "jvm",
         title: "Java / JVM",
         icon: Cpu,
-        items: [
-          ["android-runtime-from-source-to-art", "01 · Runtime model"],
-          ["jvm-runtime-data-areas", "02 · Runtime data areas"],
-          ["java-object-creation-jvm", "03 · Object creation"],
-          ["jvm-class-file-bytecode", "04 · ClassFile / Bytecode"],
-          ["jvm-gc-memory", "05 · GC / Memory"],
-          ["jmm-basics", "06 · JMM / happens-before"],
-        ],
+        items: jvmMilestones.map((item) => ({
+          slug: item.slug,
+          label: item.label,
+          status: item.status,
+        })),
       },
       {
         id: "android",
         title: "Android",
         icon: Smartphone,
         items: [
-          ["android-development-tips", "01 · Android engineering"],
-          ["yak-android-error-handling-architecture", "02 · Error architecture"],
-          ["yak-android-payment-architecture-deep-dive", "03 · Payment architecture"],
+          { slug: "android-development-tips", label: "01 · Android engineering", status: "completed" as const },
+          { slug: "yak-android-error-handling-architecture", label: "02 · Error architecture", status: "completed" as const },
+          { slug: "yak-android-payment-architecture-deep-dive", label: "03 · Payment architecture", status: "completed" as const },
         ],
       },
       {
@@ -64,18 +62,18 @@ export function LearningSidebar({
     []
   );
 
-  const activeGroupId = useMemo(() => {
+  const activeGroupId = (() => {
     if (!currentSlug) return "jvm";
 
     for (const group of groups) {
       const found = group.items.some(
-        ([slug]) => currentSlug === localizeSlug(slug)
+        (item) => item.slug && currentSlug === localizeSlug(item.slug)
       );
       if (found) return group.id;
     }
 
     return "jvm";
-  }, [currentSlug, groups, lang]);
+  })();
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     jvm: true,
@@ -130,7 +128,7 @@ export function LearningSidebar({
         const isOpen = Boolean(openGroups[id]);
         const hasItems = items.length > 0;
         const hasActiveItem = items.some(
-          ([slug]) => currentSlug === localizeSlug(slug)
+          (item) => item.slug && currentSlug === localizeSlug(item.slug)
         );
 
         return (
@@ -169,17 +167,26 @@ export function LearningSidebar({
               ].join(" ")}
             >
               {hasItems ? (
-                items.map(([slug, label]) => (
-                  <Link
-                    key={slug}
-                    href={`/${lang}/blog/${localizeSlug(slug)}`}
-                    className={
-                      currentSlug === localizeSlug(slug) ? "is-active" : ""
-                    }
-                  >
-                    {label}
-                  </Link>
-                ))
+                items.map((item) =>
+                  item.slug ? (
+                    <Link
+                      key={item.label}
+                      href={`/${lang}/blog/${localizeSlug(item.slug)}`}
+                      className={
+                        currentSlug === localizeSlug(item.slug) ? "is-active" : ""
+                      }
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <span
+                      key={item.label}
+                      className={item.status === "current" ? "mk-side-current-text" : "mk-side-unlinked"}
+                    >
+                      {item.label}
+                    </span>
+                  )
+                )
               ) : (
                 <span className="mk-side-coming">
                   {lang === "zh" ? "整理中" : "Coming soon"}
