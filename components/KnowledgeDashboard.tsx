@@ -231,7 +231,7 @@ export function KnowledgeDashboard({
                   <span>JVM FOUNDATION</span>
                 </div>
                 <div className="mk-track-progress"><span style={{ width: `${primaryProgress}%` }} /></div>
-                <Link href={`/${lang}/blog/${localizeSlug("jmm-basics")}`}>{copy.continue}<ArrowRight size={14} /></Link>
+                <Link href={primaryContinueHref}>{copy.continue}<ArrowRight size={14} /></Link>
               </article>
 
               <article className="mk-track-card mk-track-card-purple">
