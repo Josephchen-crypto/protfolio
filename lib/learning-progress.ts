@@ -1,10 +1,13 @@
 export type LearningStatus = "completed" | "current" | "planned";
 
+export type LearningDomain = "jvm" | "android" | "web3" | "wallet" | "security";
+
 export type LearningMilestone = {
   id: string;
   label: string;
   status: LearningStatus;
   slug?: string;
+  domain?: LearningDomain;
 };
 
 export const jvmMilestones: LearningMilestone[] = [
@@ -27,19 +30,19 @@ export const androidFoundationMilestones: LearningMilestone[] = [
   { id: "coroutines-flow", label: "Coroutines / Flow", status: "planned" },
 ];
 
-export const web3Milestones: LearningMilestone[] = [
-  { id: "blockchain-overview", label: "01 · Blockchain overview", status: "current" },
-  { id: "account-address", label: "02 · Account / Address", status: "planned" },
-  { id: "node-rpc", label: "06 · Node / RPC", status: "planned" },
-  { id: "token-erc20", label: "07 · Token / ERC-20", status: "planned" },
+export const web3WalletMilestones: LearningMilestone[] = [
+  { id: "blockchain-overview", label: "01 · Blockchain overview", status: "current", domain: "web3" },
+  { id: "account-address", label: "02 · Account / Address", status: "planned", domain: "web3" },
+  { id: "key-signing", label: "03 · Private key / Signing", status: "planned", domain: "wallet" },
+  { id: "mnemonic-hd", label: "04 · Mnemonic / HD Wallet", status: "planned", domain: "wallet" },
+  { id: "transaction", label: "05 · Transaction", status: "planned", domain: "wallet" },
+  { id: "node-rpc", label: "06 · Node / RPC", status: "planned", domain: "web3" },
+  { id: "token-erc20", label: "07 · Token / ERC-20", status: "planned", domain: "web3" },
+  { id: "android-wallet", label: "08 · Android Wallet practice", status: "planned", domain: "wallet" },
 ];
 
-export const walletMilestones: LearningMilestone[] = [
-  { id: "key-signing", label: "03 · Private key / Signing", status: "planned" },
-  { id: "mnemonic-hd", label: "04 · Mnemonic / HD Wallet", status: "planned" },
-  { id: "transaction", label: "05 · Transaction", status: "planned" },
-  { id: "android-wallet", label: "08 · Android Wallet practice", status: "planned" },
-];
+export const web3Milestones = web3WalletMilestones.filter((item) => item.domain === "web3");
+export const walletMilestones = web3WalletMilestones.filter((item) => item.domain === "wallet");
 
 export const securityStatus = {
   label: "PLANNED",
@@ -60,4 +63,7 @@ export function currentMilestone(items: LearningMilestone[]) {
 }
 
 export const primaryTrackMilestones = jvmMilestones;
-export const secondaryTrackMilestones = [...web3Milestones, ...walletMilestones];
+// This file is the source of truth for learning progress.
+ // "completed" means the topic has been learned to first-pass completion.
+ // Publishing a blog post alone must never mark a milestone completed.
+export const secondaryTrackMilestones = web3WalletMilestones;

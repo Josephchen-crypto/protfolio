@@ -22,6 +22,7 @@ import {
   secondaryTrackMilestones,
   walletMilestones,
   web3Milestones,
+  web3WalletMilestones,
 } from "@/lib/learning-progress";
 
 type PostPreview = {
@@ -197,9 +198,24 @@ export function KnowledgeDashboard({
             </div>
             <div className="mk-roadmap-group">
               <span className="mk-roadmap-heading"><Network size={14} /> Web3 / Wallet</span>
-              <span>01 · Blockchain overview</span>
-              <span>02 · Account / Address</span>
-              <span>03 · Private key / Signing</span>
+              {web3WalletMilestones.slice(0, 3).map((item) =>
+                item.slug ? (
+                  <Link
+                    key={item.id}
+                    className={item.status === "current" ? "mk-roadmap-current" : undefined}
+                    href={`/${lang}/blog/${localizeSlug(item.slug)}`}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span
+                    key={item.id}
+                    className={item.status === "current" ? "mk-roadmap-current" : undefined}
+                  >
+                    {item.label}
+                  </span>
+                )
+              )}
             </div>
             <Link className="mk-panel-link" href={`/${lang}/learning-path`}>{copy.browse}<ArrowRight size={13} /></Link>
           </aside>
