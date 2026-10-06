@@ -16,6 +16,7 @@ import type { Language } from "@/i18n/config";
 import {
   androidFoundationMilestones,
   completedCount,
+  currentMilestone,
   jvmMilestones,
   progressPercent,
   securityStatus,
@@ -135,6 +136,10 @@ export function KnowledgeDashboard({
 
   const primaryProgress = progressPercent(jvmMilestones);
   const primaryDone = completedCount(jvmMilestones);
+  const primaryCurrent = currentMilestone(jvmMilestones);
+  const primaryContinueHref = primaryCurrent?.slug
+    ? `/${lang}/blog/${localizeSlug(primaryCurrent.slug)}`
+    : `/${lang}/learning-path`;
   const secondaryProgress = progressPercent(secondaryTrackMilestones);
   const secondaryDone = completedCount(secondaryTrackMilestones);
 
