@@ -1522,3 +1522,25 @@ code, pre { font-family: var(--font-mono); }
   box-shadow: 0 0 10px rgba(123,141,255,.75);
   transform: translateY(-50%);
 }
+
+
+/* Non-link milestones keep the roadmap honest when learning is completed before a blog is migrated. */
+.mk-side-unlinked,
+.mk-side-current-text {
+  display: block;
+  margin-top: 1px;
+  padding: 5px 8px 5px 20px;
+  border-radius: 6px;
+  color: #687b97;
+  font-size: 9.5px;
+}
+.mk-side-unlinked::after {
+  content: " · note pending";
+  color: #52647e;
+  font-size: 7.5px;
+}
+.mk-side-current-text {
+  color: #cfd8ff;
+  background: #1b2251;
+  box-shadow: inset 2px 0 0 #677cff;
+}
