@@ -31,7 +31,7 @@ export const androidFoundationMilestones: LearningMilestone[] = [
 ];
 
 export const web3WalletMilestones: LearningMilestone[] = [
-  { id: "blockchain-overview", label: "01 · Blockchain overview", status: "current", domain: "web3" },
+  { id: "blockchain-overview", label: "01 · Blockchain overview", status: "planned", domain: "web3" },
   { id: "account-address", label: "02 · Account / Address", status: "planned", domain: "web3" },
   { id: "key-signing", label: "03 · Private key / Signing", status: "planned", domain: "wallet" },
   { id: "mnemonic-hd", label: "04 · Mnemonic / HD Wallet", status: "planned", domain: "wallet" },
