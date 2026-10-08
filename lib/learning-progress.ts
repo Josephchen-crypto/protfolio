@@ -17,8 +17,8 @@ export const jvmMilestones: LearningMilestone[] = [
   { id: "classfile-bytecode", label: "04 · ClassFile / Bytecode", status: "completed", slug: "jvm-class-file-bytecode" },
   { id: "class-loading", label: "05 · Class loading", status: "completed" },
   { id: "gc-memory", label: "06 · GC / Memory", status: "completed", slug: "jvm-gc-memory" },
-  { id: "jmm", label: "07 · JMM / happens-before", status: "current", slug: "jmm-basics" },
-  { id: "java-concurrency", label: "08 · Java concurrency", status: "planned" },
+  { id: "jmm", label: "07 · JMM / happens-before", status: "completed", slug: "jmm-basics" },
+  { id: "java-concurrency", label: "08 · Java concurrency", status: "current", slug: "java-concurrency-race-condition" },
 ];
 
 export const androidFoundationMilestones: LearningMilestone[] = [
