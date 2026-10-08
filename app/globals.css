@@ -378,7 +378,7 @@ code, pre { font-family: var(--font-mono); }
 .mk-stage-tags span { padding: 3px 6px; border: 1px solid #29415f; border-radius: 5px; background: #0d1828; color: #91a8c5; font: 700 8px var(--font-mono); }
 
 /* Blog refinements */
-.mk-blog-page { padding-top: 86px; min-height: 100vh; }
+.mk-blog-page { min-height: 100vh; }
 .mk-blog-page .blog-card {
   background: linear-gradient(145deg,#0f1829,#0b1423) !important;
   border-color: var(--mk-line) !important;
