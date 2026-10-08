@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Java concurrency race condition overview</title>
+  <desc id="desc">Two threads read the same shared count value and both write back one, causing a lost update.</desc>
+  <rect width="1200" height="720" rx="28" fill="#0b1020"/>
+  <text x="70" y="80" fill="#f2f5ff" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="700">Java Concurrency: Lost Update</text>
+  <text x="70" y="118" fill="#9aa8c7" font-family="Inter,Arial,sans-serif" font-size="18">count++ is a read → modify → write sequence, not one indivisible action.</text>
+
+  <rect x="70" y="170" width="300" height="450" rx="22" fill="#121a31" stroke="#3657ff" stroke-width="2"/>
+  <rect x="450" y="170" width="300" height="450" rx="22" fill="#121a31" stroke="#9b5cff" stroke-width="2"/>
+  <rect x="830" y="170" width="300" height="450" rx="22" fill="#121a31" stroke="#30c8a0" stroke-width="2"/>
+
+  <text x="105" y="220" fill="#8ea7ff" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700">Thread A</text>
+  <text x="485" y="220" fill="#c09cff" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700">Thread B</text>
+  <text x="865" y="220" fill="#74e4c6" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700">Shared state</text>
+
+  <text x="105" y="290" fill="#dbe3f8" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="22">read count = 0</text>
+  <text x="105" y="375" fill="#dbe3f8" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="22">compute 0 + 1</text>
+  <text x="105" y="460" fill="#dbe3f8" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="22">write count = 1</text>
+
+  <text x="485" y="290" fill="#dbe3f8" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="22">read count = 0</text>
+  <text x="485" y="375" fill="#dbe3f8" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="22">compute 0 + 1</text>
+  <text x="485" y="460" fill="#dbe3f8" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="22">write count = 1</text>
+
+  <text x="865" y="300" fill="#ffffff" font-family="Inter,Arial,sans-serif" font-size="46" font-weight="800">count = 0</text>
+  <path d="M370 285 C405 285 415 285 450 285" fill="none" stroke="#5875ff" stroke-width="3" stroke-dasharray="8 8"/>
+  <path d="M750 285 C785 285 795 285 830 285" fill="none" stroke="#a777ff" stroke-width="3" stroke-dasharray="8 8"/>
+  <path d="M370 455 C520 520 680 520 830 455" fill="none" stroke="#ff7c93" stroke-width="4"/>
+  <path d="M750 455 C785 455 795 455 830 455" fill="none" stroke="#ff7c93" stroke-width="4"/>
+
+  <text x="865" y="455" fill="#ff8ea2" font-family="Inter,Arial,sans-serif" font-size="28" font-weight="700">final count = 1</text>
+  <text x="865" y="500" fill="#9aa8c7" font-family="Inter,Arial,sans-serif" font-size="19">Expected: 2</text>
+  <text x="865" y="532" fill="#9aa8c7" font-family="Inter,Arial,sans-serif" font-size="19">Actual: 1</text>
+  <text x="865" y="575" fill="#ffd38c" font-family="Inter,Arial,sans-serif" font-size="21" font-weight="700">Lost update</text>
+
+  <text x="70" y="674" fill="#aab6d3" font-family="Inter,Arial,sans-serif" font-size="17">Key idea: correctness changes with thread interleaving when shared state is not protected by the required synchronization/atomicity.</text>
+</svg>
