@@ -45,11 +45,18 @@ function getAllRawPosts(): Array<{
     });
 }
 
+function normalizeMarkdownAssetPaths(markdown: string): string {
+  return markdown.replace(
+    /\]\(\.\.\/assets\/diagrams\/([^)]+)\)/g,
+    "](/blog-diagrams/$1)"
+  );
+}
+
 async function renderMarkdown(markdown: string): Promise<string> {
   const result = await remark()
     .use(remarkGfm)
     .use(remarkHtml, { sanitize: false })
-    .process(markdown);
+    .process(normalizeMarkdownAssetPaths(markdown));
   return String(result);
 }
 
