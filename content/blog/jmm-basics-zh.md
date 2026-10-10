@@ -5,7 +5,7 @@ summary: "从两个线程读写共享状态出发，理解 JMM 为什么存在�
 lang: "zh"
 category: "Android"
 paired: "jmm-basics"
-cover: "/myknowledge/cover-jvm.svg"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jmm-07.svg"
 ---
 
 学完 GC 之后，下一步进入 **Java Memory Model，Java 内存模型，简称 JMM**。
