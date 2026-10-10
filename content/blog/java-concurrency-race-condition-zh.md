@@ -5,7 +5,7 @@ summary: "从 count++ 的丢失更新出发，用最低脑力成本理解共享�
 lang: "zh"
 category: "Android"
 paired: "java-concurrency-race-condition"
-cover: "/myknowledge/cover-jvm.svg"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/java-concurrency-08.svg"
 aliases:
   - "Java并发基础"
   - "竞态条件"
