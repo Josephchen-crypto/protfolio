@@ -5,7 +5,7 @@ summary: "A foundation-first introduction to the Java Memory Model, visibility, 
 lang: "en"
 category: "Android"
 paired: "jmm-basics-zh"
-cover: "/myknowledge/cover-jvm.svg"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jmm-07.svg"
 ---
 
 After GC, the next JVM foundation is the **Java Memory Model, JMM**.
