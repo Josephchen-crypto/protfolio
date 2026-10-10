@@ -5,7 +5,7 @@ summary: "Build the concurrency mental model from a lost-update example: shared 
 lang: "en"
 category: "Android"
 paired: "java-concurrency-race-condition-zh"
-cover: "/myknowledge/cover-jvm.svg"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/java-concurrency-08.svg"
 aliases:
   - "Java Concurrency Basics"
   - "Race Condition"
