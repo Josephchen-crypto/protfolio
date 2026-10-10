@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#050A13"/><stop offset=".58" stop-color="#071824"/><stop offset="1" stop-color="#071712"/></linearGradient>
+  <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4FC3F7"/><stop offset=".55" stop-color="#38E8A7"/><stop offset="1" stop-color="#F4B64A"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="8"/></filter>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<text x="72" y="72" fill="#5EE7FF" font-family="Arial" font-size="20" font-weight="700" letter-spacing="4">JVM / MEMORY MANAGEMENT</text>
+<text x="72" y="126" fill="#EEF8FF" font-family="Arial" font-size="48" font-weight="700">GC ROOTS → REACHABILITY</text>
+<text x="1090" y="86" text-anchor="end" fill="#49E3B1" font-family="Arial" font-size="62">06</text>
+
+<g font-family="Arial">
+  <rect x="72" y="210" width="230" height="270" rx="18" fill="#0B1A2B" stroke="#4FC3F7" stroke-width="2"/>
+  <text x="102" y="250" fill="#67D8FF" font-size="22" font-weight="700">GC Roots</text>
+  <rect x="104" y="280" width="166" height="48" rx="10" fill="#10263B" stroke="#3E789D"/><text x="187" y="311" text-anchor="middle" fill="#D8EDFA" font-size="16">Thread stack</text>
+  <rect x="104" y="346" width="166" height="48" rx="10" fill="#10263B" stroke="#3E789D"/><text x="187" y="377" text-anchor="middle" fill="#D8EDFA" font-size="16">static reference</text>
+  <rect x="104" y="412" width="166" height="48" rx="10" fill="#10263B" stroke="#3E789D"/><text x="187" y="443" text-anchor="middle" fill="#D8EDFA" font-size="16">JNI reference</text>
+
+  <path d="M302 320 C370 320 390 270 455 270" fill="none" stroke="#4FC3F7" stroke-width="4"/>
+  <path d="M302 370 C385 370 410 370 500 370" fill="none" stroke="#49E3B1" stroke-width="4"/>
+
+  <circle cx="520" cy="270" r="62" fill="#0C2430" stroke="#4FC3F7" stroke-width="3"/>
+  <text x="520" y="265" text-anchor="middle" fill="#EAF8FF" font-size="22" font-weight="700">Object A</text>
+  <text x="520" y="292" text-anchor="middle" fill="#79A9C0" font-size="14">reachable</text>
+
+  <path d="M582 270 C640 270 675 315 724 315" fill="none" stroke="#49E3B1" stroke-width="4"/>
+  <circle cx="785" cy="315" r="62" fill="#092820" stroke="#38E8A7" stroke-width="3"/>
+  <text x="785" y="310" text-anchor="middle" fill="#EDFFF8" font-size="22" font-weight="700">Object B</text>
+  <text x="785" y="337" text-anchor="middle" fill="#7EB9A6" font-size="14">reachable</text>
+
+  <circle cx="985" cy="405" r="62" fill="#281D16" stroke="#F4B64A" stroke-width="3" stroke-dasharray="8 7"/>
+  <text x="985" y="400" text-anchor="middle" fill="#FFF3D9" font-size="22" font-weight="700">Object C</text>
+  <text x="985" y="427" text-anchor="middle" fill="#C9A874" font-size="14">unreachable</text>
+  <circle cx="985" cy="405" r="78" fill="none" stroke="#F4B64A" stroke-opacity=".18" stroke-width="12" filter="url(#glow)"/>
+
+  <text x="880" y="245" fill="#6C7E90" font-size="16">no path from roots</text>
+  <path d="M910 260 L958 344" stroke="#9A7A42" stroke-width="2" stroke-dasharray="6 7"/>
+</g>
+
+<text x="72" y="558" fill="#BDD2E3" font-family="Arial" font-size="24">Reachable = live · Unreachable = reclaim candidate</text>
+<rect x="72" y="592" width="1056" height="2" fill="url(#edge)" opacity=".72"/>
+</svg>
