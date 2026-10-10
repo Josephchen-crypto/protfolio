@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#050A13"/><stop offset=".58" stop-color="#0A1326"/><stop offset="1" stop-color="#17122A"/></linearGradient>
+  <linearGradient id="hb" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#4FC3F7"/><stop offset=".52" stop-color="#8A70FF"/><stop offset="1" stop-color="#EF5EC9"/></linearGradient>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<text x="72" y="72" fill="#5EE7FF" font-family="Arial" font-size="20" font-weight="700" letter-spacing="4">JAVA MEMORY MODEL</text>
+<text x="72" y="126" fill="#EEF3FF" font-family="Arial" font-size="48" font-weight="700">VISIBILITY · ORDERING · HAPPENS-BEFORE</text>
+<text x="1090" y="86" text-anchor="end" fill="#A177FF" font-family="Arial" font-size="62">07</text>
+
+<g font-family="Arial">
+  <rect x="72" y="205" width="355" height="286" rx="20" fill="#0B1930" stroke="#4FC3F7" stroke-width="2"/>
+  <text x="104" y="246" fill="#68D9FF" font-size="23" font-weight="700">Thread A</text>
+  <rect x="106" y="286" width="286" height="58" rx="11" fill="#0B2536" stroke="#34769C"/>
+  <text x="128" y="322" fill="#E7F7FF" font-size="20">number = 42</text>
+  <rect x="106" y="370" width="286" height="58" rx="11" fill="#17183A" stroke="#7E68FF"/>
+  <text x="128" y="406" fill="#D8CEFF" font-size="20">volatile ready = true</text>
+
+  <rect x="773" y="205" width="355" height="286" rx="20" fill="#17132C" stroke="#A46EFF" stroke-width="2"/>
+  <text x="805" y="246" fill="#C0A2FF" font-size="23" font-weight="700">Thread B</text>
+  <rect x="807" y="286" width="286" height="58" rx="11" fill="#231840" stroke="#9D63EA"/>
+  <text x="829" y="322" fill="#F0E9FF" font-size="20">if (ready)</text>
+  <rect x="807" y="370" width="286" height="58" rx="11" fill="#28172D" stroke="#EF5EC9"/>
+  <text x="829" y="406" fill="#FFE5F8" font-size="20">read number → 42</text>
+
+  <path d="M427 399 C520 399 568 399 773 399" fill="none" stroke="url(#hb)" stroke-width="5"/>
+  <path d="M753 387l20 12-20 12" fill="#EF5EC9"/>
+  <text x="600" y="372" text-anchor="middle" fill="#D6C9FF" font-size="18" font-weight="700">happens-before</text>
+
+  <circle cx="600" cy="300" r="76" fill="#10162D" stroke="#617DFF" stroke-width="2"/>
+  <text x="600" y="287" text-anchor="middle" fill="#E9EEFF" font-size="21" font-weight="700">JMM</text>
+  <text x="600" y="316" text-anchor="middle" fill="#9CAAC6" font-size="15">legal observations</text>
+  <text x="600" y="339" text-anchor="middle" fill="#9CAAC6" font-size="15">between threads</text>
+</g>
+
+<text x="72" y="558" fill="#C1CBE1" font-family="Arial" font-size="24">What may one thread legally observe from another thread's writes?</text>
+<rect x="72" y="592" width="1056" height="2" fill="url(#hb)" opacity=".72"/>
+</svg>
