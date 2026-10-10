@@ -5,7 +5,7 @@ summary: "从 Heap、GC Roots 与可达性分析出发，理解对象何时成�
 lang: "zh"
 category: "Android"
 paired: "jvm-gc-memory"
-cover: "/myknowledge/cover-jvm.svg"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jvm-gc-06.svg"
 ---
 
 学 JVM 内存管理时，最容易绕进去的地方，不是某一种垃圾回收算法，而是一个更基础的问题：
