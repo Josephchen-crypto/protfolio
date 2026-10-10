@@ -5,7 +5,7 @@ summary: "A foundation-first guide to Heap, GC Roots, reachability, reclaim cand
 lang: "en"
 category: "Android"
 paired: "jvm-gc-memory-zh"
-cover: "/myknowledge/cover-jvm.svg"
+cover: "https://raw.githubusercontent.com/Josephchen-crypto/protfolio/main/public/blog-covers/jvm-gc-06.svg"
 ---
 
 The first useful question in JVM memory management is not “which collector algorithm should I memorize?”
