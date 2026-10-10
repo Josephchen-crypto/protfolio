@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#050A13"/><stop offset=".58" stop-color="#0B1425"/><stop offset="1" stop-color="#1A111B"/></linearGradient>
+  <linearGradient id="race" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#4FC3F7"/><stop offset=".48" stop-color="#8A70FF"/><stop offset="1" stop-color="#FF738D"/></linearGradient>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<text x="72" y="72" fill="#5EE7FF" font-family="Arial" font-size="20" font-weight="700" letter-spacing="4">JAVA CONCURRENCY</text>
+<text x="72" y="126" fill="#FFF0F4" font-family="Arial" font-size="48" font-weight="700">RACE CONDITION · LOST UPDATE</text>
+<text x="1090" y="86" text-anchor="end" fill="#FF7F98" font-family="Arial" font-size="62">08</text>
+
+<g font-family="Arial">
+  <rect x="72" y="205" width="300" height="286" rx="20" fill="#0B1930" stroke="#4FC3F7" stroke-width="2"/>
+  <text x="103" y="246" fill="#67D9FF" font-size="23" font-weight="700">Thread A</text>
+  <text x="108" y="307" fill="#E4F3FF" font-size="20">read count = 0</text>
+  <text x="108" y="354" fill="#BFD3E2" font-size="20">compute +1</text>
+  <text x="108" y="401" fill="#77E5C3" font-size="20">write count = 1</text>
+
+  <rect x="450" y="205" width="300" height="286" rx="20" fill="#17142E" stroke="#8A70FF" stroke-width="2"/>
+  <text x="481" y="246" fill="#B69EFF" font-size="23" font-weight="700">Thread B</text>
+  <text x="486" y="307" fill="#EFEAFF" font-size="20">read count = 0</text>
+  <text x="486" y="354" fill="#CFC7E5" font-size="20">compute +1</text>
+  <text x="486" y="401" fill="#FF9CB0" font-size="20">write count = 1</text>
+
+  <rect x="828" y="205" width="300" height="286" rx="20" fill="#22151C" stroke="#FF738D" stroke-width="2"/>
+  <text x="859" y="246" fill="#FF9CB0" font-size="23" font-weight="700">Shared State</text>
+  <text x="978" y="330" text-anchor="middle" fill="#FFFFFF" font-size="54" font-weight="700">count = 1</text>
+  <text x="978" y="372" text-anchor="middle" fill="#B9919B" font-size="17">expected = 2</text>
+  <text x="978" y="414" text-anchor="middle" fill="#F4B64A" font-size="20" font-weight="700">LOST UPDATE</text>
+
+  <path d="M372 321 C405 321 415 321 450 321" stroke="#687DFF" stroke-width="3" stroke-dasharray="8 8"/>
+  <path d="M750 321 C783 321 795 321 828 321" stroke="#FF738D" stroke-width="3" stroke-dasharray="8 8"/>
+</g>
+
+<text x="72" y="558" fill="#C9C1CC" font-family="Arial" font-size="24">One source line can still be a read → modify → write sequence.</text>
+<rect x="72" y="592" width="1056" height="2" fill="url(#race)" opacity=".72"/>
+</svg>
