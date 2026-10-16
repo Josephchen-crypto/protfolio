@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#050A13"/><stop offset=".58" stop-color="#0A1425"/><stop offset="1" stop-color="#0E1B18"/></linearGradient>
+  <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#4FC3F7"/><stop offset=".52" stop-color="#617DFF"/><stop offset="1" stop-color="#38E8A7"/></linearGradient>
+</defs>
+<rect width="1200" height="630" fill="url(#bg)"/>
+<text x="72" y="72" fill="#5EE7FF" font-family="Arial" font-size="20" font-weight="700" letter-spacing="4">JAVA CONCURRENCY</text>
+<text x="72" y="126" fill="#EEF7FF" font-family="Arial" font-size="48" font-weight="700">SYNCHRONIZED · INTRINSIC LOCK</text>
+<text x="1090" y="86" text-anchor="end" fill="#55E7B9" font-family="Arial" font-size="62">09</text>
+
+<g font-family="Arial">
+  <rect x="72" y="214" width="280" height="250" rx="20" fill="#0B1930" stroke="#4FC3F7" stroke-width="2"/>
+  <text x="104" y="255" fill="#67D9FF" font-size="23" font-weight="700">Thread A</text>
+  <text x="104" y="308" fill="#E5F3FF" font-size="19">acquire lock</text>
+  <text x="104" y="352" fill="#E5F3FF" font-size="19">enter critical section</text>
+  <text x="104" y="396" fill="#71E5BC" font-size="19">count++</text>
+
+  <rect x="848" y="214" width="280" height="250" rx="20" fill="#15152D" stroke="#8A70FF" stroke-width="2"/>
+  <text x="880" y="255" fill="#B69EFF" font-size="23" font-weight="700">Thread B</text>
+  <text x="880" y="308" fill="#EFEAFF" font-size="19">same lock</text>
+  <text x="880" y="352" fill="#FFB6C5" font-size="19">wait</text>
+  <text x="880" y="396" fill="#EFEAFF" font-size="19">enter after release</text>
+
+  <rect x="448" y="194" width="304" height="300" rx="26" fill="#0A221D" stroke="#38E8A7" stroke-width="3"/>
+  <text x="600" y="246" text-anchor="middle" fill="#6BEBC1" font-size="24" font-weight="700">Counter object</text>
+  <circle cx="600" cy="342" r="74" fill="#0C3028" stroke="#55EDBD" stroke-width="3"/>
+  <text x="600" y="333" text-anchor="middle" fill="#F0FFF9" font-size="22" font-weight="700">monitor</text>
+  <text x="600" y="362" text-anchor="middle" fill="#A2CABC" font-size="15">intrinsic lock</text>
+  <rect x="520" y="430" width="160" height="42" rx="9" fill="#0B1828" stroke="#4FC3F7"/>
+  <text x="600" y="457" text-anchor="middle" fill="#DDF4FF" font-size="18">count++</text>
+
+  <path d="M352 340H520" stroke="url(#edge)" stroke-width="5"/><path d="M505 328l22 12-22 12" fill="#55E7B9"/>
+  <path d="M680 340H848" stroke="#967CFF" stroke-width="4" stroke-dasharray="10 8"/>
+</g>
+
+<text x="72" y="558" fill="#BDD2E3" font-family="Arial" font-size="24">Same monitor → mutual exclusion + happens-before</text>
+<rect x="72" y="592" width="1056" height="2" fill="url(#edge)" opacity=".72"/>
+</svg>
