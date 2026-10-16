@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Java synchronized monitor overview</title>
+  <desc id="desc">Thread A acquires the intrinsic lock associated with one Counter object, enters the critical section, then releases it so Thread B can enter.</desc>
+  <rect width="1200" height="720" rx="28" fill="#0b1020"/>
+  <text x="70" y="78" fill="#f2f5ff" font-family="Inter,Arial,sans-serif" font-size="34" font-weight="700">synchronized: same lock, one thread at a time</text>
+  <text x="70" y="116" fill="#9aa8c7" font-family="Inter,Arial,sans-serif" font-size="18">The lock is associated with an object. It does not freeze the whole object or every access to it.</text>
+
+  <rect x="70" y="178" width="260" height="420" rx="22" fill="#121a31" stroke="#3657ff" stroke-width="2"/>
+  <rect x="870" y="178" width="260" height="420" rx="22" fill="#121a31" stroke="#9b5cff" stroke-width="2"/>
+  <rect x="410" y="178" width="380" height="420" rx="22" fill="#10182a" stroke="#30c8a0" stroke-width="2"/>
+
+  <text x="105" y="226" fill="#8ea7ff" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700">Thread A</text>
+  <text x="905" y="226" fill="#c09cff" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700">Thread B</text>
+  <text x="448" y="226" fill="#74e4c6" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700">Counter object</text>
+
+  <circle cx="600" cy="330" r="78" fill="#0b251f" stroke="#30c8a0" stroke-width="3"/>
+  <text x="600" y="315" text-anchor="middle" fill="#eafff8" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700">Intrinsic Lock</text>
+  <text x="600" y="346" text-anchor="middle" fill="#9dcabd" font-family="Inter,Arial,sans-serif" font-size="17">monitor</text>
+
+  <rect x="500" y="445" width="200" height="90" rx="14" fill="#0c2030" stroke="#4fc3f7" stroke-width="2"/>
+  <text x="600" y="480" text-anchor="middle" fill="#dff7ff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="18">count++</text>
+  <text x="600" y="509" text-anchor="middle" fill="#8aa4bc" font-family="Inter,Arial,sans-serif" font-size="15">critical section</text>
+
+  <path d="M330 330 C365 330 380 330 520 330" fill="none" stroke="#5875ff" stroke-width="4"/>
+  <polygon points="510,320 530,330 510,340" fill="#5875ff"/>
+  <text x="360" y="307" fill="#a9b8ff" font-family="Inter,Arial,sans-serif" font-size="16">acquire</text>
+
+  <path d="M680 330 C805 330 820 330 870 330" fill="none" stroke="#a777ff" stroke-width="4" stroke-dasharray="10 8"/>
+  <text x="765" y="307" fill="#cbb7ff" font-family="Inter,Arial,sans-serif" font-size="16">wait</text>
+
+  <path d="M600 408 L600 445" stroke="#30c8a0" stroke-width="4"/>
+  <polygon points="590,435 600,455 610,435" fill="#30c8a0"/>
+
+  <text x="105" y="300" fill="#dbe3f8" font-family="Inter,Arial,sans-serif" font-size="18">1. get the lock</text>
+  <text x="105" y="338" fill="#dbe3f8" font-family="Inter,Arial,sans-serif" font-size="18">2. enter block</text>
+  <text x="105" y="376" fill="#dbe3f8" font-family="Inter,Arial,sans-serif" font-size="18">3. update count</text>
+  <text x="105" y="414" fill="#dbe3f8" font-family="Inter,Arial,sans-serif" font-size="18">4. release lock</text>
+
+  <text x="905" y="300" fill="#dbe3f8" font-family="Inter,Arial,sans-serif" font-size="18">same lock?</text>
+  <text x="905" y="338" fill="#ffb4c1" font-family="Inter,Arial,sans-serif" font-size="18">yes → cannot enter</text>
+  <text x="905" y="376" fill="#dbe3f8" font-family="Inter,Arial,sans-serif" font-size="18">wait for release</text>
+  <text x="905" y="414" fill="#dbe3f8" font-family="Inter,Arial,sans-serif" font-size="18">then acquire</text>
+
+  <text x="70" y="664" fill="#aab6d3" font-family="Inter,Arial,sans-serif" font-size="17">Key idea: mutual exclusion only works when competing code uses the same lock object.</text>
+</svg>
