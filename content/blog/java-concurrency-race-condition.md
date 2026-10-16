@@ -12,9 +12,7 @@ aliases:
 module: "Java_JVM"
 type: "main_atomic_note"
 priority: "S"
-depth_target: "L3"
-current_level: "L0"
-status: "learning"
+status: "completed"
 prerequisites:
   - "[[Java Memory Model Basics]]"
 related:
@@ -27,7 +25,7 @@ used_by:
   - "[[Kotlin Coroutines]]"
 visual_assets:
   - "../assets/diagrams/jvm/java-concurrency-race-condition.svg"
-last_reviewed: "2026-10-08"
+last_reviewed: "2026-10-16"
 tags:
   - "Java"
   - "JVM"
