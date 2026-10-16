@@ -10,6 +10,16 @@ export type LearningMilestone = {
   domain?: LearningDomain;
 };
 
+export const javaConcurrencyMilestones: LearningMilestone[] = [
+  { id: "race-condition", label: "08 · Race condition", status: "completed", slug: "java-concurrency-race-condition" },
+  { id: "synchronized", label: "09 · synchronized", status: "current", slug: "java-concurrency-synchronized" },
+  { id: "volatile", label: "10 · volatile", status: "planned" },
+  { id: "cas-atomic", label: "11 · CAS / Atomic", status: "planned" },
+  { id: "lock-reentrantlock", label: "12 · Lock / ReentrantLock", status: "planned" },
+  { id: "thread-pool", label: "13 · Thread Pool", status: "planned" },
+  { id: "concurrent-collections", label: "14 · Concurrent Collections", status: "planned" },
+];
+
 export const jvmMilestones: LearningMilestone[] = [
   { id: "runtime-model", label: "01 · Runtime model", status: "completed", slug: "android-runtime-from-source-to-art" },
   { id: "runtime-data-areas", label: "02 · Runtime data areas", status: "completed", slug: "jvm-runtime-data-areas" },
@@ -18,7 +28,7 @@ export const jvmMilestones: LearningMilestone[] = [
   { id: "class-loading", label: "05 · Class loading", status: "completed" },
   { id: "gc-memory", label: "06 · GC / Memory", status: "completed", slug: "jvm-gc-memory" },
   { id: "jmm", label: "07 · JMM / happens-before", status: "completed", slug: "jmm-basics" },
-  { id: "java-concurrency", label: "08 · Java concurrency", status: "current", slug: "java-concurrency-race-condition" },
+  { id: "java-concurrency", label: "08 · Java concurrency", status: "current", slug: "java-concurrency-synchronized" },
 ];
 
 export const androidFoundationMilestones: LearningMilestone[] = [
