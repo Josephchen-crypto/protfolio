@@ -11,7 +11,7 @@ import {
   Smartphone,
 } from "lucide-react";
 import type { Language } from "@/i18n/config";
-import { jvmMilestones } from "@/lib/learning-progress";
+import { javaConcurrencyMilestones, jvmMilestones } from "@/lib/learning-progress";
 
 const STORAGE_KEY = "myknowledge-learning-sidebar-v1";
 
@@ -30,11 +30,20 @@ export function LearningSidebar({
         id: "jvm",
         title: "Java / JVM",
         icon: Cpu,
-        items: jvmMilestones.map((item) => ({
-          slug: item.slug,
-          label: item.label,
-          status: item.status,
-        })),
+        items: [
+          ...jvmMilestones
+            .filter((item) => item.id !== "java-concurrency")
+            .map((item) => ({
+              slug: item.slug,
+              label: item.label,
+              status: item.status,
+            })),
+          ...javaConcurrencyMilestones.map((item) => ({
+            slug: item.slug,
+            label: item.label,
+            status: item.status,
+          })),
+        ],
       },
       {
         id: "android",
